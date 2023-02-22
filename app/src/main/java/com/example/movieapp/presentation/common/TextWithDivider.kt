@@ -20,7 +20,7 @@ fun TextWithDivider(
     text: String,
     modifier: Modifier = Modifier
 ) {
-    
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
@@ -33,7 +33,7 @@ fun TextWithDivider(
         )
 
         Spacer(modifier = Modifier.width(8.dp))
-        
+
         Text(
             text = "Or Sign up with",
             style = MaterialTheme.localFont.mediumH5,

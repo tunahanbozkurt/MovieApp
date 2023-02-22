@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.auth.signup
+package com.example.movieapp.presentation.common.model
 
 data class PasswordFieldState(
     val password: String = "",

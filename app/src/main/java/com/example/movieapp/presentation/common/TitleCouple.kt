@@ -47,7 +47,10 @@ fun TitleCouple(
         Text(
             text = bigTitle,
             style = MaterialTheme.localFont.semiBoldH2,
-            modifier = Modifier.layoutId("bigTitle").fillMaxWidth().wrapContentSize(Alignment.Center)
+            modifier = Modifier
+                .layoutId("bigTitle")
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.Center)
         )
 
         Text(

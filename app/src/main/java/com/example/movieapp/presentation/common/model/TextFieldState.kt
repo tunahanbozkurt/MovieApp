@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.auth.signup
+package com.example.movieapp.presentation.common.model
 
 data class TextFieldState(
     val text: String = "",

@@ -18,7 +18,7 @@ fun CommonTextField(
     text: String,
     labelText: String,
     modifier: Modifier = Modifier,
-    isError: Boolean = false,
+    hasError: Boolean,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -37,18 +37,18 @@ fun CommonTextField(
             unfocusedBorderColor = MaterialTheme.localColor.primarySoft,
             errorTrailingIconColor = MaterialTheme.localColor.secondaryRed,
         ),
-        isError = isError,
+        isError = hasError,
         singleLine = true,
         maxLines = 1,
         trailingIcon = trailingIcon,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
         label = {
-                Text(
-                    text = labelText,
-                    style = MaterialTheme.localFont.mediumH6,
-                    color = MaterialTheme.localColor.textWhite,
-                )
+            Text(
+                text = labelText,
+                style = MaterialTheme.localFont.mediumH6,
+                color = MaterialTheme.localColor.textWhite,
+            )
         },
         modifier = modifier.background(MaterialTheme.localColor.primaryDark),
         shape = RoundedCornerShape(24.dp),
@@ -59,5 +59,5 @@ fun CommonTextField(
 @Composable
 fun PreviewCommonTextField() {
 
-    CommonTextField(text = "Example", onValueChange = {}, labelText = "Label")
+    CommonTextField(text = "Example", onValueChange = {}, labelText = "Label", hasError = false)
 }

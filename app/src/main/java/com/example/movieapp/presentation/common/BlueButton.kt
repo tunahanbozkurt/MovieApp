@@ -17,7 +17,7 @@ fun BlueButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
 
-) {
+    ) {
     Button(
         modifier = modifier
             .height(56.dp),

@@ -1,7 +1,7 @@
 package com.example.movieapp.presentation.auth
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -9,21 +9,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.BlueText
 import com.example.movieapp.presentation.common.CenterAlignedText
+import com.example.movieapp.presentation.common.SocialMediaIcon
 import com.example.movieapp.presentation.onboarding.common.BlueButton
 import com.example.movieapp.presentation.splash_screen.SplashView
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 
 @Composable
-fun AuthenticationScreen() {
+fun AuthenticationScreen(
+    viewModel: AuthenticationScreenVM = hiltViewModel()
+) {
 
     val context = LocalContext.current
+
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -47,7 +51,7 @@ fun AuthenticationScreen() {
             modifier = Modifier.width(200.dp)
         )
         Spacer(modifier = Modifier.height(64.dp))
-        
+
         BlueButton(
             buttonText = context.getString(R.string.sign_up),
             modifier = Modifier
@@ -56,9 +60,9 @@ fun AuthenticationScreen() {
         ) {
             /*TODO Sign Up*/
         }
-        
+
         Spacer(modifier = Modifier.height(16.dp))
-        
+
         Row {
             Text(
                 text = context.getString(R.string.already_have_account),
@@ -74,14 +78,14 @@ fun AuthenticationScreen() {
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        Row {
-            Image(painterResource(id = R.drawable.ic_google), null)
-            Spacer(modifier = Modifier.width(24.dp))
-            Image(painter = painterResource(id = R.drawable.ic_apple), contentDescription = null)
-            Spacer(modifier = Modifier.width(24.dp))
-            Image(painter = painterResource(id = R.drawable.ic_facebook), contentDescription = null)
-        }
 
+        Row {
+            SocialMediaIcon(resId = R.drawable.ic_google, modifier = Modifier.clickable {})
+            Spacer(modifier = Modifier.width(24.dp))
+            SocialMediaIcon(resId = R.drawable.ic_apple)
+            Spacer(modifier = Modifier.width(24.dp))
+            SocialMediaIcon(resId = R.drawable.ic_facebook)
+        }
     }
 }
 

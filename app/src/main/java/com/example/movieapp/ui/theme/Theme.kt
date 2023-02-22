@@ -56,7 +56,7 @@ fun MovieAppTheme(
             ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
         }
     }
-    
+
     CompositionLocalProvider(LocalTypography provides FontMontserrat()) {
         MaterialTheme(
             colorScheme = colorScheme,
