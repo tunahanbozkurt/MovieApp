@@ -9,16 +9,8 @@ j
 :app/src/main/java/com/example/movieapp/ui/di/Dispatcher.kt,5\6\5683ed172d16c44707c3396517019c7c9cee603f
 i
 9app/src/main/java/com/example/movieapp/ui/di/AppModule.kt,b\2\b2779094284ece4dd2d9f5d9fe5b3f241a1ef83a
-à
-Xapp/src/main/java/com/example/movieapp/presentation/onboarding/OnboardingSecondScreen.kt,4\4\44155c01b4ed3fb53817b92a1d65accb93623676
-á
-Wapp/src/main/java/com/example/movieapp/presentation/onboarding/OnboardingThirdScreen.kt,4\f\4f907995900bd2d2c7aca361a65c8a5feef30425
-á
-Wapp/src/main/java/com/example/movieapp/presentation/onboarding/OnboardingFirstScreen.kt,f\d\fd0a8f99669a0fa4705e26fa96eeb51513d47fa8
 g
 7app/src/main/java/com/example/movieapp/ui/theme/Type.kt,2\1\21b504094d4962c286ffb7e1ed32d117928246d2
-h
-8app/src/main/java/com/example/movieapp/ui/theme/Color.kt,b\9\b91da1675589825e4044db3a55fc4f7624a289f9
 H
 app/google-services.json,f\d\fd8d34b142d02ec743a8efefefd2c097961666e9
 Å

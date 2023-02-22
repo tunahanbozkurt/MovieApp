@@ -27,12 +27,16 @@ fun OnboardingThirdScreen(
         Image(
             painter = painterResource(id = R.drawable.onboarding_third),
             contentDescription = null,
-            modifier = modifier.weight(1f)
+            modifier = modifier.weight(10f)
         )
 
         OnboardingSheet(
-            modifier = modifier.weight(0.9f)
-        )
+            progress = OnboardingProgress.THIRD,
+            halfSizeInfo = true,
+            modifier = modifier.weight(9f)
+        ) {
+            /*TODO NAVIGATE*/
+        }
     }
 }
 

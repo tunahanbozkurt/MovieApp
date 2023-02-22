@@ -3,18 +3,31 @@ package com.example.movieapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.movieapp.presentation.auth.signup.SignUpScreen
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.Modifier
+import com.example.movieapp.presentation.navigation.RootNavigationGraph
 import com.example.movieapp.ui.theme.MovieAppTheme
+import com.example.movieapp.ui.theme.localColor
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             MovieAppTheme {
-                SignUpScreen()
+                RootNavigationGraph(
+                    navController = rememberAnimatedNavController(),
+                    modifier = Modifier
+                        .background(MaterialTheme.localColor.primaryDark)
+                        .fillMaxSize()
+                )
             }
         }
     }

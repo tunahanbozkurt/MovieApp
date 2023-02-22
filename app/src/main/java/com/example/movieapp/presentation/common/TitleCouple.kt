@@ -5,13 +5,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
@@ -23,7 +24,13 @@ import com.example.movieapp.ui.theme.localFont
 fun TitleCouple(
     bigTitle: String,
     infoText: String,
-    modifier: Modifier = Modifier
+    titleStyle: TextStyle = MaterialTheme.localFont.semiBoldH2,
+    infoStyle: TextStyle = MaterialTheme.localFont.mediumH6,
+    modifier: Modifier = Modifier,
+    halfSizeInfo: Boolean = false,
+    verticalMargin: Dp = 8.dp,
+    titleColor: Color = MaterialTheme.localColor.textWhite,
+    infoColor: Color = MaterialTheme.localColor.textWhiteGrey,
 ) {
 
     val constrains = ConstraintSet {
@@ -32,10 +39,11 @@ fun TitleCouple(
         val infoText = createRefFor("infoText")
 
         constrain(infoText) {
-            top.linkTo(bigTitle.bottom, margin = 8.dp)
+            top.linkTo(bigTitle.bottom, verticalMargin)
             start.linkTo(bigTitle.start, margin = 14.dp)
             end.linkTo(bigTitle.end, margin = 14.dp)
-            width = Dimension.fillToConstraints
+            width = if (halfSizeInfo) Dimension.percent(0.65f)
+            else Dimension.fillToConstraints
         }
     }
 
@@ -44,20 +52,20 @@ fun TitleCouple(
         modifier = modifier.width(IntrinsicSize.Max)
     ) {
 
-        Text(
+        CenterAlignedText(
             text = bigTitle,
-            style = MaterialTheme.localFont.semiBoldH2,
+            style = titleStyle,
+            textColor = titleColor,
             modifier = Modifier
                 .layoutId("bigTitle")
                 .fillMaxWidth()
                 .wrapContentSize(Alignment.Center)
         )
 
-        Text(
+        CenterAlignedText(
             text = infoText,
-            style = MaterialTheme.localFont.mediumH6,
-            color = MaterialTheme.localColor.textWhiteGrey,
-            textAlign = TextAlign.Center,
+            style = infoStyle,
+            textColor = infoColor,
             modifier = Modifier.layoutId("infoText")
         )
     }

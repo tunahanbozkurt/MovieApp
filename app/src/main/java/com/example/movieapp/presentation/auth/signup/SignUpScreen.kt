@@ -18,11 +18,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.R
-import com.example.movieapp.presentation.common.CommonTextField
-import com.example.movieapp.presentation.common.PasswordField
-import com.example.movieapp.presentation.common.TitleCouple
+import com.example.movieapp.presentation.common.*
 import com.example.movieapp.presentation.common.model.ScreenEvent
-import com.example.movieapp.presentation.onboarding.common.BlueButton
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.showToast
@@ -65,7 +62,7 @@ fun SignUpScreen(
             infoText = "The latest movies and series are here"
         )
 
-        Spacer(modifier = Modifier.height(64.dp))
+        VerticalSpacer(height = 64)
 
         CommonTextField(
             text = nameField.text,
@@ -75,7 +72,7 @@ fun SignUpScreen(
             onValueChange = { viewModel.handleUIEvent(SignUpScreenUIEvent.EnteredName(it)) }
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        VerticalSpacer(height = 24)
 
         CommonTextField(
             text = emailField.text,
@@ -84,7 +81,8 @@ fun SignUpScreen(
             hasError = emailField.hasError,
             onValueChange = { viewModel.handleUIEvent(SignUpScreenUIEvent.EnteredEmail(it)) }
         )
-        Spacer(modifier = Modifier.height(24.dp))
+
+        VerticalSpacer(height = 24)
 
         PasswordField(
             password = passwordField.password,
@@ -114,7 +112,7 @@ fun SignUpScreen(
             pop()
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        VerticalSpacer(height = 16)
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -131,7 +129,7 @@ fun SignUpScreen(
             )
         }
 
-        Spacer(modifier = Modifier.height(40.dp))
+        VerticalSpacer(height = 40)
 
         BlueButton(
             buttonText = context.getString(R.string.sign_up),

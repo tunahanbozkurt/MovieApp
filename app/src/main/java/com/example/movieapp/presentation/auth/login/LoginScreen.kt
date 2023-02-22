@@ -13,10 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.R
-import com.example.movieapp.presentation.common.CommonTextField
-import com.example.movieapp.presentation.common.PasswordField
-import com.example.movieapp.presentation.common.TitleCouple
-import com.example.movieapp.presentation.onboarding.common.BlueButton
+import com.example.movieapp.presentation.common.*
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 
@@ -39,7 +36,7 @@ fun LoginScreen(
     ) {
         TitleCouple(bigTitle = "Hi, Tiffany", infoText = "Welcome back! Please enter your details")
 
-        Spacer(modifier = Modifier.height(64.dp))
+        VerticalSpacer(height = 64)
         
         CommonTextField(
             text = emailState.text,
@@ -49,7 +46,7 @@ fun LoginScreen(
             onValueChange = {}
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        VerticalSpacer(height = 24)
 
         PasswordField(
             password = "password",
@@ -60,7 +57,7 @@ fun LoginScreen(
             onValueChange = { viewModel.handleUIEvent(LoginScreenUIEvent.EnteredPassword(it)) }
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        VerticalSpacer(height = 8)
 
         Text(
             text = "Forgot Password?",
@@ -69,7 +66,7 @@ fun LoginScreen(
             modifier = Modifier.align(Alignment.End)
         )
 
-        Spacer(Modifier.height(40.dp))
+        VerticalSpacer(height = 40)
         BlueButton(buttonText = context.getString(R.string.login), modifier = Modifier.fillMaxWidth()) {
             
         }

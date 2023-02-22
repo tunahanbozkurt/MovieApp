@@ -28,6 +28,21 @@ fun CommonTextField(
     OutlinedTextField(
         value = text,
         onValueChange = { onValueChange(it) },
+        isError = hasError,
+        singleLine = true,
+        maxLines = 1,
+        trailingIcon = trailingIcon,
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
+        modifier = modifier.background(MaterialTheme.localColor.primaryDark),
+        shape = RoundedCornerShape(24.dp),
+        label = {
+            Text(
+                text = labelText,
+                style = MaterialTheme.localFont.mediumH6,
+                color = MaterialTheme.localColor.textWhite,
+            )
+        },
         colors = TextFieldDefaults.outlinedTextFieldColors(
             containerColor = MaterialTheme.localColor.primaryDark,
             textColor = MaterialTheme.localColor.textGrey,
@@ -36,22 +51,7 @@ fun CommonTextField(
             focusedBorderColor = MaterialTheme.localColor.primarySoft,
             unfocusedBorderColor = MaterialTheme.localColor.primarySoft,
             errorTrailingIconColor = MaterialTheme.localColor.secondaryRed,
-        ),
-        isError = hasError,
-        singleLine = true,
-        maxLines = 1,
-        trailingIcon = trailingIcon,
-        visualTransformation = visualTransformation,
-        keyboardOptions = keyboardOptions,
-        label = {
-            Text(
-                text = labelText,
-                style = MaterialTheme.localFont.mediumH6,
-                color = MaterialTheme.localColor.textWhite,
-            )
-        },
-        modifier = modifier.background(MaterialTheme.localColor.primaryDark),
-        shape = RoundedCornerShape(24.dp),
+        )
     )
 }
 

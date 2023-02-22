@@ -12,12 +12,10 @@ fun BlueText(
     text: String,
     modifier: Modifier = Modifier
 ) {
-
     Text(
         text = text,
         style = MaterialTheme.localFont.semiBoldH4,
         color = MaterialTheme.localColor.primaryBlueAccent,
         modifier = modifier
     )
-
 }

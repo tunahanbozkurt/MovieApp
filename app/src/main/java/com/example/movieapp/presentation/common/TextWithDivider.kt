@@ -2,7 +2,6 @@ package com.example.movieapp.presentation.auth
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -12,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.movieapp.presentation.common.HorizontalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 
@@ -32,7 +32,7 @@ fun TextWithDivider(
             modifier = modifier.width(62.dp)
         )
 
-        Spacer(modifier = Modifier.width(8.dp))
+        HorizontalSpacer(width = 8)
 
         Text(
             text = "Or Sign up with",
@@ -40,7 +40,7 @@ fun TextWithDivider(
             color = MaterialTheme.localColor.textGrey
         )
 
-        Spacer(modifier = Modifier.width(8.dp))
+        HorizontalSpacer(width = 8)
 
         Divider(
             thickness = 1.dp,

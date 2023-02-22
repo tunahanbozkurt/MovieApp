@@ -1,22 +1,24 @@
 package com.example.movieapp.presentation.onboarding
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.movieapp.R
+import com.example.movieapp.presentation.common.Image
 import com.example.movieapp.presentation.onboarding.common.OnboardingSheet
 import com.example.movieapp.ui.theme.localColor
 
 @Composable
-fun OnboardingFirstScreen() {
+fun OnboardingFirstScreen(
+    navigate: () -> Unit
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -25,19 +27,25 @@ fun OnboardingFirstScreen() {
     ) {
 
         Image(
-            painter = painterResource(id = R.drawable.onboarding_first),
-            contentDescription = null,
-            modifier = Modifier.weight(1f)
+            resId = R.drawable.onboarding_first,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(10f)
         )
 
         OnboardingSheet(
-            modifier = Modifier.weight(0.9f)
-        )
+            progress = OnboardingProgress.FIRST,
+            halfSizeInfo = true,
+            modifier = Modifier
+                .weight(9f)
+        ) {
+            navigate.invoke()
+        }
     }
 }
 
 @Preview(showBackground = true, device = Devices.PIXEL_2_XL)
 @Composable
 fun PreviewOnboardingFirstScreen() {
-    OnboardingFirstScreen()
+    OnboardingFirstScreen() {}
 }

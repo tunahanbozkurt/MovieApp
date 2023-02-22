@@ -13,10 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.R
-import com.example.movieapp.presentation.common.BlueText
-import com.example.movieapp.presentation.common.CenterAlignedText
-import com.example.movieapp.presentation.common.SocialMediaIcon
-import com.example.movieapp.presentation.onboarding.common.BlueButton
+import com.example.movieapp.presentation.common.*
 import com.example.movieapp.presentation.splash_screen.SplashView
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
@@ -42,7 +39,8 @@ fun AuthenticationScreen(
             text = context.getString(R.string.cinemax),
             textColor = MaterialTheme.localColor.textWhite
         )
-        Spacer(modifier = Modifier.height(8.dp))
+
+        VerticalSpacer(height = 8)
 
         CenterAlignedText(
             text = context.getString(R.string.auth_msg),
@@ -50,7 +48,8 @@ fun AuthenticationScreen(
             textColor = MaterialTheme.localColor.textGrey,
             modifier = Modifier.width(200.dp)
         )
-        Spacer(modifier = Modifier.height(64.dp))
+
+        VerticalSpacer(height = 64)
 
         BlueButton(
             buttonText = context.getString(R.string.sign_up),
@@ -61,7 +60,7 @@ fun AuthenticationScreen(
             /*TODO Sign Up*/
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        VerticalSpacer(height = 16)
 
         Row {
             Text(
@@ -72,11 +71,11 @@ fun AuthenticationScreen(
             BlueText(text = context.getString(R.string.login))
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        VerticalSpacer(height = 32)
 
         TextWithDivider(text = context.getString(R.string.signup_with))
 
-        Spacer(modifier = Modifier.height(40.dp))
+        VerticalSpacer(height = 40)
 
 
         Row {
