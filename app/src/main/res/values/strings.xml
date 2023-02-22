@@ -2,4 +2,10 @@
     <string name="app_name">MovieApp</string>
     <string name="lorem_ipsum_short">Lorem ipsum dolor sit amet consecteur esplicit</string>
     <string name="lorem_ipsum_long">Semper in cursus magna et eu varius nunc adipiscing. Elementum justo, laoreet id sem semper parturient.</string>
+    <string name="cinemax">CINEMAX</string>
+    <string name="auth_msg">Enter your registered Phone Number to Sign Up</string>
+    <string name="already_have_account">I already have an account?</string>
+    <string name="login">Login</string>
+    <string name="signup_with">Or Sign up with</string>
+    <string name="sign_up">Sign Up</string>
 </resources>

@@ -40,7 +40,8 @@ fun OnboardingSheet(
 
             CenterAlignedText(
                 text = context.getString(R.string.lorem_ipsum_long),
-                style = MaterialTheme.localFont.mediumH5
+                style = MaterialTheme.localFont.mediumH5,
+                textColor = MaterialTheme.localColor.textGrey
             )
         }
     }
