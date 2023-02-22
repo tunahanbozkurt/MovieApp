@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MovieApp</string>
+    <string name="lorem_ipsum_short">Lorem ipsum dolor sit amet consecteur esplicit</string>
+    <string name="lorem_ipsum_long">Semper in cursus magna et eu varius nunc adipiscing. Elementum justo, laoreet id sem semper parturient.</string>
 </resources>
