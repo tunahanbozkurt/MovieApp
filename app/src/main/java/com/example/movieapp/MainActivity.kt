@@ -14,6 +14,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MovieAppTheme {
                 OnboardingThirdScreen()
+                throw RuntimeException("Crashlytics test")
             }
         }
     }
