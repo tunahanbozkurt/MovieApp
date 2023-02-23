@@ -1,6 +1,5 @@
 package com.example.movieapp.presentation.common
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
@@ -34,8 +33,8 @@ fun CommonTextField(
         trailingIcon = trailingIcon,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
-        modifier = modifier.background(MaterialTheme.localColor.primaryDark),
         shape = RoundedCornerShape(24.dp),
+        modifier = modifier,
         label = {
             Text(
                 text = labelText,
@@ -44,7 +43,6 @@ fun CommonTextField(
             )
         },
         colors = TextFieldDefaults.outlinedTextFieldColors(
-            containerColor = MaterialTheme.localColor.primaryDark,
             textColor = MaterialTheme.localColor.textGrey,
             errorBorderColor = MaterialTheme.localColor.secondaryRed,
             disabledBorderColor = MaterialTheme.localColor.primarySoft,

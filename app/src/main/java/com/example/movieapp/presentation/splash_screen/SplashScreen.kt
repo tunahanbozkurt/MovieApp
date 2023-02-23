@@ -1,6 +1,5 @@
 package com.example.movieapp.presentation.splash_screen
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +21,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
+    modifier: Modifier = Modifier,
     navigate: () -> Unit
 ) {
 
@@ -34,8 +34,7 @@ fun SplashScreen(
 
     SplashView(
         text = context.getString(R.string.cinemax),
-        modifier = Modifier
-            .background(MaterialTheme.localColor.primaryDark)
+        modifier = modifier
             .fillMaxSize()
     )
 }

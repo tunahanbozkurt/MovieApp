@@ -19,11 +19,12 @@ import com.example.movieapp.ui.theme.localColor
 
 @Composable
 fun OnboardingFirstScreen(
+    modifier: Modifier = Modifier,
     navigate: () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
+        modifier = modifier
             .background(MaterialTheme.localColor.textBlack)
             .fillMaxSize()
     ) {
