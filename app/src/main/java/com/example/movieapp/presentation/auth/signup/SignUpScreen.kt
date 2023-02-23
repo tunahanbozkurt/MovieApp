@@ -88,6 +88,7 @@ fun SignUpScreen(
             password = passwordField.password,
             isVisible = passwordField.isVisible,
             hasError = passwordField.hasError,
+            modifier = Modifier.fillMaxWidth(),
             iconClick = { viewModel.handleUIEvent(SignUpScreenUIEvent.ShowPassword) },
             onValueChange = {
                 viewModel.handleUIEvent(SignUpScreenUIEvent.EnteredPassword(it))

@@ -15,7 +15,8 @@ import com.example.movieapp.ui.theme.localColor
 
 @Composable
 fun OnboardingThirdScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigate: () -> Unit
 ) {
 
     Column(
@@ -35,7 +36,7 @@ fun OnboardingThirdScreen(
             halfSizeInfo = true,
             modifier = modifier.weight(9f)
         ) {
-            /*TODO NAVIGATE*/
+            navigate.invoke()
         }
     }
 }
@@ -43,5 +44,5 @@ fun OnboardingThirdScreen(
 @Preview
 @Composable
 fun PreviewOnboardingThirdScreen() {
-    OnboardingThirdScreen()
+    OnboardingThirdScreen(){}
 }

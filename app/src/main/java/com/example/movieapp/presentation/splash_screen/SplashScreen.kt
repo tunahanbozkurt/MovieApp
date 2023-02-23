@@ -21,13 +21,15 @@ import com.example.movieapp.ui.theme.localFont
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(
+    navigate: () -> Unit
+) {
 
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         delay(2000)
-        /*TODO Navigate*/
+        navigate.invoke()
     }
 
     SplashView(

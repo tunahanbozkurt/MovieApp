@@ -13,13 +13,13 @@ import com.example.movieapp.ui.theme.MovieAppTheme
 import com.example.movieapp.ui.theme.localColor
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             MovieAppTheme {
                 RootNavigationGraph(

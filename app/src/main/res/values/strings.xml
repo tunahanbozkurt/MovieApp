@@ -16,5 +16,5 @@
     <string name="invalid_user">Invalid email or disabled account</string>
     <string name="wrong_password">Wrong password</string>
 
-    <string name="CLIENT_ID">"1062481090099-fod0qs1h6cg8009jl5fn6igmp61nutko.apps.googleusercontent.com"</string>
+    <string name="CLIENT_ID">""</string>
 </resources>
