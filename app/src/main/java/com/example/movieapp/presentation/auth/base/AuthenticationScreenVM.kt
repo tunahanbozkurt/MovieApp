@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.auth.base
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.domain.usecase.auth.AuthUseCase
@@ -13,8 +14,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthenticationScreenVM @Inject constructor(
-    private val authUseCase: AuthUseCase
+    private val authUseCase: AuthUseCase,
+    private val sharedPreferences: SharedPreferences
 ): ViewModel() {
+
+    init {
+        with(sharedPreferences.edit()) {
+            putBoolean("DONT_SHOW_ONBOARDING", true)
+            apply()
+        }
+    }
 
     fun signInWithFacebook(accessToken: AccessToken) {
         val credential = FacebookAuthProvider.getCredential(accessToken.token)

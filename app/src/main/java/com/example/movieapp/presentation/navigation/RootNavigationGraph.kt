@@ -12,7 +12,9 @@ import com.google.accompanist.navigation.animation.composable
 @Composable
 fun RootNavigationGraph(
     navController: NavHostController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    dontShowOnboarding: Boolean,
+    isUserExist: Boolean
 ) {
     AnimatedNavHost(
         navController = navController,
@@ -23,17 +25,17 @@ fun RootNavigationGraph(
 
         onboardingNavGraph(navController = navController)
         authenticationNavGraph(navController = navController)
-
         composable(Graph.SPLASH) {
             SplashScreen {
-                navController.navigate(Graph.ONBOARDING) {
+                navController.navigate(
+                    if (dontShowOnboarding) Graph.AUTHENTICATION else Graph.ONBOARDING
+                ) {
                     popUpTo(Graph.SPLASH) {
                         inclusive = true
                     }
                 }
             }
         }
-
     }
 }
 
@@ -42,5 +44,4 @@ object Graph {
     const val SPLASH = "splash_screen"
     const val ONBOARDING = "onboarding_graph"
     const val AUTHENTICATION = "authentication_graph"
-    const val HOME = "home_graph"
 }

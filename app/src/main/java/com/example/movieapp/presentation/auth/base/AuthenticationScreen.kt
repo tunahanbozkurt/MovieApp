@@ -2,6 +2,7 @@ package com.example.movieapp.presentation.auth.base
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
@@ -146,9 +147,17 @@ fun rememberFirebaseAuthLauncher(
     viewModel: AuthenticationScreenVM
 ): ManagedActivityResultLauncher<Intent, ActivityResult> {
     return rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-        val account = task.getResult(ApiException::class.java)
-        viewModel.signInWithGoogle(account)
+        try {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            task.result.let { account ->
+                viewModel.signInWithGoogle(account)
+            }
+        } catch (apiException: ApiException) {
+            Log.w("AuthenticationScreen", "Unexpected error parsing sign-in result")
+        }
+        catch (e: RuntimeException) {
+            e.printStackTrace()
+        }
     }
 }
 

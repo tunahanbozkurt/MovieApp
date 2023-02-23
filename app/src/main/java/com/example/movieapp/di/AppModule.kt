@@ -1,5 +1,7 @@
 package com.example.movieapp.di
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.example.movieapp.data.AuthenticationRepositoryImpl
 import com.example.movieapp.domain.AuthenticationRepository
 import com.example.movieapp.domain.usecase.auth.*
@@ -11,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
@@ -23,6 +26,12 @@ object AppModule {
     @Singleton
     fun provideFirebaseAuthInstance(): FirebaseAuth {
         return FirebaseAuth.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences("com.example.movieapp", Context.MODE_PRIVATE)
     }
 
     @Provides
