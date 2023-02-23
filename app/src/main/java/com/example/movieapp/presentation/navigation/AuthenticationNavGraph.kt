@@ -3,6 +3,7 @@ package com.example.movieapp.presentation.navigation
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
@@ -22,8 +23,7 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavController) {
         composable(
             route = AuthenticationScreen.Authentication.route,
             enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left,
+                fadeIn(
                     animationSpec = tween(700)
                 )
             },
@@ -34,8 +34,7 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavController) {
                 )
             },
             popEnterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Right,
+                fadeIn(
                     animationSpec = tween(700)
                 )
             },
