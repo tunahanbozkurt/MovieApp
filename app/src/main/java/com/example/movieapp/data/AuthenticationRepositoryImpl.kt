@@ -7,6 +7,7 @@ import com.google.firebase.auth.*
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.io.IOException
 
 class AuthenticationRepositoryImpl(
     private val auth: FirebaseAuth,
@@ -30,6 +31,9 @@ class AuthenticationRepositoryImpl(
 
             } catch (e: FirebaseAuthUserCollisionException) {
                 return@withContext TaskResult.Error(R.string.user_already_exists)
+
+            } catch (e: IOException) {
+                return@withContext TaskResult.Error(R.string.network_failure)
             }
         }
     }
@@ -45,6 +49,45 @@ class AuthenticationRepositoryImpl(
 
             } catch (e: FirebaseAuthInvalidCredentialsException) {
                 return@withContext TaskResult.Error(R.string.wrong_password)
+
+            } catch (e: IOException) {
+                return@withContext TaskResult.Error(R.string.network_failure)
+            }
+        }
+    }
+
+    override suspend fun sendPasswordResetEmail(email: String): TaskResult {
+        return withContext(ioDispatcher) {
+            try {
+                auth.sendPasswordResetEmail(email).await()
+                return@withContext TaskResult.Success
+
+            } catch (e: FirebaseAuthInvalidUserException) {
+                return@withContext TaskResult.Error(R.string.invalid_user)
+
+            } catch (e: IOException) {
+                return@withContext TaskResult.Error(R.string.network_failure)
+            }
+        }
+    }
+
+    override suspend fun signInWithCredential(credential: AuthCredential): TaskResult {
+        return withContext(ioDispatcher) {
+            try {
+                auth.signInWithCredential(credential)
+                return@withContext TaskResult.Success
+
+            } catch (e: FirebaseAuthInvalidCredentialsException) {
+                return@withContext TaskResult.Error(R.string.invalid_credentials)
+
+            } catch (e: FirebaseAuthInvalidUserException) {
+                return@withContext TaskResult.Error(R.string.invalid_user)
+
+            } catch (e: FirebaseAuthUserCollisionException) {
+                return@withContext TaskResult.Error(R.string.collision_exception)
+
+            } catch (e: IOException) {
+                return@withContext TaskResult.Error(R.string.network_failure)
             }
         }
     }

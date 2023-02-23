@@ -3,9 +3,12 @@ package com.example.movieapp.presentation.auth.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.domain.AuthenticationRepository
+import com.example.movieapp.domain.usecase.field.CheckFieldUseCase
 import com.example.movieapp.presentation.common.model.PasswordFieldState
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.model.TextFieldState
+import com.example.movieapp.util.hasError
+import com.example.movieapp.util.isNotValid
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpScreenVM @Inject constructor(
-    private val authRepository: AuthenticationRepository
+    private val authRepository: AuthenticationRepository,
+    private val checkFieldUseCase: CheckFieldUseCase
 ) : ViewModel() {
 
     private val _nameFieldState = MutableStateFlow(TextFieldState())
@@ -78,28 +82,18 @@ class SignUpScreenVM @Inject constructor(
         password: String,
         checkBox: Boolean
     ): Boolean {
-        val nameCheck = name.length < 3
-        val passwordCheck = password.length < 6
-        val emailCheck = email.isEmpty()
+        val nameValidation = checkFieldUseCase.checkNameField(name)
+        val passwordValidation = checkFieldUseCase.checkPasswordField(password)
+        val emailValidation = checkFieldUseCase.checkEmailField(email)
 
-        if (nameCheck) {
-            _nameFieldState.update { it.copy(hasError = true) }
-        }
-        if (passwordCheck) {
-            _passwordFieldState.update { it.copy(hasError = true) }
-        }
-        if (emailCheck) {
-            _emailFieldState.update { it.copy(hasError = true) }
-        }
+        _nameFieldState.update { it.copy(hasError = nameValidation.isNotValid()) }
+        _passwordFieldState.update { it.copy(hasError = passwordValidation.isNotValid()) }
+        _emailFieldState.update { it.copy(hasError = emailValidation.isNotValid()) }
 
         if (!checkBox) {
             _eventChannel.trySend(ScreenEvent.ShowToast)
         }
 
-        val hasError = arrayListOf(nameCheck, passwordCheck, emailCheck, !checkBox).any {
-            it
-        }
-
-        return hasError
+        return listOf(nameValidation, passwordValidation, emailValidation, !checkBox).hasError()
     }
 }

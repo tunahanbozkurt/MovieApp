@@ -1,17 +1,19 @@
-package com.example.movieapp.presentation.auth
+package com.example.movieapp.presentation.auth.base
 
+import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -20,41 +22,48 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.BuildConfig
 import com.example.movieapp.R
+import com.example.movieapp.presentation.auth.TextWithDivider
 import com.example.movieapp.presentation.common.*
+import com.example.movieapp.presentation.navigation.AuthenticationScreen
 import com.example.movieapp.presentation.splash_screen.SplashView
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
+import com.example.movieapp.util.showToast
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 @Composable
 fun AuthenticationScreen(
+    modifier: Modifier = Modifier,
     viewModel: AuthenticationScreenVM = hiltViewModel(),
-    navigate: () -> Unit
+    navigate: (String) -> Unit
 ) {
 
     val context = LocalContext.current
-    val authLauncher = rememberFirebaseAuthLauncher(
-        onAuthComplete = {
+    val googleAuthLauncher = rememberFirebaseAuthLauncher(viewModel)
 
-        },
-        onAuthError = {
+    val callbackManager = remember {
+        CallbackManager.Factory.create()
+    }
 
+    DisposableEffect(Unit) {
+        registerFacebookCallback(context, callbackManager, viewModel)
+        onDispose {
+            LoginManager.getInstance().unregisterCallback(callbackManager)
         }
-    )
+    }
+
 
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .background(MaterialTheme.localColor.primaryDark)
+        modifier = modifier
             .fillMaxSize()
             .wrapContentSize(Alignment.Center)
     ) {
@@ -81,7 +90,7 @@ fun AuthenticationScreen(
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)
         ) {
-            navigate.invoke()
+            navigate.invoke(AuthenticationScreen.SignUp.route)
         }
 
         VerticalSpacer(height = 16)
@@ -92,7 +101,10 @@ fun AuthenticationScreen(
                 color = MaterialTheme.localColor.textGrey
             )
             Spacer(Modifier.width(4.dp))
-            BlueText(text = context.getString(R.string.login))
+
+            BlueText(text = context.getString(R.string.login), modifier = Modifier.clickable {
+                navigate.invoke(AuthenticationScreen.Login.route)
+            })
         }
 
         VerticalSpacer(height = 32)
@@ -112,36 +124,52 @@ fun AuthenticationScreen(
                             .requestEmail()
                             .build()
                     val googleSignInClient = GoogleSignIn.getClient(context, gso)
-                    authLauncher.launch(googleSignInClient.signInIntent)
+                    googleAuthLauncher.launch(googleSignInClient.signInIntent)
                 }
             )
             Spacer(modifier = Modifier.width(24.dp))
             SocialMediaIcon(resId = R.drawable.ic_apple)
             Spacer(modifier = Modifier.width(24.dp))
-            SocialMediaIcon(resId = R.drawable.ic_facebook)
+            SocialMediaIcon(resId = R.drawable.ic_facebook, modifier = Modifier.clickable {
+                LoginManager.getInstance().logIn(
+                    context as ActivityResultRegistryOwner,
+                    callbackManager,
+                    listOf("public_profile")
+                )
+            })
         }
     }
 }
 
 @Composable
 fun rememberFirebaseAuthLauncher(
-    onAuthComplete: (AuthResult) -> Unit,
-    onAuthError: (ApiException) -> Unit
+    viewModel: AuthenticationScreenVM
 ): ManagedActivityResultLauncher<Intent, ActivityResult> {
-    val scope = rememberCoroutineScope()
     return rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-        try {
-            val account = task.getResult(ApiException::class.java)
-            val credential = GoogleAuthProvider.getCredential(account.idToken, null)
-            scope.launch {
-                val authResult = Firebase.auth.signInWithCredential(credential).await()
-                onAuthComplete(authResult)
-            }
-        } catch (e: ApiException) {
-            onAuthError(e)
-        }
+        val account = task.getResult(ApiException::class.java)
+        viewModel.signInWithGoogle(account)
     }
+}
+
+fun registerFacebookCallback(
+    context: Context,
+    callbackManager: CallbackManager,
+    viewModel: AuthenticationScreenVM
+) {
+    LoginManager.getInstance()
+        .registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult) {
+                viewModel.signInWithFacebook(result.accessToken)
+            }
+
+            override fun onCancel() {
+                // doesn't require implementation
+            }
+            override fun onError(error: FacebookException) {
+                context.showToast("Something went wrong try again later")
+            }
+        })
 }
 
 @Preview

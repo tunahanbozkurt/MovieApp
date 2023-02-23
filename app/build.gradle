@@ -27,6 +27,9 @@ android {
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
 
         buildConfigField "String", "WEB_CLIENT_ID", "\"${properties.getProperty("WEB_CLIENT_ID")}\""
+        resValue "string", "FACEBOOK_APP_ID", "\"${properties.getProperty("FACEBOOK_APP_ID")}\""
+        resValue "string", "FACEBOOK_CLIENT_TOKEN", "\"${properties.getProperty("FACEBOOK_CLIENT_TOKEN")}\""
+        resValue "string", "FB_LOGIN_PROTOCOL_SCHEME", "\"${properties.getProperty("FB_LOGIN_PROTOCOL_SCHEME")}\""
     }
 
     buildTypes {
@@ -56,19 +59,18 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
     implementation 'androidx.activity:activity-compose:1.6.1'
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.compose.ui:ui:1.3.3"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.3.3"
     implementation 'androidx.compose.material3:material3:1.1.0-alpha06'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.3.3"
+    debugImplementation "androidx.compose.ui:ui-tooling:1.3.3"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:1.3.3"
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
     // Compose Navigation
@@ -94,6 +96,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
+
+    // Facebook
+    implementation 'com.facebook.android:facebook-android-sdk:16.0.0'
 
 
 }

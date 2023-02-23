@@ -1,6 +1,5 @@
 package com.example.movieapp.presentation.auth.signup
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
@@ -27,6 +26,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SignUpScreen(
+    modifier: Modifier = Modifier,
     viewModel: SignUpScreenVM = hiltViewModel()
 ) {
 
@@ -50,8 +50,7 @@ fun SignUpScreen(
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .background(MaterialTheme.localColor.primaryDark)
+        modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)
     ) {

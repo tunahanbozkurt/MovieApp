@@ -6,7 +6,9 @@ import androidx.compose.animation.core.tween
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
-import com.example.movieapp.presentation.auth.AuthenticationScreen
+import com.example.movieapp.presentation.auth.base.AuthenticationScreen
+import com.example.movieapp.presentation.auth.login.LoginScreen
+import com.example.movieapp.presentation.auth.reset.ResetPasswordScreen
 import com.example.movieapp.presentation.auth.signup.SignUpScreen
 import com.google.accompanist.navigation.animation.composable
 
@@ -44,8 +46,8 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavController) {
                 )
             }
         ) {
-            AuthenticationScreen {
-                navController.navigate(AuthenticationScreen.SignUp.route)
+            AuthenticationScreen { route ->
+                navController.navigate(route = route)
             }
         }
 
@@ -77,6 +79,43 @@ fun NavGraphBuilder.authenticationNavGraph(navController: NavController) {
             }) {
             SignUpScreen()
         }
+
+        composable(
+            AuthenticationScreen.Login.route,
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(700)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(700)
+                )
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    AnimatedContentScope.SlideDirection.Right,
+                    animationSpec = tween(700)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentScope.SlideDirection.Right,
+                    animationSpec = tween(700)
+                )
+            }) {
+            LoginScreen { route ->
+                navController.navigate(route)
+            }
+        }
+
+        composable(AuthenticationScreen.ResetPassword.route) {
+            ResetPasswordScreen {
+                /*TODO*/
+            }
+        }
     }
 }
 
@@ -85,6 +124,4 @@ sealed class AuthenticationScreen(val route: String) {
     object Login : AuthenticationScreen(route = "LOGIN")
     object SignUp : AuthenticationScreen(route = "SIGNUP")
     object ResetPassword : AuthenticationScreen("RESET_PASSWORD")
-    object Verification : AuthenticationScreen("VERIFICATION")
-    object CreateNewPassword : AuthenticationScreen("CREATE_NEW_PASSWORD")
 }

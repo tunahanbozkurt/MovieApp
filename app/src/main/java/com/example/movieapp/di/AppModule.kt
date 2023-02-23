@@ -2,6 +2,11 @@ package com.example.movieapp.di
 
 import com.example.movieapp.data.AuthenticationRepositoryImpl
 import com.example.movieapp.domain.AuthenticationRepository
+import com.example.movieapp.domain.usecase.auth.*
+import com.example.movieapp.domain.usecase.field.CheckEmailField
+import com.example.movieapp.domain.usecase.field.CheckFieldUseCase
+import com.example.movieapp.domain.usecase.field.CheckNameField
+import com.example.movieapp.domain.usecase.field.CheckPasswordField
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
@@ -27,5 +32,26 @@ object AppModule {
         @Dispatcher.DispatcherIO ioDispatcher: CoroutineDispatcher
     ): AuthenticationRepository {
         return AuthenticationRepositoryImpl(auth, ioDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCheckFieldUseCase(): CheckFieldUseCase {
+        return CheckFieldUseCase(
+            checkEmailField = CheckEmailField(),
+            checkNameField = CheckNameField(),
+            checkPasswordField = CheckPasswordField()
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthUseCase(authenticationRepository: AuthenticationRepository): AuthUseCase {
+        return AuthUseCase(
+            createUser = CreateUser(authenticationRepository),
+            loginUser = LoginUser(authenticationRepository),
+            resetPassword = ResetPassword(authenticationRepository),
+            loginWithCredential = LoginWithCredential(authenticationRepository)
+        )
     }
 }
