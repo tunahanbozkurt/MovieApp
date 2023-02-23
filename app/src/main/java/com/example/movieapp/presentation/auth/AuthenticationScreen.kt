@@ -18,12 +18,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.movieapp.BuildConfig
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.*
 import com.example.movieapp.presentation.splash_screen.SplashView
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.showToast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -43,10 +43,10 @@ fun AuthenticationScreen(
     val context = LocalContext.current
     val authLauncher = rememberFirebaseAuthLauncher(
         onAuthComplete = {
-                         context.showToast("SUCCESS")
+
         },
         onAuthError = {
-           context.showToast("ERROR")
+
         }
     )
 
@@ -108,7 +108,7 @@ fun AuthenticationScreen(
                 modifier = Modifier.clickable {
                     val gso =
                         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                            .requestIdToken(context.getString(R.string.CLIENT_ID))
+                            .requestIdToken(BuildConfig.WEB_CLIENT_ID)
                             .requestEmail()
                             .build()
                     val googleSignInClient = GoogleSignIn.getClient(context, gso)

@@ -4,8 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,7 +31,7 @@ fun OnboardingThirdScreen(
         Image(
             painter = painterResource(id = R.drawable.onboarding_third),
             contentDescription = null,
-            modifier = modifier.weight(10f)
+            modifier = modifier.fillMaxWidth().wrapContentSize(Alignment.Center).weight(10f)
         )
 
         OnboardingSheet(

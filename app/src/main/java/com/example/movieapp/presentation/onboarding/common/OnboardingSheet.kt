@@ -21,6 +21,7 @@ fun OnboardingSheet(
     modifier: Modifier = Modifier,
     progress: OnboardingProgress = OnboardingProgress.FIRST,
     halfSizeInfo: Boolean = false,
+    textPadding: PaddingValues = PaddingValues(0.dp),
     onClick: () -> Unit
 
 ) {
@@ -40,6 +41,7 @@ fun OnboardingSheet(
                 infoColor = MaterialTheme.localColor.textGrey,
                 verticalMargin = 14.dp,
                 halfSizeInfo = halfSizeInfo,
+                padding = textPadding,
                 modifier = Modifier.fillMaxWidth()
             )
         }

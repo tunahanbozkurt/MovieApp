@@ -15,6 +15,4 @@
     <string name="user_already_exists">User is already exist</string>
     <string name="invalid_user">Invalid email or disabled account</string>
     <string name="wrong_password">Wrong password</string>
-
-    <string name="CLIENT_ID">""</string>
 </resources>

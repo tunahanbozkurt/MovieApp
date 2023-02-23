@@ -1,9 +1,6 @@
 package com.example.movieapp.presentation.common
 
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,6 +26,7 @@ fun TitleCouple(
     modifier: Modifier = Modifier,
     halfSizeInfo: Boolean = false,
     verticalMargin: Dp = 8.dp,
+    padding: PaddingValues = PaddingValues(0.dp),
     titleColor: Color = MaterialTheme.localColor.textWhite,
     infoColor: Color = MaterialTheme.localColor.textWhiteGrey,
 ) {
@@ -49,7 +47,7 @@ fun TitleCouple(
 
     ConstraintLayout(
         constrains,
-        modifier = modifier.width(IntrinsicSize.Max)
+        modifier = modifier.width(IntrinsicSize.Max).padding(padding)
     ) {
 
         CenterAlignedText(
