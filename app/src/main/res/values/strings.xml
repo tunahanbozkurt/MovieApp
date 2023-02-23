@@ -15,4 +15,10 @@
     <string name="user_already_exists">User is already exist</string>
     <string name="invalid_user">Invalid email or disabled account</string>
     <string name="wrong_password">Wrong password</string>
+    <string name="empty_field">Empty field</string>
+    <string name="invalid_email_pattern">Email pattern is wrong</string>
+    <string name="short_name">The name length cannot be less than 3 char</string>
+    <string name="network_failure">Network failure</string>
+    <string name="invalid_credentials">Invalid credentials</string>
+    <string name="collision_exception">Collision exception</string>
 </resources>
