@@ -21,4 +21,5 @@
     <string name="network_failure">Network failure</string>
     <string name="invalid_credentials">Invalid credentials</string>
     <string name="collision_exception">Collision exception</string>
+    <string name="exception">Something went wrong</string>
 </resources>

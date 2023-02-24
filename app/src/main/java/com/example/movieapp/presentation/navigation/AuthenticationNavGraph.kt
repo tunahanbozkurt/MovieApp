@@ -165,7 +165,7 @@ fun AuthenticationNavGraph(
 private fun makeTitle(destination: NavDestination): String {
     return if (destination.route == AuthenticationScreen.Login.route ||
         destination.route == AuthenticationScreen.SignUp.route
-    ) destination.route ?:"" else ""
+    ) destination.route ?: "" else ""
 }
 
 sealed class AuthenticationScreen(val route: String) {

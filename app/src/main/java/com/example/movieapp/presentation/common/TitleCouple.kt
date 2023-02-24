@@ -47,7 +47,9 @@ fun TitleCouple(
 
     ConstraintLayout(
         constrains,
-        modifier = modifier.width(IntrinsicSize.Max).padding(padding)
+        modifier = modifier
+            .width(IntrinsicSize.Max)
+            .padding(padding)
     ) {
 
         CenterAlignedText(

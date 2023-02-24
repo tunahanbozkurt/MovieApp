@@ -22,7 +22,7 @@ import javax.inject.Inject
 class LoginScreenVM @Inject constructor(
     private val checkFieldUseCase: CheckFieldUseCase,
     private val authUseCase: AuthUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _emailFieldState = MutableStateFlow(TextFieldState())
     val emailFieldState = _emailFieldState.asStateFlow()
@@ -34,7 +34,7 @@ class LoginScreenVM @Inject constructor(
     val eventFlow = _eventChannel.receiveAsFlow()
 
     fun handleUIEvent(event: LoginScreenUIEvent) {
-        when(event) {
+        when (event) {
             is LoginScreenUIEvent.EnteredEmail -> {
                 _emailFieldState.update { it.copy(event.email) }
             }
@@ -54,7 +54,10 @@ class LoginScreenVM @Inject constructor(
                 )
                 if (!hasError) {
                     viewModelScope.launch {
-                        authUseCase.loginUser(_emailFieldState.value.text, _passwordFieldState.value.password)
+                        authUseCase.loginUser(
+                            _emailFieldState.value.text,
+                            _passwordFieldState.value.password
+                        )
                     }
                 }
             }

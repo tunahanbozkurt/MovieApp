@@ -35,6 +35,6 @@ fun OnboardingSecondScreen(
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewOnboardingSecondScreen() {
-    OnboardingSecondScreen(){}
+    OnboardingSecondScreen() {}
 }
 
