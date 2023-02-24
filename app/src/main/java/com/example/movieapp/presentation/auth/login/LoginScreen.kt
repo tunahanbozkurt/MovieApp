@@ -62,18 +62,13 @@ fun LoginScreen(
         BlueText(
             text = "Forgot Password?",
             style = MaterialTheme.localFont.mediumH6,
-            modifier = Modifier
-                .align(Alignment.End)
-                .clickable {
-                    navigate(AuthenticationScreen.ResetPassword.route)
-                }
+            modifier = Modifier.align(Alignment.End).clickable {
+                navigate(AuthenticationScreen.ResetPassword.route)
+            }
         )
 
         VerticalSpacer(height = 40)
-        BlueButton(
-            buttonText = context.getString(R.string.login),
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        BlueButton(buttonText = context.getString(R.string.login), modifier = Modifier.fillMaxWidth()) {
             viewModel.handleUIEvent(LoginScreenUIEvent.Login)
         }
     }

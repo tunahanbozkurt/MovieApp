@@ -31,10 +31,7 @@ fun OnboardingThirdScreen(
         Image(
             painter = painterResource(id = R.drawable.onboarding_third),
             contentDescription = null,
-            modifier = modifier
-                .fillMaxWidth()
-                .wrapContentSize(Alignment.Center)
-                .weight(10f)
+            modifier = modifier.fillMaxWidth().wrapContentSize(Alignment.Center).weight(10f)
         )
 
         OnboardingSheet(
@@ -50,5 +47,5 @@ fun OnboardingThirdScreen(
 @Preview
 @Composable
 fun PreviewOnboardingThirdScreen() {
-    OnboardingThirdScreen() {}
+    OnboardingThirdScreen(){}
 }

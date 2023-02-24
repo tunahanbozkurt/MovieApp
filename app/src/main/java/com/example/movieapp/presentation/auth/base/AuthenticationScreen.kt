@@ -154,7 +154,8 @@ fun rememberFirebaseAuthLauncher(
             }
         } catch (apiException: ApiException) {
             Log.w("AuthenticationScreen", "Unexpected error parsing sign-in result")
-        } catch (e: RuntimeException) {
+        }
+        catch (e: RuntimeException) {
             e.printStackTrace()
         }
     }
@@ -174,7 +175,6 @@ fun registerFacebookCallback(
             override fun onCancel() {
                 // doesn't require implementation
             }
-
             override fun onError(error: FacebookException) {
                 context.showToast("Something went wrong try again later")
             }

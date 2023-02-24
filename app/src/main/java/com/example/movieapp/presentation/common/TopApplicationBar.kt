@@ -54,5 +54,5 @@ fun TopApplicationBar(
 @Preview
 @Composable
 fun PreviewTopApplicationBar() {
-    TopApplicationBar("MovieApp", isBackButtonVisible = true) {}
+    TopApplicationBar("MovieApp", isBackButtonVisible = true){}
 }
