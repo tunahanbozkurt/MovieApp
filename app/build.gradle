@@ -27,6 +27,7 @@ android {
         properties.load(project.rootProject.file("local.properties").newDataInputStream())
 
         buildConfigField "String", "WEB_CLIENT_ID", "\"${properties.getProperty("WEB_CLIENT_ID")}\""
+        buildConfigField "String", "MOVIE_DB_API_KEY", "\"${properties.getProperty("MOVIE_DB_API_KEY")}\""
         resValue "string", "FACEBOOK_APP_ID", "\"${properties.getProperty("FACEBOOK_APP_ID")}\""
         resValue "string", "FACEBOOK_CLIENT_TOKEN", "\"${properties.getProperty("FACEBOOK_CLIENT_TOKEN")}\""
         resValue "string", "FB_LOGIN_PROTOCOL_SCHEME", "\"${properties.getProperty("FB_LOGIN_PROTOCOL_SCHEME")}\""
