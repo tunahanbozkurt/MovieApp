@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -18,6 +19,43 @@ import java.io.IOException
 
 fun Context.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+}
+
+fun <T> Context.getDataClassFromJson(
+    fileName: String,
+    returnType: Class<T>
+): T? {
+    val jsonInputStream = this.assets.open(fileName)
+    val jsonText = jsonInputStream.bufferedReader().use {
+        it.readText()
+    }
+    return Gson().fromJson(jsonText, returnType)
+}
+
+suspend fun <T, R> safeRequestMapper(
+    dispatcher: CoroutineDispatcher,
+    execute: suspend () -> Response<T>,
+    mapper: (T) -> R,
+): Resource<R> {
+    return withContext(dispatcher) {
+        try {
+            val response = execute.invoke()
+            val body = response.body()
+            if (response.isSuccessful && body != null) {
+                return@withContext Resource.Success(mapper.invoke(body))
+            }
+            throw Exception("safeRequestMapper failure")
+
+        } catch (e: HttpException) {
+            return@withContext Resource.Error(e.message.toString())
+
+        } catch (e: IOException) {
+            return@withContext Resource.Error(e.message.toString())
+
+        } catch (e: Exception) {
+            return@withContext Resource.Error(e.message.toString())
+        }
+    }
 }
 
 suspend fun <T> safeRequest(
@@ -31,7 +69,7 @@ suspend fun <T> safeRequest(
             if (response.isSuccessful && body != null) {
                 return@withContext Resource.Success(body)
             }
-            throw Exception("safeRequest failure")
+            throw Exception("safeRequestMapper failure")
 
         } catch (e: HttpException) {
             return@withContext Resource.Error(e.message.toString())
@@ -83,6 +121,11 @@ suspend fun <T> safeFirebaseRequest(
             return@withContext TaskResult.Error(R.string.invalid_user)
         }
     }
+}
+
+private const val BASE_URL = "http://image.tmdb.org/t/p/w500"
+fun createImgUrl(imgPath: String): String {
+    return BASE_URL.plus(imgPath)
 }
 
 fun CharSequence?.isValidEmail() =

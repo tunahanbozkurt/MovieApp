@@ -9,16 +9,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
-import com.example.movieapp.data.remote.repository.MovieRepositoryImpl
-import com.example.movieapp.domain.MovieRepository
 import com.example.movieapp.presentation.navigation.RootNavigationGraph
 import com.example.movieapp.ui.theme.MovieAppTheme
 import com.example.movieapp.ui.theme.localColor
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
