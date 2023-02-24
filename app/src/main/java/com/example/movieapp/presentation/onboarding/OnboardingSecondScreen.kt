@@ -6,7 +6,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.movieapp.presentation.onboarding.common.OnboardingSheet
+import com.example.movieapp.presentation.onboarding.elements.OnboardingProgress
+import com.example.movieapp.presentation.onboarding.elements.OnboardingSheet
 import com.example.movieapp.ui.theme.localColor
 
 @Composable

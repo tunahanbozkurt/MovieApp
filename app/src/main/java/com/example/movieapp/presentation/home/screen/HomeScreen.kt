@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.home
+package com.example.movieapp.presentation.home.screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +11,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.presentation.common.HorizontalSpacer
 import com.example.movieapp.presentation.common.VerticalSpacer
+import com.example.movieapp.presentation.home.PopularMoviesListItem
+import com.example.movieapp.presentation.home.ProfileBar
 import com.example.movieapp.util.GenreList
 import com.example.movieapp.util.createImgUrl
 import com.example.movieapp.util.getDataClassFromJson

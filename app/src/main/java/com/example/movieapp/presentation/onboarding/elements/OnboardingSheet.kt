@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.onboarding.common
+package com.example.movieapp.presentation.onboarding.elements
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.Image
 import com.example.movieapp.presentation.common.TitleCouple
-import com.example.movieapp.presentation.onboarding.OnboardingProgress
 import com.example.movieapp.ui.theme.localColor
 
 @Composable

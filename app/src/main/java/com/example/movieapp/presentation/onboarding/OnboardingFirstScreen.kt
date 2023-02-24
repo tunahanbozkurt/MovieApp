@@ -14,7 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.Image
-import com.example.movieapp.presentation.onboarding.common.OnboardingSheet
+import com.example.movieapp.presentation.onboarding.elements.OnboardingProgress
+import com.example.movieapp.presentation.onboarding.elements.OnboardingSheet
 import com.example.movieapp.ui.theme.localColor
 
 @Composable

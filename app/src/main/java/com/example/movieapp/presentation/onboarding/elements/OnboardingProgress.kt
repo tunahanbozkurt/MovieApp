@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.onboarding
+package com.example.movieapp.presentation.onboarding.elements
 
 enum class OnboardingProgress {
     FIRST,

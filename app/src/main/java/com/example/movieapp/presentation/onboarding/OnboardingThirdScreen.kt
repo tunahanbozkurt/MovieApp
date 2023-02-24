@@ -13,7 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.movieapp.R
-import com.example.movieapp.presentation.onboarding.common.OnboardingSheet
+import com.example.movieapp.presentation.onboarding.elements.OnboardingProgress
+import com.example.movieapp.presentation.onboarding.elements.OnboardingSheet
 import com.example.movieapp.ui.theme.localColor
 
 @Composable
