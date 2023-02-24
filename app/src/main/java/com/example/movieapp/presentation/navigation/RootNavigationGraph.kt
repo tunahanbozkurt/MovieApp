@@ -24,7 +24,11 @@ fun RootNavigationGraph(
     ) {
 
         onboardingNavGraph(navController = navController)
-        authenticationNavGraph(navController = navController)
+
+        composable(Graph.AUTHENTICATION) {
+            AuthenticationNavGraph(modifier = modifier)
+        }
+
         composable(Graph.SPLASH) {
             SplashScreen {
                 navController.navigate(

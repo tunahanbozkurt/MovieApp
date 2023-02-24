@@ -4,123 +4,178 @@ import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.navigation
+import androidx.navigation.NavDestination
+import androidx.navigation.NavHostController
 import com.example.movieapp.presentation.auth.base.AuthenticationScreen
 import com.example.movieapp.presentation.auth.login.LoginScreen
 import com.example.movieapp.presentation.auth.reset.ResetPasswordScreen
 import com.example.movieapp.presentation.auth.signup.SignUpScreen
+import com.example.movieapp.presentation.common.TopApplicationBar
+import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
-@OptIn(ExperimentalAnimationApi::class)
-fun NavGraphBuilder.authenticationNavGraph(navController: NavController) {
-    navigation(
-        route = Graph.AUTHENTICATION,
-        startDestination = AuthenticationScreen.Authentication.route
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun AuthenticationNavGraph(
+    modifier: Modifier,
+    navController: NavHostController = rememberAnimatedNavController()
+) {
+    val topBarInfo = remember { mutableStateOf(TopBarInfo()) }
+
+    DisposableEffect(Unit) {
+        val listener =
+            NavController.OnDestinationChangedListener { _, destination, _ ->
+                topBarInfo.value = topBarInfo.value.copy(
+                    title = makeTitle(destination),
+                    isVisible = (destination.route != AuthenticationScreen.Authentication.route)
+                )
+            }
+        navController.addOnDestinationChangedListener(listener)
+        onDispose {
+            navController.removeOnDestinationChangedListener(listener)
+        }
+    }
+
+    Scaffold(
+        topBar = {
+            if (topBarInfo.value.isVisible) {
+                TopApplicationBar(title = topBarInfo.value.title, isBackButtonVisible = true) {
+                    navController.popBackStack()
+                }
+            }
+
+        },
+        modifier = modifier
     ) {
-
-        composable(
-            route = AuthenticationScreen.Authentication.route,
-            enterTransition = {
-                fadeIn(
-                    animationSpec = tween(700)
-                )
-            },
-            exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(700)
-                )
-            },
-            popEnterTransition = {
-                fadeIn(
-                    animationSpec = tween(700)
-                )
-            },
-            popExitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right,
-                    animationSpec = tween(700)
-                )
-            }
+        AnimatedNavHost(
+            navController = navController,
+            startDestination = AuthenticationScreen.Authentication.route,
+            route = Graph.AUTHENTICATION,
+            modifier = modifier.padding(it)
         ) {
-            AuthenticationScreen { route ->
-                navController.navigate(route = route)
+            composable(
+                route = AuthenticationScreen.Authentication.route,
+                enterTransition = {
+                    fadeIn(
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                popEnterTransition = {
+                    fadeIn(
+                        animationSpec = tween(700)
+                    )
+                },
+                popExitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                }
+            ) {
+                AuthenticationScreen { route ->
+                    navController.navigate(route = route)
+                }
             }
-        }
 
-        composable(
-            AuthenticationScreen.SignUp.route,
-            enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(700)
-                )
-            },
-            exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(700)
-                )
-            },
-            popEnterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Right,
-                    animationSpec = tween(700)
-                )
-            },
-            popExitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right,
-                    animationSpec = tween(700)
-                )
-            }) {
-            SignUpScreen()
-        }
-
-        composable(
-            AuthenticationScreen.Login.route,
-            enterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(700)
-                )
-            },
-            exitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(700)
-                )
-            },
-            popEnterTransition = {
-                slideIntoContainer(
-                    AnimatedContentScope.SlideDirection.Right,
-                    animationSpec = tween(700)
-                )
-            },
-            popExitTransition = {
-                slideOutOfContainer(
-                    AnimatedContentScope.SlideDirection.Right,
-                    animationSpec = tween(700)
-                )
-            }) {
-            LoginScreen { route ->
-                navController.navigate(route)
+            composable(
+                AuthenticationScreen.SignUp.route,
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                popEnterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                },
+                popExitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                }) {
+                SignUpScreen()
             }
-        }
 
-        composable(AuthenticationScreen.ResetPassword.route) {
-            ResetPasswordScreen {
-                /*TODO*/
+            composable(
+                AuthenticationScreen.Login.route,
+                enterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                exitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Left,
+                        animationSpec = tween(700)
+                    )
+                },
+                popEnterTransition = {
+                    slideIntoContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                },
+                popExitTransition = {
+                    slideOutOfContainer(
+                        AnimatedContentScope.SlideDirection.Right,
+                        animationSpec = tween(700)
+                    )
+                }) {
+                LoginScreen { route ->
+                    navController.navigate(route)
+                }
+            }
+
+            composable(AuthenticationScreen.ResetPassword.route) {
+                ResetPasswordScreen {
+                    /*TODO*/
+                }
             }
         }
     }
 }
 
+private fun makeTitle(destination: NavDestination): String {
+    return if (destination.route == AuthenticationScreen.Login.route ||
+        destination.route == AuthenticationScreen.SignUp.route
+    ) destination.route ?:"" else ""
+}
+
 sealed class AuthenticationScreen(val route: String) {
     object Authentication : AuthenticationScreen(route = "AUTHENTICATION")
-    object Login : AuthenticationScreen(route = "LOGIN")
-    object SignUp : AuthenticationScreen(route = "SIGNUP")
+    object Login : AuthenticationScreen(route = "Login")
+    object SignUp : AuthenticationScreen(route = "Sign Up")
     object ResetPassword : AuthenticationScreen("RESET_PASSWORD")
 }
+
+data class TopBarInfo(
+    val title: String = "",
+    val isVisible: Boolean = false,
+)
