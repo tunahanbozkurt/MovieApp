@@ -56,8 +56,6 @@ v
 Fapp/src/main/java/com/example/movieapp/presentation/common/BlueText.kt,4\7\473ca90564b1aedba7cf71d5a39aff03649a554c
 }
 Mapp/src/main/java/com/example/movieapp/presentation/common/CommonTextField.kt,c\6\c6eda6e4f0cb54337c34cb1e204d617c4fb87046
-‡
-Wapp/src/main/java/com/example/movieapp/presentation/onboarding/OnboardingFirstScreen.kt,f\d\fd0a8f99669a0fa4705e26fa96eeb51513d47fa8
 h
 8app/src/main/java/com/example/movieapp/ui/theme/Theme.kt,d\7\d7e9a69998e5ebf8dc8da12bc0caf88cc4782280
 m

@@ -5,17 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import com.example.movieapp.presentation.home.elements.CustomBottomNavigation
-import com.example.movieapp.presentation.home.elements.Screen
-import com.example.movieapp.presentation.navigation.RootNavigationGraph
+import com.example.movieapp.presentation.navigation.BottomNavigation
 import com.example.movieapp.ui.theme.MovieAppTheme
-import com.example.movieapp.ui.theme.localColor
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,14 +36,9 @@ class MainActivity : ComponentActivity() {
                         .background(MaterialTheme.localColor.primaryDark)
                         .fillMaxSize()
                 )
-                
+
                  */
-                val currentScreen= remember {
-                    mutableStateOf<Screen>(Screen.Home)
-                }
-                CustomBottomNavigation(currentScreenId = currentScreen.value.id) {
-                    currentScreen.value = it
-                }
+                BottomNavigation(rememberAnimatedNavController())
             }
         }
     }
