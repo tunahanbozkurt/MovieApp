@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.common
+package com.example.movieapp.presentation.common.spacer
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -8,8 +8,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun VerticalSpacer(
-    height: Int,
+    heightDp: Int,
     modifier: Modifier = Modifier
 ) {
-    Spacer(modifier = modifier.height(height.dp))
+    Spacer(modifier = modifier.height(heightDp.dp))
 }

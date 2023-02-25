@@ -8,7 +8,7 @@ import retrofit2.Response
 
 class RemoteMovieDSImpl(
     private val api: MovieAPI
-): RemoteMovieDS {
+) : RemoteMovieDS {
 
     override suspend fun getAllMovieGenres(apiKey: String): Response<MovieGenreListDTO> {
         return api.getAllMovieGenres(apiKey)

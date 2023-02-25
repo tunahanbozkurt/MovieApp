@@ -50,6 +50,11 @@ fun BottomNavigation(
             iconResId = R.drawable.ic_home,
         ) {
             tabState.value = "HOME"
+            navController.apply {
+                if (tabState.value != "HOME") {
+                    navigate(Graph.HOME)
+                }
+            }
         }
 
         BottomNavigationItem(
@@ -57,6 +62,11 @@ fun BottomNavigation(
             isExpanded = tabState.value == "SEARCH",
             iconResId = R.drawable.ic_search,
         ) {
+            navController.apply {
+                if (tabState.value != "SEARCH") {
+                    navigate(HomeScreen.Search.route)
+                }
+            }
             tabState.value = "SEARCH"
         }
 
@@ -65,6 +75,11 @@ fun BottomNavigation(
             isExpanded = tabState.value == "DOWNLOAD",
             iconResId = R.drawable.ic_download,
         ) {
+            navController.apply {
+                if (tabState.value != "DOWNLOAD") {
+                    navigate(HomeScreen.Download.route)
+                }
+            }
             tabState.value = "DOWNLOAD"
         }
 
@@ -73,6 +88,11 @@ fun BottomNavigation(
             isExpanded = tabState.value == "USER",
             iconResId = R.drawable.ic_person,
         ) {
+            navController.apply {
+                if (tabState.value != "USER") {
+                    navigate(HomeScreen.Profile.route)
+                }
+            }
             tabState.value = "USER"
         }
     }

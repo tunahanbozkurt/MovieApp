@@ -24,7 +24,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.BuildConfig
 import com.example.movieapp.R
 import com.example.movieapp.presentation.auth.TextWithDivider
-import com.example.movieapp.presentation.common.*
+import com.example.movieapp.presentation.common.BlueButton
+import com.example.movieapp.presentation.common.CenterAlignedText
+import com.example.movieapp.presentation.common.SocialMediaIcon
+import com.example.movieapp.presentation.common.spacer.VerticalSpacer
+import com.example.movieapp.presentation.common.text.BlueText
 import com.example.movieapp.presentation.navigation.AuthenticationScreen
 import com.example.movieapp.presentation.splash_screen.SplashView
 import com.example.movieapp.ui.theme.localColor
@@ -74,7 +78,7 @@ fun AuthenticationScreen(
             textColor = MaterialTheme.localColor.textWhite
         )
 
-        VerticalSpacer(height = 8)
+        VerticalSpacer(heightDp = 8)
 
         CenterAlignedText(
             text = context.getString(R.string.auth_msg),
@@ -83,7 +87,7 @@ fun AuthenticationScreen(
             modifier = Modifier.width(200.dp)
         )
 
-        VerticalSpacer(height = 64)
+        VerticalSpacer(heightDp = 64)
 
         BlueButton(
             buttonText = context.getString(R.string.sign_up),
@@ -94,7 +98,7 @@ fun AuthenticationScreen(
             navigate.invoke(AuthenticationScreen.SignUp.route)
         }
 
-        VerticalSpacer(height = 16)
+        VerticalSpacer(heightDp = 16)
 
         Row {
             Text(
@@ -108,11 +112,11 @@ fun AuthenticationScreen(
             })
         }
 
-        VerticalSpacer(height = 32)
+        VerticalSpacer(heightDp = 32)
 
         TextWithDivider(text = context.getString(R.string.signup_with))
 
-        VerticalSpacer(height = 40)
+        VerticalSpacer(heightDp = 40)
 
 
         Row {
@@ -154,8 +158,7 @@ fun rememberFirebaseAuthLauncher(
             }
         } catch (apiException: ApiException) {
             Log.w("AuthenticationScreen", "Unexpected error parsing sign-in result")
-        }
-        catch (e: RuntimeException) {
+        } catch (e: RuntimeException) {
             e.printStackTrace()
         }
     }
@@ -175,6 +178,7 @@ fun registerFacebookCallback(
             override fun onCancel() {
                 // doesn't require implementation
             }
+
             override fun onError(error: FacebookException) {
                 context.showToast("Something went wrong try again later")
             }

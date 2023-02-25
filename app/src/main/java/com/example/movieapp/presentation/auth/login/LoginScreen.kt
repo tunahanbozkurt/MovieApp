@@ -12,7 +12,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.R
-import com.example.movieapp.presentation.common.*
+import com.example.movieapp.presentation.common.BlueButton
+import com.example.movieapp.presentation.common.CommonTextField
+import com.example.movieapp.presentation.common.PasswordField
+import com.example.movieapp.presentation.common.TitleCouple
+import com.example.movieapp.presentation.common.spacer.VerticalSpacer
+import com.example.movieapp.presentation.common.text.BlueText
 import com.example.movieapp.presentation.navigation.AuthenticationScreen
 import com.example.movieapp.ui.theme.localFont
 
@@ -36,7 +41,7 @@ fun LoginScreen(
     ) {
         TitleCouple(bigTitle = "Hi, Tiffany", infoText = "Welcome back! Please enter your details")
 
-        VerticalSpacer(height = 64)
+        VerticalSpacer(heightDp = 64)
 
         CommonTextField(
             text = emailState.text,
@@ -46,7 +51,7 @@ fun LoginScreen(
             onValueChange = { viewModel.handleUIEvent(LoginScreenUIEvent.EnteredEmail(it)) }
         )
 
-        VerticalSpacer(height = 24)
+        VerticalSpacer(heightDp = 24)
 
         PasswordField(
             password = passwordState.password,
@@ -57,18 +62,23 @@ fun LoginScreen(
             onValueChange = { viewModel.handleUIEvent(LoginScreenUIEvent.EnteredPassword(it)) }
         )
 
-        VerticalSpacer(height = 8)
+        VerticalSpacer(heightDp = 8)
 
         BlueText(
             text = "Forgot Password?",
             style = MaterialTheme.localFont.mediumH6,
-            modifier = Modifier.align(Alignment.End).clickable {
-                navigate(AuthenticationScreen.ResetPassword.route)
-            }
+            modifier = Modifier
+                .align(Alignment.End)
+                .clickable {
+                    navigate(AuthenticationScreen.ResetPassword.route)
+                }
         )
 
-        VerticalSpacer(height = 40)
-        BlueButton(buttonText = context.getString(R.string.login), modifier = Modifier.fillMaxWidth()) {
+        VerticalSpacer(heightDp = 40)
+        BlueButton(
+            buttonText = context.getString(R.string.login),
+            modifier = Modifier.fillMaxWidth()
+        ) {
             viewModel.handleUIEvent(LoginScreenUIEvent.Login)
         }
     }

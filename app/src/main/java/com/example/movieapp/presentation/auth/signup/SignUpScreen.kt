@@ -17,8 +17,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.R
-import com.example.movieapp.presentation.common.*
+import com.example.movieapp.presentation.common.BlueButton
+import com.example.movieapp.presentation.common.CommonTextField
+import com.example.movieapp.presentation.common.PasswordField
+import com.example.movieapp.presentation.common.TitleCouple
 import com.example.movieapp.presentation.common.model.ScreenEvent
+import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.showToast
@@ -27,7 +31,8 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
-    viewModel: SignUpScreenVM = hiltViewModel()
+    viewModel: SignUpScreenVM = hiltViewModel(),
+    navigate: (String) -> Unit
 ) {
 
     val context = LocalContext.current
@@ -39,7 +44,9 @@ fun SignUpScreen(
     LaunchedEffect(Unit) {
         viewModel.eventFlow.collectLatest {
             when (it) {
-                ScreenEvent.Navigate -> TODO()
+                is ScreenEvent.Navigate -> {
+                    navigate.invoke(it.route)
+                }
                 ScreenEvent.ShowToast -> {
                     context.showToast("You need to accept Terms and Services and Privacy Policy")
                 }
@@ -61,7 +68,7 @@ fun SignUpScreen(
             infoText = "The latest movies and series are here"
         )
 
-        VerticalSpacer(height = 64)
+        VerticalSpacer(heightDp = 64)
 
         CommonTextField(
             text = nameField.text,
@@ -71,7 +78,7 @@ fun SignUpScreen(
             onValueChange = { viewModel.handleUIEvent(SignUpScreenUIEvent.EnteredName(it)) }
         )
 
-        VerticalSpacer(height = 24)
+        VerticalSpacer(heightDp = 24)
 
         CommonTextField(
             text = emailField.text,
@@ -81,7 +88,7 @@ fun SignUpScreen(
             onValueChange = { viewModel.handleUIEvent(SignUpScreenUIEvent.EnteredEmail(it)) }
         )
 
-        VerticalSpacer(height = 24)
+        VerticalSpacer(heightDp = 24)
 
         PasswordField(
             password = passwordField.password,
@@ -112,7 +119,7 @@ fun SignUpScreen(
             pop()
         }
 
-        VerticalSpacer(height = 16)
+        VerticalSpacer(heightDp = 16)
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -129,7 +136,7 @@ fun SignUpScreen(
             )
         }
 
-        VerticalSpacer(height = 40)
+        VerticalSpacer(heightDp = 40)
 
         BlueButton(
             buttonText = context.getString(R.string.sign_up),
@@ -144,5 +151,5 @@ fun SignUpScreen(
 @Preview
 @Composable
 fun PreviewSignUpScreen() {
-    SignUpScreen()
+    SignUpScreen() {}
 }

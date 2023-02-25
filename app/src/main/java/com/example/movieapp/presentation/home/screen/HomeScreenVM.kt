@@ -19,7 +19,8 @@ class HomeScreenVM @Inject constructor(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
 
-    private val _popularMovies: MutableStateFlow<PopularMovieList> = MutableStateFlow(PopularMovieList())
+    private val _popularMovies: MutableStateFlow<PopularMovieList> =
+        MutableStateFlow(PopularMovieList())
     val popularMovie: StateFlow<PopularMovieList> = _popularMovies.asStateFlow()
 
     init {

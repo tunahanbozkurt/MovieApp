@@ -5,9 +5,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import com.example.movieapp.presentation.navigation.BottomNavigation
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.Modifier
+import com.example.movieapp.presentation.navigation.RootNavigationGraph
 import com.example.movieapp.ui.theme.MovieAppTheme
+import com.example.movieapp.ui.theme.localColor
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -28,7 +35,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             MovieAppTheme {
-                /*RootNavigationGraph(
+                val systemUiController = rememberSystemUiController()
+                DisposableEffect(systemUiController) {
+                    onDispose {}
+                }
+
+                RootNavigationGraph(
                     navController = rememberAnimatedNavController(),
                     dontShowOnboarding = dontShowOnboarding(),
                     isUserExist = isUserExist(),
@@ -36,9 +48,6 @@ class MainActivity : ComponentActivity() {
                         .background(MaterialTheme.localColor.primaryDark)
                         .fillMaxSize()
                 )
-
-                 */
-                BottomNavigation(rememberAnimatedNavController())
             }
         }
     }

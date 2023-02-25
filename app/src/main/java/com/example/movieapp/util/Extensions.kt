@@ -137,10 +137,10 @@ fun List<Any>.hasError(): Boolean {
     }
 }
 
-fun TaskResult.isValid(): Boolean {
+fun TaskResult.onSuccess(): Boolean {
     return this is TaskResult.Success
 }
 
-fun TaskResult.isNotValid(): Boolean {
+fun TaskResult.onError(): Boolean {
     return this is TaskResult.Error
 }

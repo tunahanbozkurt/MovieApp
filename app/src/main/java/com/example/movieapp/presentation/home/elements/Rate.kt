@@ -43,12 +43,12 @@ fun Rate(
                 bottom = 4.dp
             )
         ) {
-           Icon(
-               painter = painterResource(id = R.drawable.ic_star),
-               tint = MaterialTheme.localColor.secondaryOrange,
-               contentDescription = null
-           )
-            
+            Icon(
+                painter = painterResource(id = R.drawable.ic_star),
+                tint = MaterialTheme.localColor.secondaryOrange,
+                contentDescription = null
+            )
+
             HorizontalSpacer(width = 4)
 
             Text(

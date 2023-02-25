@@ -13,7 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.presentation.common.BlueButton
 import com.example.movieapp.presentation.common.CommonTextField
 import com.example.movieapp.presentation.common.TitleCouple
-import com.example.movieapp.presentation.common.VerticalSpacer
+import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.ui.theme.localFont
 import kotlinx.coroutines.flow.collectLatest
 
@@ -46,7 +46,7 @@ fun ResetPasswordScreen(
             titleStyle = MaterialTheme.localFont.mediumH1,
         )
 
-        VerticalSpacer(height = 48)
+        VerticalSpacer(heightDp = 48)
 
         CommonTextField(
             text = nameField.text,
@@ -56,7 +56,7 @@ fun ResetPasswordScreen(
             onValueChange = { viewModel.handleUIEvent(ResetPasswordScreenUIEvent.EnteredEmail(it)) }
         )
 
-        VerticalSpacer(height = 40)
+        VerticalSpacer(heightDp = 40)
 
         BlueButton(
             buttonText = "Next",

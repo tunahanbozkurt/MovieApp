@@ -21,7 +21,8 @@ class PopularMoviesDataSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PopularMovieDTO> {
         return try {
             val page = params.key ?: 1
-            val response = repo.getPopularMoviesForPaging(page = page, apiKey = BuildConfig.MOVIE_DB_API_KEY)
+            val response =
+                repo.getPopularMoviesForPaging(page = page, apiKey = BuildConfig.MOVIE_DB_API_KEY)
             if (response is Resource.Success) {
                 return LoadResult.Page(
                     data = response.data.results,

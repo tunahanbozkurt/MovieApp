@@ -7,8 +7,10 @@ import com.example.movieapp.domain.usecase.field.CheckFieldUseCase
 import com.example.movieapp.presentation.common.model.PasswordFieldState
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.model.TextFieldState
+import com.example.movieapp.presentation.navigation.Graph
 import com.example.movieapp.util.hasError
-import com.example.movieapp.util.isNotValid
+import com.example.movieapp.util.onError
+import com.example.movieapp.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -71,7 +73,12 @@ class SignUpScreenVM @Inject constructor(
         )
         if (!hasError) {
             viewModelScope.launch {
-                authRepository.createUserWithEmailAndPassword(email, password)
+                val response = authRepository.createUserWithEmailAndPassword(email, password)
+                if (response.onSuccess()) {
+                    _eventChannel.trySend(ScreenEvent.Navigate(Graph.HOME))
+                } else {
+                    /*TOOD*/
+                }
             }
         }
     }
@@ -86,9 +93,9 @@ class SignUpScreenVM @Inject constructor(
         val passwordValidation = checkFieldUseCase.checkPasswordField(password)
         val emailValidation = checkFieldUseCase.checkEmailField(email)
 
-        _nameFieldState.update { it.copy(hasError = nameValidation.isNotValid()) }
-        _passwordFieldState.update { it.copy(hasError = passwordValidation.isNotValid()) }
-        _emailFieldState.update { it.copy(hasError = emailValidation.isNotValid()) }
+        _nameFieldState.update { it.copy(hasError = nameValidation.onError()) }
+        _passwordFieldState.update { it.copy(hasError = passwordValidation.onError()) }
+        _emailFieldState.update { it.copy(hasError = emailValidation.onError()) }
 
         if (!checkBox) {
             _eventChannel.trySend(ScreenEvent.ShowToast)

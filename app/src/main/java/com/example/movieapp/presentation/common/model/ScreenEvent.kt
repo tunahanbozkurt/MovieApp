@@ -1,6 +1,6 @@
 package com.example.movieapp.presentation.common.model
 
 sealed class ScreenEvent {
-    object Navigate : ScreenEvent()
+    data class Navigate(val route: String) : ScreenEvent()
     object ShowToast : ScreenEvent()
 }

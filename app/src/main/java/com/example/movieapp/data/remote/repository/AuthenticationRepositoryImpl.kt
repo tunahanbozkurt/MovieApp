@@ -28,9 +28,9 @@ class AuthenticationRepositoryImpl(
     }
 
     override suspend fun sendPasswordResetEmail(email: String): TaskResult {
-       return safeFirebaseRequest(ioDispatcher) {
-           auth.sendPasswordResetEmail(email)
-       }
+        return safeFirebaseRequest(ioDispatcher) {
+            auth.sendPasswordResetEmail(email)
+        }
     }
 
     override suspend fun signInWithCredential(credential: AuthCredential): TaskResult {

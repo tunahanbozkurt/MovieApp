@@ -6,8 +6,8 @@ import com.example.movieapp.domain.usecase.auth.AuthUseCase
 import com.example.movieapp.domain.usecase.field.CheckFieldUseCase
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.model.TextFieldState
-import com.example.movieapp.util.isNotValid
-import com.example.movieapp.util.isValid
+import com.example.movieapp.util.onError
+import com.example.movieapp.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,8 +36,8 @@ class ResetPasswordScreenVM @Inject constructor(
             }
             ResetPasswordScreenUIEvent.Next -> {
                 val emailValidation = checkFieldUseCase.checkEmailField(_emailFieldState.value.text)
-                _emailFieldState.update { it.copy(hasError = emailValidation.isNotValid()) }
-                if (emailValidation.isValid()) {
+                _emailFieldState.update { it.copy(hasError = emailValidation.onError()) }
+                if (emailValidation.onSuccess()) {
                     viewModelScope.launch {
                         authUseCase.resetPassword(_emailFieldState.value.text)
                     }

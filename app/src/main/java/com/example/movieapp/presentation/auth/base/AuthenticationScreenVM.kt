@@ -16,7 +16,7 @@ import javax.inject.Inject
 class AuthenticationScreenVM @Inject constructor(
     private val authUseCase: AuthUseCase,
     private val sharedPreferences: SharedPreferences
-): ViewModel() {
+) : ViewModel() {
 
     init {
         with(sharedPreferences.edit()) {

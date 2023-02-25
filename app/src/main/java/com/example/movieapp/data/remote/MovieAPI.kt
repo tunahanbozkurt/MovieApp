@@ -3,6 +3,7 @@ package com.example.movieapp.data.remote
 import com.example.movieapp.data.remote.dto.detail.MovieDetailDTO
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
 import com.example.movieapp.data.remote.dto.popular.PopularMoviesDTO
+import com.example.movieapp.data.remote.dto.search.SearchDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,13 +18,20 @@ interface MovieAPI {
 
     @GET("movie/{movie_id}")
     suspend fun getDetail(
-        @Query("api_key") apiKey: String,
         @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String,
     ): Response<MovieDetailDTO>
 
     @GET("movie/popular")
     suspend fun getPopularMovies(
-        @Query("api_key") apiKey: String,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("api_key") apiKey: String
     ): Response<PopularMoviesDTO>
+
+    @GET("search/movie")
+    suspend fun searchMovie(
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("api_key") apiKey: String
+    ): Response<SearchDto>
 }

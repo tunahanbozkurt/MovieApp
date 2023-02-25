@@ -7,8 +7,10 @@ import com.example.movieapp.domain.usecase.field.CheckFieldUseCase
 import com.example.movieapp.presentation.common.model.PasswordFieldState
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.model.TextFieldState
+import com.example.movieapp.presentation.navigation.Graph
 import com.example.movieapp.util.hasError
-import com.example.movieapp.util.isNotValid
+import com.example.movieapp.util.onError
+import com.example.movieapp.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +24,7 @@ import javax.inject.Inject
 class LoginScreenVM @Inject constructor(
     private val checkFieldUseCase: CheckFieldUseCase,
     private val authUseCase: AuthUseCase
-): ViewModel() {
+) : ViewModel() {
 
     private val _emailFieldState = MutableStateFlow(TextFieldState())
     val emailFieldState = _emailFieldState.asStateFlow()
@@ -34,7 +36,7 @@ class LoginScreenVM @Inject constructor(
     val eventFlow = _eventChannel.receiveAsFlow()
 
     fun handleUIEvent(event: LoginScreenUIEvent) {
-        when(event) {
+        when (event) {
             is LoginScreenUIEvent.EnteredEmail -> {
                 _emailFieldState.update { it.copy(event.email) }
             }
@@ -54,7 +56,15 @@ class LoginScreenVM @Inject constructor(
                 )
                 if (!hasError) {
                     viewModelScope.launch {
-                        authUseCase.loginUser(_emailFieldState.value.text, _passwordFieldState.value.password)
+                        val response = authUseCase.loginUser(
+                            _emailFieldState.value.text,
+                            _passwordFieldState.value.password
+                        )
+                        if (response.onSuccess()) {
+                            _eventChannel.trySend(ScreenEvent.Navigate(Graph.HOME))
+                        } else {
+                            /*TODO*/
+                        }
                     }
                 }
             }
@@ -65,8 +75,8 @@ class LoginScreenVM @Inject constructor(
         val emailValidation = checkFieldUseCase.checkEmailField(email)
         val passwordValidation = checkFieldUseCase.checkPasswordField(password)
 
-        _emailFieldState.update { it.copy(hasError = emailValidation.isNotValid()) }
-        _passwordFieldState.update { it.copy(hasError = passwordValidation.isNotValid()) }
+        _emailFieldState.update { it.copy(hasError = emailValidation.onError()) }
+        _passwordFieldState.update { it.copy(hasError = passwordValidation.onError()) }
 
         return listOf(emailValidation, passwordValidation).hasError()
     }

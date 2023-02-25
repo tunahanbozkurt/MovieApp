@@ -1,20 +1,18 @@
 package com.example.movieapp.presentation.home.screen
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.movieapp.presentation.common.HorizontalSpacer
-import com.example.movieapp.presentation.common.VerticalSpacer
-import com.example.movieapp.presentation.home.PopularMoviesListItem
-import com.example.movieapp.presentation.home.ProfileBar
+import com.example.movieapp.presentation.common.spacer.VerticalSpacer
+import com.example.movieapp.presentation.home.elements.GenreList
+import com.example.movieapp.presentation.home.elements.PopularMoviesList
+import com.example.movieapp.presentation.home.elements.SearchBar
 import com.example.movieapp.util.GenreList
-import com.example.movieapp.util.createImgUrl
 import com.example.movieapp.util.getDataClassFromJson
 
 @Composable
@@ -33,26 +31,28 @@ fun HomeScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        VerticalSpacer(height = 8)
 
-        ProfileBar()
+        SearchBar(
+            query = "Search",
+            onValueChange = {},
+            onSearch = {}
+        )
 
-        LazyRow{
-            item { HorizontalSpacer(width = 24) }
-            items(popularMovieList.list) { movie ->
-                if (movie.poster_path != null) {
-                    PopularMoviesListItem(
-                        imgUrl = createImgUrl(movie.poster_path),
-                        rate = movie.vote_average,
-                        title = movie.original_title,
-                        genre = genreList.value.genres.find {
-                            it.id == movie.genre_ids[0]
-                        }?.name ?: "",
-                    )
-                    HorizontalSpacer(width = 12)
-                }
-            }
-        }
+        GenreList(
+            genreList = genreList.value.genres,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        VerticalSpacer(heightDp = 24)
+
+        PopularMoviesList(
+            popularMovieList = popularMovieList.list,
+            genreList = genreList.value,
+            modifier = Modifier
+                .fillMaxSize()
+                .wrapContentSize(Alignment.BottomCenter)
+                .padding(bottom = 15.dp)
+        )
     }
 }
 

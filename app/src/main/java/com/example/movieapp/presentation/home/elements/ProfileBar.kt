@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.Image
 import com.example.movieapp.presentation.common.ProfileImage
-import com.example.movieapp.presentation.common.VerticalSpacer
+import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 
@@ -38,7 +38,7 @@ fun ProfileBar(
                 style = MaterialTheme.localFont.semiBoldH4
             )
 
-            VerticalSpacer(height = 4)
+            VerticalSpacer(heightDp = 4)
 
             Text(
                 text = "Let's stream your favorite movie",

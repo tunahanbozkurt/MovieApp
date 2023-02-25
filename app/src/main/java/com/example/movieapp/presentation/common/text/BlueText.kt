@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.common
+package com.example.movieapp.presentation.common.text
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
