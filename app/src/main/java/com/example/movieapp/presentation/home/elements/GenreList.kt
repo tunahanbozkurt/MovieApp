@@ -17,7 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.data.remote.dto.genre.Genre
-import com.example.movieapp.presentation.common.HorizontalSpacer
+import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont

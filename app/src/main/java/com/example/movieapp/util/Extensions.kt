@@ -16,6 +16,8 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun Context.showToast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
@@ -132,6 +134,15 @@ fun String.shortenTitle(): String {
     return if (this.length >= 14) {
         this.take(13).plus("..")
     } else this
+}
+
+fun String.convertToDate(): String {
+    val inputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+    val outputDateFormat = SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH)
+    val date = inputDateFormat.parse(this)
+    val calendar = Calendar.getInstance()
+    calendar.time = date ?: return "Unknown"
+    return outputDateFormat.format(calendar.time)
 }
 
 fun CharSequence?.isValidEmail() =

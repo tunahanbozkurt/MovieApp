@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.home.screen
+package com.example.movieapp.presentation.home.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,6 +6,7 @@ import com.example.movieapp.BuildConfig
 import com.example.movieapp.domain.MovieRepository
 import com.example.movieapp.domain.model.PopularMovieList
 import com.example.movieapp.domain.model.UpcomingMovie
+import com.example.movieapp.util.convertToDate
 import com.example.movieapp.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -54,7 +55,9 @@ class HomeScreenVM @Inject constructor(
 
             response.onSuccess { resource ->
                 _upcomingMovies.update {
-                    resource.data.subList(0, 3)
+                    resource.data.subList(0, 3).map {
+                        it.copy(releaseDate = it.releaseDate.convertToDate())
+                    }
                 }
             }
         }

@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.movieapp.presentation.common.HorizontalSpacer
+import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 

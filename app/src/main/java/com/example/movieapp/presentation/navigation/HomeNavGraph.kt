@@ -5,9 +5,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import com.example.movieapp.presentation.home.screen.HomeScreen
+import com.example.movieapp.presentation.home.screen.home.HomeScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -18,9 +22,30 @@ fun HomeNavGraph(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberAnimatedNavController()
 ) {
+
+    val isBottomBarVisible = remember {
+        mutableStateOf(true)
+    }
+
+    DisposableEffect(Unit) {
+        val listener = NavController.OnDestinationChangedListener { controller, destination, arguments ->
+        
+        }
+        navController.addOnDestinationChangedListener(listener)
+
+        onDispose {
+            navController.removeOnDestinationChangedListener(listener)
+        }
+    }
+
     Scaffold(
+        topBar = {
+
+        },
         bottomBar = {
-            BottomNavigation(navController = navController)
+            if (isBottomBarVisible.value) {
+                BottomNavigation(navController = navController)
+            }
         }
     ) {
         AnimatedNavHost(

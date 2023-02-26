@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.common
+package com.example.movieapp.presentation.common.spacer
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width

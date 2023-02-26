@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.domain.model.PopularMovie
-import com.example.movieapp.presentation.common.HorizontalSpacer
+import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.BlueText
 import com.example.movieapp.ui.theme.localFont

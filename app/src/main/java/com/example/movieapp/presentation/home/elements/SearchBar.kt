@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.movieapp.R
-import com.example.movieapp.presentation.common.HorizontalSpacer
+import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.ui.theme.MontserratFontFamily
 import com.example.movieapp.ui.theme.localColor
 

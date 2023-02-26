@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.movieapp.R
-import com.example.movieapp.presentation.common.HorizontalSpacer
+import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController

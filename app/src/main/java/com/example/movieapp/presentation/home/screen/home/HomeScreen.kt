@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.home.screen
+package com.example.movieapp.presentation.home.screen.home
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
