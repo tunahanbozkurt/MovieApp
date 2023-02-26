@@ -25,6 +25,7 @@ import com.example.movieapp.ui.theme.localColor
 @Composable
 fun SearchBar(
     query: String,
+    hint: String,
     onValueChange: (String) -> Unit,
     onSearch: (String) -> Unit,
 ) {
@@ -52,7 +53,7 @@ fun SearchBar(
         HorizontalSpacer(width = 8)
 
         BasicTextField(
-            value = query,
+            value = query.ifEmpty { hint },
             textStyle = TextStyle(
                 fontFamily = MontserratFontFamily,
                 fontWeight = FontWeight.Medium,
@@ -67,7 +68,7 @@ fun SearchBar(
 @Preview
 @Composable
 fun PreviewSearchBar() {
-    SearchBar("Search a title", {}) {
+    SearchBar("Search a title", hint = "Search a title", {}) {
 
     }
 }

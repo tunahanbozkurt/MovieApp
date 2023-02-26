@@ -5,6 +5,7 @@ import com.example.movieapp.data.remote.dto.popular.PopularMoviesDTO
 import com.example.movieapp.domain.MovieRepository
 import com.example.movieapp.domain.RemoteMovieDS
 import com.example.movieapp.domain.model.PopularMovie
+import com.example.movieapp.domain.model.UpcomingMovie
 import com.example.movieapp.util.Resource
 import com.example.movieapp.util.safeRequest
 import com.example.movieapp.util.safeRequestMapper
@@ -26,8 +27,8 @@ class MovieRepositoryImpl(
             ioDispatcher,
             execute = { remoteDataSource.getPopularMovies(page, apiKey) },
             mapper = { mapperDto ->
-                mapperDto.results.map { dto ->
-                    dto.toPopularMovie()
+                mapperDto.results.map { popularMovieDto ->
+                    popularMovieDto.toPopularMovie()
                 }
             }
         )
@@ -40,5 +41,20 @@ class MovieRepositoryImpl(
         return safeRequest(ioDispatcher) {
             remoteDataSource.getPopularMovies(page, apiKey)
         }
+    }
+
+    override suspend fun getUpcomingMovies(
+        page: Int,
+        apiKey: String
+    ): Resource<List<UpcomingMovie>> {
+        return safeRequestMapper(ioDispatcher,
+            execute = {
+                remoteDataSource.getUpcomingMovies(page, apiKey)
+            },
+            mapper = { mapperDto ->
+                mapperDto.results.map { upcomingMovieResult ->
+                    upcomingMovieResult.toUpcomingMovie()
+                }
+            })
     }
 }

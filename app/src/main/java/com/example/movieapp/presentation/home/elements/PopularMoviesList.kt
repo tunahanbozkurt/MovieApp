@@ -14,7 +14,6 @@ import com.example.movieapp.domain.model.PopularMovie
 import com.example.movieapp.presentation.common.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.BlueText
-import com.example.movieapp.presentation.home.PopularMoviesListItem
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.GenreList
 import com.example.movieapp.util.createImgUrl

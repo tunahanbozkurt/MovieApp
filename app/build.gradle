@@ -107,11 +107,6 @@ dependencies {
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.9'
-
-    // System UI Controller
-    implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
-
-
 }
 
 kapt {

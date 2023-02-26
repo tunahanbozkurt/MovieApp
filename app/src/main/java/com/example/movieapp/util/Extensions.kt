@@ -128,6 +128,12 @@ fun createImgUrl(imgPath: String): String {
     return BASE_URL.plus(imgPath)
 }
 
+fun String.shortenTitle(): String {
+    return if (this.length >= 14) {
+        this.take(13).plus("..")
+    } else this
+}
+
 fun CharSequence?.isValidEmail() =
     !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
