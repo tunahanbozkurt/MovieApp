@@ -1,34 +1,28 @@
 package com.example.movieapp.presentation.home.screen.home
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.home.elements.*
-import com.example.movieapp.util.GenreList
-import com.example.movieapp.util.getDataClassFromJson
 
 @Composable
 fun HomeScreen(
     viewModel: HomeScreenVM = hiltViewModel()
 ) {
-    val context = LocalContext.current
     val scrollState = rememberScrollState()
     val popularMovieList = viewModel.popularMovie.collectAsState().value
     val upcomingMovie = viewModel.upcomingMovies.collectAsState().value
-    val genreList = remember { mutableStateOf(GenreList()) }
-
-    LaunchedEffect(Unit) {
-        genreList.value =
-            context.getDataClassFromJson("genre.json", GenreList::class.java) ?: GenreList()
-    }
+    val selectedGenre = viewModel.selectedGenre.collectAsState().value
 
     Column(
         modifier = Modifier
@@ -57,18 +51,21 @@ fun HomeScreen(
 
 
         GenreList(
-            genreList = genreList.value.genres,
+            selectedGenre = selectedGenre,
             modifier = Modifier.fillMaxWidth()
-        )
+        ) {
+            viewModel.setGenre(it)
+        }
 
         VerticalSpacer(heightDp = 24)
 
-        PopularMoviesList(
-            popularMovieList = popularMovieList.list,
-            genreList = genreList.value,
+        MovieListHorizontal(
+            title = "Most popular",
+            movieItemList = popularMovieList.results,
+            seeAll = {},
+            selectedGenre = selectedGenre,
             modifier = Modifier
                 .fillMaxSize()
-                .wrapContentSize(Alignment.BottomCenter)
                 .padding(bottom = 15.dp)
         )
     }
@@ -77,5 +74,5 @@ fun HomeScreen(
 @Preview
 @Composable
 fun PreviewHomeScreen() {
-    HomeScreen()
+
 }

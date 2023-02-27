@@ -1,6 +1,6 @@
 package com.example.movieapp.data.remote.repository
 
-import com.example.movieapp.domain.AuthenticationRepository
+import com.example.movieapp.domain.repository.AuthenticationRepository
 import com.example.movieapp.util.TaskResult
 import com.example.movieapp.util.safeFirebaseRequest
 import com.google.firebase.auth.AuthCredential

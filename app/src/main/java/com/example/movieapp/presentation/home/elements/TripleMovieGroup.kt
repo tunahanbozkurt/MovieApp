@@ -10,7 +10,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,8 +35,28 @@ fun TripleMovieGroup(
 
     val state = rememberLazyListState()
     val snapFlingBehavior = rememberSnapFlingBehavior(lazyListState = state)
+    val firstVisibleItemIndex = remember { derivedStateOf { state.firstVisibleItemIndex } }
+    val selectedItemIndex = remember {
+        mutableStateOf(0)
+    }
 
-    Column {
+    LaunchedEffect(firstVisibleItemIndex.value) {
+        when (firstVisibleItemIndex.value) {
+            0 -> {
+                selectedItemIndex.value = 0
+            }
+            1 -> {
+                selectedItemIndex.value = 1
+            }
+            2 -> {
+                selectedItemIndex.value = 2
+            }
+        }
+    }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         LazyRow(
             state = state,
             flingBehavior = snapFlingBehavior,
@@ -49,7 +69,9 @@ fun TripleMovieGroup(
                 HorizontalSpacer(width = 12)
             }
         }
-        /*TODO PROGRESS*/
+        VerticalSpacer(heightDp = 12)
+
+        TripleProgressIndicator(selectedItemIndex.value)
     }
 }
 

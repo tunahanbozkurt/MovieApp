@@ -1,6 +1,6 @@
 package com.example.movieapp.data.remote.dto.popular
 
-import com.example.movieapp.domain.model.PopularMovie
+import com.example.movieapp.domain.model.popular.MovieItem
 
 data class PopularMovieDTO(
     val adult: Boolean,
@@ -18,13 +18,14 @@ data class PopularMovieDTO(
     val vote_average: Double,
     val vote_count: Int
 ) {
-    fun toPopularMovie(): PopularMovie {
-        return PopularMovie(
+    fun toPopularMovie(): MovieItem {
+        return MovieItem(
             id = id,
             genre_ids = genre_ids,
             original_title = original_title,
             poster_path = poster_path,
-            vote_average = vote_average
+            vote_average = vote_average,
+            release_date = release_date,
         )
     }
 }

@@ -20,6 +20,7 @@ data class UpcomingMovieResult(
 ) {
     fun toUpcomingMovie(): UpcomingMovie {
         return UpcomingMovie(
+            id = id,
             imgUrl = backdrop_path ?: "",
             title = original_title,
             releaseDate = release_date ?: ""

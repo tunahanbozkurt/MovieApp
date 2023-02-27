@@ -11,8 +11,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,12 +26,9 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 @Composable
 fun BottomNavigation(
-    navController: NavHostController
+    navController: NavHostController,
+    tabState: String
 ) {
-
-    val tabState = remember {
-        mutableStateOf("HOME")
-    }
 
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -46,12 +41,11 @@ fun BottomNavigation(
 
         BottomNavigationItem(
             text = "Home",
-            isExpanded = tabState.value == "HOME",
+            isExpanded = tabState == "Home",
             iconResId = R.drawable.ic_home,
         ) {
-            tabState.value = "HOME"
             navController.apply {
-                if (tabState.value != "HOME") {
+                if (tabState != "Home") {
                     navigate(Graph.HOME)
                 }
             }
@@ -59,41 +53,38 @@ fun BottomNavigation(
 
         BottomNavigationItem(
             text = "Search",
-            isExpanded = tabState.value == "SEARCH",
+            isExpanded = tabState == "Search",
             iconResId = R.drawable.ic_search,
         ) {
             navController.apply {
-                if (tabState.value != "SEARCH") {
+                if (tabState != "Search") {
                     navigate(HomeScreen.Search.route)
                 }
             }
-            tabState.value = "SEARCH"
         }
 
         BottomNavigationItem(
             text = "Download",
-            isExpanded = tabState.value == "DOWNLOAD",
+            isExpanded = tabState == "Download",
             iconResId = R.drawable.ic_download,
         ) {
             navController.apply {
-                if (tabState.value != "DOWNLOAD") {
+                if (tabState != "Download") {
                     navigate(HomeScreen.Download.route)
                 }
             }
-            tabState.value = "DOWNLOAD"
         }
 
         BottomNavigationItem(
             text = "User",
-            isExpanded = tabState.value == "USER",
+            isExpanded = tabState == "Profile",
             iconResId = R.drawable.ic_person,
         ) {
             navController.apply {
-                if (tabState.value != "USER") {
+                if (tabState != "Profile") {
                     navigate(HomeScreen.Profile.route)
                 }
             }
-            tabState.value = "USER"
         }
     }
 }
@@ -152,5 +143,5 @@ fun BottomNavigationItem(
 @Preview
 @Composable
 fun PreviewBottomNavigation() {
-    BottomNavigation(navController = rememberAnimatedNavController())
+    BottomNavigation(navController = rememberAnimatedNavController(), "")
 }

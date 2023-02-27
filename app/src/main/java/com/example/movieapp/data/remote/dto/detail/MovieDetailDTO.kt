@@ -1,5 +1,7 @@
 package com.example.movieapp.data.remote.dto.detail
 
+import com.example.movieapp.domain.model.MovieDetail
+
 data class MovieDetailDTO(
     val adult: Boolean,
     val backdrop_path: String?,
@@ -26,4 +28,16 @@ data class MovieDetailDTO(
     val video: Boolean,
     val vote_average: Double,
     val vote_count: Int
-)
+) {
+    fun toMovieDetail(): MovieDetail {
+        return MovieDetail(
+            id = id,
+            genres = genres,
+            original_title = original_title,
+            poster_path = poster_path,
+            release_date = release_date,
+            runtime = runtime,
+            vote_average = vote_average
+        )
+    }
+}

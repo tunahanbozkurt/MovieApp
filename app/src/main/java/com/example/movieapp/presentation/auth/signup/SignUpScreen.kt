@@ -1,6 +1,7 @@
 package com.example.movieapp.presentation.auth.signup
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,6 +37,7 @@ fun SignUpScreen(
 ) {
 
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
     val nameField = viewModel.nameFieldState.collectAsState().value
     val emailField = viewModel.emailFieldState.collectAsState().value
     val passwordField = viewModel.passwordFieldState.collectAsState().value
@@ -55,13 +57,14 @@ fun SignUpScreen(
     }
 
     Column(
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)
     ) {
 
+        VerticalSpacer(heightDp = 40)
 
         TitleCouple(
             bigTitle = "Let's get started",

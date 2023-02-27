@@ -2,7 +2,7 @@ package com.example.movieapp.presentation.auth.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieapp.domain.AuthenticationRepository
+import com.example.movieapp.domain.repository.AuthenticationRepository
 import com.example.movieapp.domain.usecase.field.CheckFieldUseCase
 import com.example.movieapp.presentation.common.model.PasswordFieldState
 import com.example.movieapp.presentation.common.model.ScreenEvent

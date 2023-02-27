@@ -16,6 +16,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
+import java.net.URLEncoder
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -134,6 +135,10 @@ fun String.shortenTitle(): String {
     return if (this.length >= 14) {
         this.take(13).plus("..")
     } else this
+}
+
+fun String.encodeToUri(): String {
+    return URLEncoder.encode(this, "UTF-8")
 }
 
 fun String.convertToDate(): String {

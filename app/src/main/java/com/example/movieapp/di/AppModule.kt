@@ -6,9 +6,9 @@ import com.example.movieapp.data.remote.MovieAPI
 import com.example.movieapp.data.remote.dataSource.RemoteMovieDSImpl
 import com.example.movieapp.data.remote.repository.AuthenticationRepositoryImpl
 import com.example.movieapp.data.remote.repository.MovieRepositoryImpl
-import com.example.movieapp.domain.AuthenticationRepository
-import com.example.movieapp.domain.MovieRepository
-import com.example.movieapp.domain.RemoteMovieDS
+import com.example.movieapp.domain.datasource.RemoteMovieDS
+import com.example.movieapp.domain.repository.AuthenticationRepository
+import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.domain.usecase.auth.*
 import com.example.movieapp.domain.usecase.field.CheckEmailField
 import com.example.movieapp.domain.usecase.field.CheckFieldUseCase

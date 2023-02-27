@@ -1,5 +1,7 @@
 package com.example.movieapp.data.remote.dto.search
 
+import com.example.movieapp.domain.model.popular.MovieItem
+
 data class SearchResult(
     val adult: Boolean,
     val backdrop_path: String?,
@@ -15,4 +17,15 @@ data class SearchResult(
     val video: Boolean,
     val vote_average: Double,
     val vote_count: Int
-)
+) {
+    fun toMovieItem(): MovieItem {
+        return MovieItem(
+            id = id,
+            genre_ids = genre_ids,
+            original_title = original_title,
+            poster_path = poster_path,
+            vote_average = vote_average,
+            release_date = release_date
+        )
+    }
+}

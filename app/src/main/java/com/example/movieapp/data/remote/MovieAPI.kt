@@ -3,6 +3,7 @@ package com.example.movieapp.data.remote
 import com.example.movieapp.data.remote.dto.detail.MovieDetailDTO
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
 import com.example.movieapp.data.remote.dto.popular.PopularMoviesDTO
+import com.example.movieapp.data.remote.dto.recommended.RecommendedMoviesDTO
 import com.example.movieapp.data.remote.dto.search.MovieSearchDTO
 import com.example.movieapp.data.remote.dto.upcoming.UpcomingMoviesDTO
 import retrofit2.Response
@@ -41,4 +42,11 @@ interface MovieAPI {
         @Query("page") page: Int,
         @Query("api_key") apiKey: String
     ): Response<UpcomingMoviesDTO>
+
+    @GET("movie/{movie_id}/recommendations")
+    suspend fun getRecommended(
+        @Path("movie_id") movie_id: Int,
+        @Query("page") page: Int,
+        @Query("api_key") apiKey: String
+    ): Response<RecommendedMoviesDTO>
 }

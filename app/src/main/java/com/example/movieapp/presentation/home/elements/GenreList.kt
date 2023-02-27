@@ -8,12 +8,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.data.remote.dto.genre.Genre
@@ -21,28 +20,32 @@ import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
+import com.example.movieapp.util.GenreList
+import com.example.movieapp.util.getDataClassFromJson
 
 @Composable
 fun GenreList(
-    genreList: List<Genre>,
-    modifier: Modifier = Modifier
+    isTextVisible: Boolean = true,
+    selectedGenre: Genre,
+    modifier: Modifier = Modifier,
+    onGenreChanged: (Genre) -> Unit
 ) {
 
-    val selectedGenre = remember {
-        mutableStateOf(Genre(0, "All"))
-    }
+    val genreList = rememberGenreList().value.genres
 
     Column(
         modifier = modifier
     ) {
 
-        Text(
-            text = "Categories",
-            style = MaterialTheme.localFont.semiBoldH4,
-            modifier = Modifier.padding(start = 24.dp)
-        )
+        if (isTextVisible) {
+            Text(
+                text = "Categories",
+                style = MaterialTheme.localFont.semiBoldH4,
+                modifier = Modifier.padding(start = 24.dp)
+            )
 
-        VerticalSpacer(heightDp = 15)
+            VerticalSpacer(heightDp = 15)
+        }
 
         LazyRow(
             verticalAlignment = Alignment.CenterVertically
@@ -52,20 +55,14 @@ fun GenreList(
                 HorizontalSpacer(width = 24)
             }
 
-            item {
+            items(genreList) { genre ->
                 GenreListItem(
-                    genre = Genre(0, "All"),
-                    isSelected = selectedGenre.value.name == "All"
+                    genre = genre,
+                    isSelected = (genre.id == selectedGenre.id)
                 ) {
-                    selectedGenre.value = Genre(0, "All")
-                }
-            }
-            items(genreList) {
-                GenreListItem(
-                    genre = it,
-                    isSelected = (it.id == selectedGenre.value.id)
-                ) {
-                    selectedGenre.value = it
+                    if (selectedGenre != genre) {
+                        onGenreChanged.invoke(genre)
+                    }
                 }
             }
         }
@@ -99,7 +96,24 @@ fun GenreListItem(
             color = if (isSelected) MaterialTheme.localColor.primaryBlueAccent
             else MaterialTheme.localColor.textWhite
         )
+
     }
+}
+
+@Composable
+fun rememberGenreList(): MutableState<GenreList> {
+    val context = LocalContext.current
+    val genreList = remember { mutableStateOf(GenreList()) }
+
+    LaunchedEffect(Unit) {
+        genreList.value =
+            context.getDataClassFromJson(
+                "genre.json",
+                com.example.movieapp.util.GenreList::class.java
+            ) ?: com.example.movieapp.util.GenreList()
+    }
+
+    return genreList
 }
 
 @Preview

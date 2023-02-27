@@ -3,9 +3,10 @@ package com.example.movieapp.presentation.home.screen.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.BuildConfig
-import com.example.movieapp.domain.MovieRepository
-import com.example.movieapp.domain.model.PopularMovieList
+import com.example.movieapp.data.remote.dto.genre.Genre
 import com.example.movieapp.domain.model.UpcomingMovie
+import com.example.movieapp.domain.model.popular.PopularMovies
+import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.util.convertToDate
 import com.example.movieapp.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,17 +22,25 @@ class HomeScreenVM @Inject constructor(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
 
-    private val _popularMovies: MutableStateFlow<PopularMovieList> =
-        MutableStateFlow(PopularMovieList())
-    val popularMovie: StateFlow<PopularMovieList> = _popularMovies.asStateFlow()
+    private val _popularMovies: MutableStateFlow<PopularMovies> =
+        MutableStateFlow(PopularMovies())
+    val popularMovie: StateFlow<PopularMovies> = _popularMovies.asStateFlow()
 
     private val _upcomingMovies: MutableStateFlow<List<UpcomingMovie>> =
         MutableStateFlow(listOf())
     val upcomingMovies: StateFlow<List<UpcomingMovie>> = _upcomingMovies.asStateFlow()
 
+    private val _selectedGenre: MutableStateFlow<Genre> = MutableStateFlow(Genre(0, "All"))
+    val selectedGenre: StateFlow<Genre> = _selectedGenre.asStateFlow()
+
+
     init {
         loadPopularMovies()
         loadUpcomingMovies()
+    }
+
+    fun setGenre(genre: Genre) {
+        _selectedGenre.update { genre }
     }
 
     private fun loadPopularMovies() {
@@ -41,7 +50,7 @@ class HomeScreenVM @Inject constructor(
 
             response.onSuccess { resource ->
                 _popularMovies.update {
-                    it.copy(list = resource.data)
+                    resource.data
                 }
             }
 

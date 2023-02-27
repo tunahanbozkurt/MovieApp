@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.movieapp.presentation.home.screen.home.HomeScreen
+import com.example.movieapp.presentation.home.screen.search.SearchScreen
+import com.example.movieapp.presentation.home.screen.search_result.SearchResultScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -27,10 +29,21 @@ fun HomeNavGraph(
         mutableStateOf(true)
     }
 
+    val tabState = remember {
+        mutableStateOf("Home")
+    }
+
     DisposableEffect(Unit) {
-        val listener = NavController.OnDestinationChangedListener { controller, destination, arguments ->
-        
-        }
+        val listener =
+            NavController.OnDestinationChangedListener { controller, destination, arguments ->
+                isBottomBarVisible.value = when (destination.route) {
+                    HomeScreen.SearchResult.route -> false
+                    else -> {
+                        tabState.value = destination.route ?: "Home"
+                        true
+                    }
+                }
+            }
         navController.addOnDestinationChangedListener(listener)
 
         onDispose {
@@ -44,7 +57,7 @@ fun HomeNavGraph(
         },
         bottomBar = {
             if (isBottomBarVisible.value) {
-                BottomNavigation(navController = navController)
+                BottomNavigation(navController = navController, tabState.value)
             }
         }
     ) {
@@ -58,6 +71,16 @@ fun HomeNavGraph(
             composable(HomeScreen.Home.route) {
                 HomeScreen()
             }
+
+            composable(HomeScreen.SearchResult.route) {
+                SearchResultScreen()
+            }
+
+            composable(HomeScreen.Search.route) {
+                SearchScreen { route ->
+                    navController.navigate(route)
+                }
+            }
         }
     }
 }
@@ -67,4 +90,5 @@ sealed class HomeScreen(val route: String) {
     object Profile : HomeScreen(route = "Profile")
     object Download : HomeScreen(route = "Download")
     object Search : HomeScreen(route = "Search")
+    object SearchResult : HomeScreen(route = "Search Result")
 }

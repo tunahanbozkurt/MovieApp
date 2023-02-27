@@ -28,7 +28,7 @@ fun SplashScreen(
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        delay(2000)
+        delay(1500)
         navigate.invoke()
     }
 
