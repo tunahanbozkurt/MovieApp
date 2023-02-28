@@ -2,10 +2,13 @@ package com.example.movieapp.presentation.home.screen.profile
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -13,23 +16,74 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.ProfileImage
+import com.example.movieapp.presentation.common.button.LogOutButton
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
+import com.example.movieapp.ui.theme.Primary_Dark
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 
 @Composable
 fun ProfileScreen() {
 
-    SettingsCardGroup(
-        modifier = Modifier.fillMaxWidth()
-    )
+    val scrollState = rememberScrollState()
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Primary_Dark)
+            .padding(horizontal = 24.dp)
+            .verticalScroll(scrollState)
+    ) {
+        ProfileCard(
+            displayName = "Tiffany",
+            email = "example@gmail.com",
+            iconResId = R.drawable.ic_edit
+        )
+        VerticalSpacer(heightDp = 24)
+
+        SettingsCardGroup(
+            title = "Account",
+            settings = listOf(
+                SettingModel("Member", R.drawable.ic_film),
+                SettingModel("Change Password", R.drawable.ic_film),
+            ),
+            modifier = Modifier.fillMaxWidth()
+        )
+        VerticalSpacer(heightDp = 20)
+        SettingsCardGroup(
+            title = "General",
+            settings = listOf(
+                SettingModel("Notification", R.drawable.ic_film),
+                SettingModel("Language", R.drawable.ic_film),
+                SettingModel("Country", R.drawable.ic_film),
+                SettingModel("Clear Cache", R.drawable.ic_film)
+            ),
+            modifier = Modifier.fillMaxWidth()
+        )
+        VerticalSpacer(heightDp = 20)
+        SettingsCardGroup(
+            title = "More",
+            settings = listOf(
+                SettingModel("Legal and Policies", R.drawable.ic_film),
+                SettingModel("Help & Feedback", R.drawable.ic_film),
+                SettingModel("About Us", R.drawable.ic_film)
+            ),
+            modifier = Modifier.fillMaxWidth()
+        )
+        VerticalSpacer(heightDp = 40)
+        LogOutButton(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+
+        }
+    }
 }
 
 @Composable
@@ -117,7 +171,9 @@ fun SettingsCardGroupItem(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.height(48.dp)
+            modifier = Modifier
+                .height(48.dp)
+                .weight(1f)
         ) {
             Box(
                 modifier = Modifier
@@ -146,21 +202,37 @@ fun SettingsCardGroupItem(
 
 @Composable
 fun SettingsCardGroup(
+    title: String,
+    settings: List<SettingModel>,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.localColor.primaryDark)
+            .border(
+                width = 1.dp,
+                shape = RoundedCornerShape(16.dp),
+                color = MaterialTheme.localColor.primarySoft
+            )
+            .padding(24.dp)
     ) {
-        Text(text = "General", color = Color.White)
-
+        Text(
+            text = title,
+            style = MaterialTheme.localFont.semiBoldH3
+        )
         VerticalSpacer(heightDp = 24)
-
-        LazyColumn {
-            item {
-                SettingsCardGroupItem(
-                    title = "Notification",
-                    iconResId = R.drawable.ic_download,
-                    modifier = modifier
+        repeat(settings.size) {
+            SettingsCardGroupItem(
+                title = settings[it].title,
+                iconResId = settings[it].icon
+            )
+            if (it != settings.size - 1) {
+                Divider(
+                    color = MaterialTheme.localColor.primarySoft,
+                    modifier = Modifier
+                        .height(1.dp)
+                        .padding(horizontal = 8.dp)
                 )
             }
         }
@@ -170,5 +242,5 @@ fun SettingsCardGroup(
 @Preview
 @Composable
 fun PreviewProfileScreen() {
-    ProfileScreen()
+
 }

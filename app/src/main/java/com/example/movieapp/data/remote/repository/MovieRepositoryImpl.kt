@@ -1,9 +1,9 @@
 package com.example.movieapp.data.remote.repository
 
-import com.example.movieapp.data.remote.dto.detail.MovieDetailDTO
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
 import com.example.movieapp.data.remote.dto.search.MovieSearchDTO
 import com.example.movieapp.domain.datasource.RemoteMovieDS
+import com.example.movieapp.domain.model.MovieDetail
 import com.example.movieapp.domain.model.UpcomingMovie
 import com.example.movieapp.domain.model.popular.PopularMovies
 import com.example.movieapp.domain.model.recommended.RecommendedMovies
@@ -49,10 +49,12 @@ class MovieRepositoryImpl(
             })
     }
 
-    override suspend fun getMovieDetail(id: Int, apiKey: String): Resource<MovieDetailDTO> {
-        return safeRequest(ioDispatcher) {
-            remoteDataSource.getMovieDetail(id, apiKey)
-        }
+    override suspend fun getMovieDetail(id: Int, apiKey: String): Resource<MovieDetail> {
+        return safeRequestMapper(
+            ioDispatcher,
+            execute = { remoteDataSource.getMovieDetail(id, apiKey) },
+            mapper = { it.toMovieDetail() }
+        )
     }
 
     override suspend fun getRecommendedMovies(

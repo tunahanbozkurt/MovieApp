@@ -28,7 +28,6 @@ fun HomeScreen(
     val popularMovieList = viewModel.popularMovie.collectAsState().value
     val upcomingMovie = viewModel.upcomingMovies.collectAsState().value
     val selectedGenre = viewModel.selectedGenre.collectAsState().value
-    val searchFieldState = viewModel.searchFieldState.collectAsState().value
 
     Column(
         modifier = Modifier
@@ -77,7 +76,10 @@ fun HomeScreen(
             selectedGenre = selectedGenre,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 15.dp)
+                .padding(bottom = 15.dp),
+            onItemClicked = { id ->
+                navigate.invoke(HomeScreen.Detail.route.plus("/$id"))
+            }
         )
     }
 }

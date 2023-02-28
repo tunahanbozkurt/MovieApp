@@ -50,12 +50,15 @@ suspend fun <T, R> safeRequestMapper(
             throw Exception("safeRequestMapper failure")
 
         } catch (e: HttpException) {
+            e.printStackTrace()
             return@withContext Resource.Error(e.message.toString())
 
         } catch (e: IOException) {
+            e.printStackTrace()
             return@withContext Resource.Error(e.message.toString())
 
         } catch (e: Exception) {
+            e.printStackTrace()
             return@withContext Resource.Error(e.message.toString())
         }
     }
@@ -75,12 +78,15 @@ suspend fun <T> safeRequest(
             throw Exception("safeRequestMapper failure")
 
         } catch (e: HttpException) {
+            e.printStackTrace()
             return@withContext Resource.Error(e.message.toString())
 
         } catch (e: IOException) {
+            e.printStackTrace()
             return@withContext Resource.Error(e.message.toString())
 
         } catch (e: Exception) {
+            e.printStackTrace()
             return@withContext Resource.Error(e.message.toString())
         }
     }

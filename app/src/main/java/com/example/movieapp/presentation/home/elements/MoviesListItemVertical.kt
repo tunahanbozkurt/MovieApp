@@ -2,6 +2,7 @@ package com.example.movieapp.presentation.home.elements
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -11,12 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.Rate
 import com.example.movieapp.ui.theme.localColor
@@ -29,7 +28,9 @@ fun MoviesListItemVertical(
     title: String,
     genre: String,
     rate: Double,
-    modifier: Modifier = Modifier
+    id: Int,
+    modifier: Modifier = Modifier,
+    onItemClicked: (Int) -> Unit
 ) {
 
     Box(
@@ -37,13 +38,11 @@ fun MoviesListItemVertical(
             .size(135.dp, 231.dp)
             .wrapContentSize(Alignment.Center)
             .clip(RoundedCornerShape(12.dp))
+            .clickable { onItemClicked.invoke(id) }
     ) {
         Column {
             AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(imgUrl)
-                    .crossfade(true)
-                    .build(),
+                model = imgUrl,
                 contentScale = ContentScale.Crop,
                 modifier = modifier
                     .size(width = 135.dp, height = 178.dp)

@@ -24,15 +24,13 @@ class SearchMoviesDataSource(
         return try {
             val page = params.key ?: 1
 
-            val response =
-                repo.getSearchedMovies(
-                    query = query.encodeToUri(),
-                    page = page,
-                    apiKey = BuildConfig.MOVIE_DB_API_KEY
-                )
-            println(response)
+            val response = repo.getSearchedMovies(
+                query = query.encodeToUri(),
+                page = page,
+                apiKey = BuildConfig.MOVIE_DB_API_KEY
+            )
 
-            if (response is Resource.Success) {
+            if (response is Resource.Success && query.isNotEmpty()) {
                 return LoadResult.Page(
                     data = response.data.results.map { it.toMovieItem() },
                     prevKey = null,

@@ -27,8 +27,8 @@ fun MovieListHorizontal(
     modifier: Modifier = Modifier,
     selectedGenre: Genre,
     seeAll: () -> Unit,
+    onItemClicked: (Int) -> Unit
 ) {
-
     Column(
         modifier = modifier
     ) {
@@ -67,8 +67,12 @@ fun MovieListHorizontal(
                         imgUrl = createImgUrl(movie.poster_path),
                         rate = movie.vote_average,
                         title = movie.original_title,
+                        id = movie.id,
                         genre = if (selectedGenre.id == 0) pickGenre(movie = movie)
                         else selectedGenre.name,
+                        onItemClicked = {
+                            onItemClicked.invoke(it)
+                        }
                     )
                     HorizontalSpacer(width = 12)
                 }

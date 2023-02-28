@@ -69,7 +69,6 @@ class HomeScreenVM @Inject constructor(
                     resource.data
                 }
             }
-
         }
     }
 

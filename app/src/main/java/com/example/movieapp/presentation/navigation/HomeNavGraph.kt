@@ -14,8 +14,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.example.movieapp.presentation.common.TopApplicationBar
+import com.example.movieapp.presentation.home.screen.detail.DetailScreen
 import com.example.movieapp.presentation.home.screen.home.HomeScreen
 import com.example.movieapp.presentation.home.screen.popular.MostPopularMoviesScreen
+import com.example.movieapp.presentation.home.screen.profile.ProfileScreen
 import com.example.movieapp.presentation.home.screen.search.SearchScreen
 import com.example.movieapp.presentation.home.screen.search_result.SearchResultScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -44,14 +46,28 @@ fun HomeNavGraph(
     DisposableEffect(Unit) {
         val listener =
             NavController.OnDestinationChangedListener { controller, destination, arguments ->
+                when (destination.route) {
+                    HomeScreen.Home.route -> {
+                        tabState.value = HomeScreen.Home.route
+                    }
+                    HomeScreen.Search.route -> {
+                        tabState.value = HomeScreen.Search.route
+                    }
+                    HomeScreen.Download.route -> {
+                        tabState.value = HomeScreen.Download.route
+                    }
+                    HomeScreen.Profile.route -> {
+                        tabState.value = HomeScreen.Profile.route
+                    }
+                }
                 destination.route?.let {
                     currentDestination.value = it
                 }
+
                 isBottomBarVisible.value = when (destination.route) {
                     HomeScreen.SearchResult.route -> false
                     HomeScreen.MostPopularMovies.route -> false
                     else -> {
-                        tabState.value = destination.route ?: "Home"
                         true
                     }
                 }
@@ -94,7 +110,7 @@ fun HomeNavGraph(
             }
 
             composable(
-                HomeScreen.SearchResult.route,
+                HomeScreen.SearchResult.route.plus("?query={query}}"),
                 arguments = listOf(navArgument("query") {
                     type = NavType.StringType
                     defaultValue = ""
@@ -114,6 +130,17 @@ fun HomeNavGraph(
             composable(HomeScreen.MostPopularMovies.route) {
                 MostPopularMoviesScreen()
             }
+
+            composable(
+                HomeScreen.Detail.route.plus("/{id}"),
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
+            ) { backStackEntry ->
+                DetailScreen(movieId = backStackEntry.arguments?.getInt("id") ?: 0)
+            }
+
+            composable(HomeScreen.Profile.route) {
+                ProfileScreen()
+            }
         }
     }
 }
@@ -123,6 +150,7 @@ sealed class HomeScreen(val route: String) {
     object Profile : HomeScreen(route = "Profile")
     object Download : HomeScreen(route = "Download")
     object Search : HomeScreen(route = "Search")
-    object SearchResult : HomeScreen(route = "Search_Result?query={query}}")
+    object Detail : HomeScreen(route = "Detail")
+    object SearchResult : HomeScreen(route = "Search_Result")
     object MostPopularMovies : HomeScreen("Most Popular Movie")
 }

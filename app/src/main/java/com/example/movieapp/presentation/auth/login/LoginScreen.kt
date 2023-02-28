@@ -41,7 +41,7 @@ fun LoginScreen(
                 is ScreenEvent.Navigate -> {
                     navigate.invoke(event.route)
                 }
-                ScreenEvent.ShowToast -> {}
+                else -> return@collectLatest
             }
         }
     }

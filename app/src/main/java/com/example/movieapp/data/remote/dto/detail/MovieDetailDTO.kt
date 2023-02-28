@@ -5,7 +5,7 @@ import com.example.movieapp.domain.model.MovieDetail
 data class MovieDetailDTO(
     val adult: Boolean,
     val backdrop_path: String?,
-    val belongs_to_collection: String?,
+    val belongs_to_collection: Collection?,
     val budget: Int,
     val genres: List<Genre>,
     val homepage: String?,
@@ -34,10 +34,11 @@ data class MovieDetailDTO(
             id = id,
             genres = genres,
             original_title = original_title,
-            poster_path = poster_path,
+            poster_path = poster_path ?: "",
             release_date = release_date,
-            runtime = runtime,
-            vote_average = vote_average
+            runtime = runtime ?: 0,
+            vote_average = vote_average,
+            overview = overview ?: ""
         )
     }
 }
