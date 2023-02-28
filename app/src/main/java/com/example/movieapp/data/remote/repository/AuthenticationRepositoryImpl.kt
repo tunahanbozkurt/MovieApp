@@ -5,6 +5,7 @@ import com.example.movieapp.util.TaskResult
 import com.example.movieapp.util.safeFirebaseRequest
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import kotlinx.coroutines.CoroutineDispatcher
 
 class AuthenticationRepositoryImpl(
@@ -14,11 +15,16 @@ class AuthenticationRepositoryImpl(
 
     override suspend fun createUserWithEmailAndPassword(
         email: String,
-        password: String
+        password: String,
+        name: String
     ): TaskResult {
-        return safeFirebaseRequest(ioDispatcher) {
-            auth.createUserWithEmailAndPassword(email, password)
-        }
+        return safeFirebaseRequest(
+            ioDispatcher,
+            execute = { auth.createUserWithEmailAndPassword(email, password) },
+            then = {
+                it.user?.updateProfile(userProfileChangeRequest { displayName = name })
+            }
+        )
     }
 
     override suspend fun signInWithEmailAndPassword(email: String, password: String): TaskResult {

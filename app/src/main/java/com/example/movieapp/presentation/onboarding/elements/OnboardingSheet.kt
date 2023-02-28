@@ -92,5 +92,5 @@ fun OnboardingSheet(
 @Preview
 @Composable
 fun PreviewOnboardingSheet() {
-    OnboardingSheet() {}
+    OnboardingSheet {}
 }

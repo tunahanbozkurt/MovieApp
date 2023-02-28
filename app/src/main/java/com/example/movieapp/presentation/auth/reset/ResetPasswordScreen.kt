@@ -70,5 +70,5 @@ fun ResetPasswordScreen(
 @Preview
 @Composable
 fun PreviewResetPasswordScreen() {
-    ResetPasswordScreen() {}
+    ResetPasswordScreen {}
 }

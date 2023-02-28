@@ -56,7 +56,11 @@ class SignUpScreenVM @Inject constructor(
                 _passwordFieldState.update { it.copy(isVisible = !it.isVisible) }
             }
             SignUpScreenUIEvent.SignUp -> {
-                createUser(_emailFieldState.value.text, _passwordFieldState.value.password)
+                createUser(
+                    _emailFieldState.value.text,
+                    _passwordFieldState.value.password,
+                    _nameFieldState.value.text
+                )
             }
             SignUpScreenUIEvent.CheckBox -> {
                 _checkBoxState.update { !it }
@@ -64,7 +68,7 @@ class SignUpScreenVM @Inject constructor(
         }
     }
 
-    private fun createUser(email: String, password: String) {
+    private fun createUser(email: String, password: String, name: String) {
         val hasError = checkFields(
             name = _nameFieldState.value.text,
             email = _emailFieldState.value.text,
@@ -73,7 +77,7 @@ class SignUpScreenVM @Inject constructor(
         )
         if (!hasError) {
             viewModelScope.launch {
-                val response = authRepository.createUserWithEmailAndPassword(email, password)
+                val response = authRepository.createUserWithEmailAndPassword(email, password, name)
                 if (response.onSuccess()) {
                     _eventChannel.trySend(ScreenEvent.Navigate(Graph.HOME))
                 } else {

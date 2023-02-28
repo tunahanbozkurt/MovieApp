@@ -7,6 +7,7 @@ import com.example.movieapp.data.remote.dto.genre.Genre
 import com.example.movieapp.domain.model.UpcomingMovie
 import com.example.movieapp.domain.model.popular.PopularMovies
 import com.example.movieapp.domain.repository.MovieRepository
+import com.example.movieapp.presentation.common.model.SearchFieldState
 import com.example.movieapp.util.convertToDate
 import com.example.movieapp.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,10 +34,25 @@ class HomeScreenVM @Inject constructor(
     private val _selectedGenre: MutableStateFlow<Genre> = MutableStateFlow(Genre(0, "All"))
     val selectedGenre: StateFlow<Genre> = _selectedGenre.asStateFlow()
 
+    private val _searchFieldState: MutableStateFlow<SearchFieldState> = MutableStateFlow(
+        SearchFieldState()
+    )
+    val searchFieldState: StateFlow<SearchFieldState> = _searchFieldState.asStateFlow()
 
     init {
         loadPopularMovies()
         loadUpcomingMovies()
+    }
+
+    fun handleUIEvent(event: HomeScreenUIEvent) {
+        when (event) {
+            is HomeScreenUIEvent.Search -> {
+                _searchFieldState.update { it.copy(query = event.query, isHintVisible = false) }
+            }
+            HomeScreenUIEvent.SeeAll -> {
+
+            }
+        }
     }
 
     fun setGenre(genre: Genre) {

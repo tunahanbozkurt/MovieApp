@@ -109,8 +109,8 @@ fun rememberGenreList(): MutableState<GenreList> {
         genreList.value =
             context.getDataClassFromJson(
                 "genre.json",
-                com.example.movieapp.util.GenreList::class.java
-            ) ?: com.example.movieapp.util.GenreList()
+                GenreList::class.java
+            ) ?: GenreList()
     }
 
     return genreList

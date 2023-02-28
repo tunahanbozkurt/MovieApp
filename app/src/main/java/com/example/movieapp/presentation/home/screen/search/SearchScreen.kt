@@ -75,5 +75,5 @@ fun SearchScreen(
 @Preview
 @Composable
 fun PreviewSearchScreen() {
-    SearchScreen() {}
+    SearchScreen {}
 }

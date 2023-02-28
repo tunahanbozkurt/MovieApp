@@ -38,8 +38,7 @@ fun MoviesListItemVertical(
             .wrapContentSize(Alignment.Center)
             .clip(RoundedCornerShape(12.dp))
     ) {
-        Column(
-        ) {
+        Column {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(imgUrl)
@@ -84,8 +83,7 @@ fun PreviewPopularMoviesList() {
             .wrapContentSize(Alignment.Center)
             .clip(RoundedCornerShape(12.dp))
     ) {
-        Column(
-        ) {
+        Column {
             Image(
                 painter = painterResource(id = R.drawable.onboarding_the_jungle),
                 contentScale = ContentScale.Crop,

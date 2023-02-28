@@ -126,6 +126,48 @@ suspend fun <T> safeFirebaseRequest(
     }
 }
 
+suspend fun <T> safeFirebaseRequest(
+    dispatcher: CoroutineDispatcher,
+    execute: suspend () -> Task<T>,
+    then: suspend (T) -> Unit
+): TaskResult {
+    return withContext(dispatcher) {
+        try {
+            val executeResult = execute.invoke().await()
+            then.invoke(executeResult)
+            return@withContext TaskResult.Success
+
+        } catch (e: HttpException) {
+            e.printStackTrace()
+            return@withContext TaskResult.Error(R.string.network_failure)
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return@withContext TaskResult.Error(R.string.network_failure)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return@withContext TaskResult.Error(R.string.exception)
+
+        } catch (e: FirebaseAuthWeakPasswordException) {
+            e.printStackTrace()
+            return@withContext TaskResult.Error(R.string.weak_password)
+
+        } catch (e: FirebaseAuthInvalidCredentialsException) {
+            e.printStackTrace()
+            return@withContext TaskResult.Error(R.string.incorrect_email_form)
+
+        } catch (e: FirebaseAuthUserCollisionException) {
+            e.printStackTrace()
+            return@withContext TaskResult.Error(R.string.user_already_exists)
+
+        } catch (e: FirebaseAuthInvalidUserException) {
+            e.printStackTrace()
+            return@withContext TaskResult.Error(R.string.invalid_user)
+        }
+    }
+}
+
 private const val BASE_URL = "http://image.tmdb.org/t/p/w500"
 fun createImgUrl(imgPath: String): String {
     return BASE_URL.plus(imgPath)
@@ -148,6 +190,16 @@ fun String.convertToDate(): String {
     val calendar = Calendar.getInstance()
     calendar.time = date ?: return "Unknown"
     return outputDateFormat.format(calendar.time)
+}
+
+fun String.uppercaseFirst(): String {
+    return this.replaceFirstChar { char ->
+        char.uppercase()
+    }
+}
+
+fun String.addNavArgument(arg: String): String {
+    return this.plus("/$arg")
 }
 
 fun CharSequence?.isValidEmail() =

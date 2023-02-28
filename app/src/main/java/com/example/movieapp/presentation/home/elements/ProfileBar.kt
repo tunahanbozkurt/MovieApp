@@ -14,9 +14,11 @@ import com.example.movieapp.presentation.common.ProfileImage
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
+import com.example.movieapp.util.uppercaseFirst
 
 @Composable
 fun ProfileBar(
+    displayName: String,
     modifier: Modifier = Modifier
 ) {
 
@@ -34,7 +36,7 @@ fun ProfileBar(
         ) {
 
             Text(
-                text = "Hello, Tiffany",
+                text = "Hello, ${displayName.uppercaseFirst()}",
                 style = MaterialTheme.localFont.semiBoldH4
             )
 
@@ -55,11 +57,10 @@ fun ProfileBar(
                 .size(32.dp)
         )
     }
-
 }
 
 @Preview
 @Composable
 fun PreviewProfileBar() {
-    ProfileBar()
+    ProfileBar("Tiffany")
 }

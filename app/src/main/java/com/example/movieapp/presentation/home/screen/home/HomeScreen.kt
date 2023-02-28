@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.home.screen.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,15 +15,20 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.home.elements.*
+import com.example.movieapp.presentation.navigation.HomeScreen
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeScreenVM = hiltViewModel()
+    viewModel: HomeScreenVM = hiltViewModel(),
+    navigate: (String) -> Unit
 ) {
     val scrollState = rememberScrollState()
     val popularMovieList = viewModel.popularMovie.collectAsState().value
     val upcomingMovie = viewModel.upcomingMovies.collectAsState().value
     val selectedGenre = viewModel.selectedGenre.collectAsState().value
+    val searchFieldState = viewModel.searchFieldState.collectAsState().value
 
     Column(
         modifier = Modifier
@@ -32,15 +38,20 @@ fun HomeScreen(
 
         VerticalSpacer(heightDp = 8)
 
-        ProfileBar()
+        ProfileBar(
+            displayName = Firebase.auth.currentUser?.displayName ?: "Unknown"
+        )
 
         VerticalSpacer(heightDp = 32)
 
-        SearchBar(
-            query = "Search",
-            hint = "",
-            onValueChange = {},
-            onSearch = {}
+
+        FakeSearchBar(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
+                .clickable {
+                    navigate.invoke(HomeScreen.SearchResult.route)
+                }
         )
 
         VerticalSpacer(heightDp = 24)
@@ -62,7 +73,7 @@ fun HomeScreen(
         MovieListHorizontal(
             title = "Most popular",
             movieItemList = popularMovieList.results,
-            seeAll = {},
+            seeAll = { navigate.invoke(HomeScreen.MostPopularMovies.route) },
             selectedGenre = selectedGenre,
             modifier = Modifier
                 .fillMaxSize()

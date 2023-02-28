@@ -121,7 +121,11 @@ fun AuthenticationNavGraph(
                     )
                 }) {
                 SignUpScreen { route ->
-                    rootNavController.navigate(route)
+                    rootNavController.navigate(route) {
+                        popUpTo(Graph.AUTHENTICATION) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
 
@@ -152,7 +156,11 @@ fun AuthenticationNavGraph(
                     )
                 }) {
                 LoginScreen { route ->
-                    rootNavController.navigate(route)
+                    rootNavController.navigate(route) {
+                        popUpTo(Graph.AUTHENTICATION) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
 

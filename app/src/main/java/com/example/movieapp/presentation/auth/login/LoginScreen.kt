@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,10 +17,12 @@ import com.example.movieapp.presentation.common.BlueButton
 import com.example.movieapp.presentation.common.CommonTextField
 import com.example.movieapp.presentation.common.PasswordField
 import com.example.movieapp.presentation.common.TitleCouple
+import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.BlueText
 import com.example.movieapp.presentation.navigation.AuthenticationScreen
 import com.example.movieapp.ui.theme.localFont
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginScreen(
@@ -31,6 +34,17 @@ fun LoginScreen(
     val context = LocalContext.current
     val passwordState = viewModel.passwordFieldState.collectAsState().value
     val emailState = viewModel.emailFieldState.collectAsState().value
+
+    LaunchedEffect(Unit) {
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is ScreenEvent.Navigate -> {
+                    navigate.invoke(event.route)
+                }
+                ScreenEvent.ShowToast -> {}
+            }
+        }
+    }
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -87,5 +101,5 @@ fun LoginScreen(
 @Preview
 @Composable
 fun PreviewLoginScreen() {
-    LoginScreen() {}
+    LoginScreen {}
 }

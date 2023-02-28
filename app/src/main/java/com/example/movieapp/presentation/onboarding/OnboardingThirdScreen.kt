@@ -51,5 +51,5 @@ fun OnboardingThirdScreen(
 @Preview
 @Composable
 fun PreviewOnboardingThirdScreen() {
-    OnboardingThirdScreen() {}
+    OnboardingThirdScreen {}
 }

@@ -23,7 +23,7 @@ data class UpcomingMovieResult(
             id = id,
             imgUrl = backdrop_path ?: "",
             title = original_title,
-            releaseDate = release_date ?: ""
+            releaseDate = release_date
         )
     }
 }

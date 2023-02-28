@@ -7,7 +7,7 @@ class CreateUser(
     private val authenticationRepository: AuthenticationRepository
 ) {
 
-    suspend operator fun invoke(email: String, password: String): TaskResult {
-        return authenticationRepository.createUserWithEmailAndPassword(email, password)
+    suspend operator fun invoke(email: String, password: String, name: String): TaskResult {
+        return authenticationRepository.createUserWithEmailAndPassword(email, password, name)
     }
 }

@@ -25,7 +25,7 @@ class SearchResultScreenVM @Inject constructor(
         MutableStateFlow(SearchFieldState())
     val searchField: StateFlow<SearchFieldState> = _searchField.asStateFlow()
 
-    fun query(query: String) {
+    fun setQuery(query: String) {
         _searchField.update {
             it.copy(query = query, isHintVisible = it.query.isEmpty())
         }

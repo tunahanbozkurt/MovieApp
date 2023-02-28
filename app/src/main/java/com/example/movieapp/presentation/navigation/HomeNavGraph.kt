@@ -11,7 +11,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.example.movieapp.presentation.common.TopApplicationBar
 import com.example.movieapp.presentation.home.screen.home.HomeScreen
+import com.example.movieapp.presentation.home.screen.popular.MostPopularMoviesScreen
 import com.example.movieapp.presentation.home.screen.search.SearchScreen
 import com.example.movieapp.presentation.home.screen.search_result.SearchResultScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -33,11 +37,19 @@ fun HomeNavGraph(
         mutableStateOf("Home")
     }
 
+    val currentDestination = remember {
+        mutableStateOf(HomeScreen.Home.route)
+    }
+
     DisposableEffect(Unit) {
         val listener =
             NavController.OnDestinationChangedListener { controller, destination, arguments ->
+                destination.route?.let {
+                    currentDestination.value = it
+                }
                 isBottomBarVisible.value = when (destination.route) {
                     HomeScreen.SearchResult.route -> false
+                    HomeScreen.MostPopularMovies.route -> false
                     else -> {
                         tabState.value = destination.route ?: "Home"
                         true
@@ -53,7 +65,14 @@ fun HomeNavGraph(
 
     Scaffold(
         topBar = {
-
+            if (currentDestination.value == HomeScreen.MostPopularMovies.route) {
+                TopApplicationBar(
+                    title = HomeScreen.MostPopularMovies.route,
+                    isBackButtonVisible = true
+                ) {
+                    navController.popBackStack()
+                }
+            }
         },
         bottomBar = {
             if (isBottomBarVisible.value) {
@@ -69,17 +88,31 @@ fun HomeNavGraph(
         ) {
 
             composable(HomeScreen.Home.route) {
-                HomeScreen()
+                HomeScreen { route ->
+                    navController.navigate(route)
+                }
             }
 
-            composable(HomeScreen.SearchResult.route) {
-                SearchResultScreen()
+            composable(
+                HomeScreen.SearchResult.route,
+                arguments = listOf(navArgument("query") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                })
+            ) { backStackEntry ->
+                SearchResultScreen(query = backStackEntry.arguments?.getString("query") ?: "") {
+                    navController.popBackStack()
+                }
             }
 
             composable(HomeScreen.Search.route) {
                 SearchScreen { route ->
                     navController.navigate(route)
                 }
+            }
+
+            composable(HomeScreen.MostPopularMovies.route) {
+                MostPopularMoviesScreen()
             }
         }
     }
@@ -90,5 +123,6 @@ sealed class HomeScreen(val route: String) {
     object Profile : HomeScreen(route = "Profile")
     object Download : HomeScreen(route = "Download")
     object Search : HomeScreen(route = "Search")
-    object SearchResult : HomeScreen(route = "Search Result")
+    object SearchResult : HomeScreen(route = "Search_Result?query={query}}")
+    object MostPopularMovies : HomeScreen("Most Popular Movie")
 }

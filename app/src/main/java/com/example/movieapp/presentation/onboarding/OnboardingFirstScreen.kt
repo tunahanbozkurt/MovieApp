@@ -52,5 +52,5 @@ fun OnboardingFirstScreen(
 @Preview(showBackground = true, device = Devices.PIXEL_2_XL)
 @Composable
 fun PreviewOnboardingFirstScreen() {
-    OnboardingFirstScreen() {}
+    OnboardingFirstScreen {}
 }
