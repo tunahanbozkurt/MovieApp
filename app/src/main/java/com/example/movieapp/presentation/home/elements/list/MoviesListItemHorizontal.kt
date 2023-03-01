@@ -26,6 +26,7 @@ import com.example.movieapp.presentation.home.elements.PriceTag
 import com.example.movieapp.presentation.home.elements.Rate
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
+import com.example.movieapp.util.getYearFromDate
 
 @Composable
 fun MoviesListItemHorizontal(
@@ -72,7 +73,7 @@ fun MoviesListItemHorizontal(
 
             IconWithText(
                 iconResId = R.drawable.ic_calendar,
-                text = model.release_date
+                text = model.release_date.getYearFromDate()
             )
             VerticalSpacer(heightDp = 12)
             Row {

@@ -14,11 +14,14 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.home.elements.list.MoviesListItemHorizontal
+import com.example.movieapp.presentation.navigation.HomeScreen
 import com.example.movieapp.ui.theme.localColor
+import com.example.movieapp.util.addNavArgument
 
 @Composable
 fun MostPopularMoviesScreen(
-    viewModel: MostPopularMoviesScreenVM = hiltViewModel()
+    viewModel: MostPopularMoviesScreenVM = hiltViewModel(),
+    navigate: (String) -> Unit
 ) {
     /*TODO*/
     val paging = viewModel.pager.collectAsLazyPagingItems()
@@ -33,8 +36,8 @@ fun MostPopularMoviesScreen(
             if (it != null) {
                 MoviesListItemHorizontal(
                     model = it
-                ) {
-
+                ) { id ->
+                    navigate.invoke(HomeScreen.Detail.route.addNavArgument(id))
                 }
                 VerticalSpacer(heightDp = 16)
             }

@@ -107,6 +107,15 @@ dependencies {
 
     // Gson
     implementation 'com.google.code.gson:gson:2.8.9'
+
+    // Blur
+    implementation "com.github.skydoves:cloudy:0.1.2"
+
+    // Room Database
+    def room_version = "2.4.3"
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 }
 
 kapt {

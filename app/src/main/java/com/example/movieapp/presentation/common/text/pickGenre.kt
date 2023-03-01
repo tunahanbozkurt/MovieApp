@@ -1,7 +1,7 @@
 package com.example.movieapp.presentation.common.text
 
 import androidx.compose.runtime.Composable
-import com.example.movieapp.domain.model.MovieDetail
+import com.example.movieapp.domain.model.detail.MovieDetail
 import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.presentation.home.elements.rememberGenreList
 

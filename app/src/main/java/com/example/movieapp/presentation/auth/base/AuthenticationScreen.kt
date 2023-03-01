@@ -26,7 +26,7 @@ import com.example.movieapp.BuildConfig
 import com.example.movieapp.R
 import com.example.movieapp.presentation.auth.TextWithDivider
 import com.example.movieapp.presentation.common.BlueButton
-import com.example.movieapp.presentation.common.SocialMediaIcon
+import com.example.movieapp.presentation.common.image.SocialMediaIcon
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.BlueText
@@ -138,26 +138,35 @@ fun AuthenticationScreen(
         Row {
             SocialMediaIcon(
                 resId = R.drawable.ic_google,
-                modifier = Modifier.clickable {
-                    val gso =
-                        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                            .requestIdToken(BuildConfig.WEB_CLIENT_ID)
-                            .requestEmail()
-                            .build()
-                    val googleSignInClient = GoogleSignIn.getClient(context, gso)
-                    googleAuthLauncher.launch(googleSignInClient.signInIntent)
-                }
+                modifier = Modifier
+                    .size(69.dp)
+                    .clickable {
+                        val gso =
+                            GoogleSignInOptions
+                                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                                .requestIdToken(BuildConfig.WEB_CLIENT_ID)
+                                .requestEmail()
+                                .build()
+                        val googleSignInClient = GoogleSignIn.getClient(context, gso)
+                        googleAuthLauncher.launch(googleSignInClient.signInIntent)
+                    }
             )
             Spacer(modifier = Modifier.width(24.dp))
-            SocialMediaIcon(resId = R.drawable.ic_apple)
+            SocialMediaIcon(resId = R.drawable.ic_apple, Modifier.size(69.dp))
             Spacer(modifier = Modifier.width(24.dp))
-            SocialMediaIcon(resId = R.drawable.ic_facebook, modifier = Modifier.clickable {
-                LoginManager.getInstance().logIn(
-                    context as ActivityResultRegistryOwner,
-                    callbackManager,
-                    listOf("public_profile")
-                )
-            })
+            SocialMediaIcon(
+                resId = R.drawable.ic_facebook,
+                modifier = Modifier
+                    .size(69.dp)
+                    .clickable {
+                        LoginManager
+                            .getInstance()
+                            .logIn(
+                                context as ActivityResultRegistryOwner,
+                                callbackManager,
+                                listOf("public_profile")
+                            )
+                    })
         }
     }
 }

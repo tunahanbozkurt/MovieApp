@@ -9,8 +9,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.movieapp.util.createImgUrl
 
 @Composable
@@ -24,7 +26,10 @@ fun ImageWithRate(
         modifier = modifier
     ) {
         AsyncImage(
-            model = createImgUrl(imgUrl),
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(createImgUrl(imgUrl))
+                .crossfade(true)
+                .build(),
             contentScale = contentScale,
             contentDescription = null,
             modifier = Modifier

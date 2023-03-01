@@ -1,4 +1,4 @@
-package com.example.movieapp.data.remote.repository
+package com.example.movieapp.data.repository
 
 import com.example.movieapp.domain.repository.AuthenticationRepository
 import com.example.movieapp.util.TaskResult

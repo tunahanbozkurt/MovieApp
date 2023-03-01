@@ -1,6 +1,6 @@
 package com.example.movieapp.data.remote.dto.upcoming
 
-import com.example.movieapp.domain.model.UpcomingMovie
+import com.example.movieapp.domain.model.upcoming.UpcomingMovie
 
 data class UpcomingMovieResult(
     val adult: Boolean,

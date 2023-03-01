@@ -2,16 +2,14 @@ package com.example.movieapp.presentation.home.screen.search
 
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,7 +33,7 @@ fun SearchScreen(
     navigate: (String) -> Unit
 ) {
 
-    val searchFieldState = viewModel.searchField.collectAsState().value
+    val latestSearchedMovie = viewModel.latestSearchedMovie.collectAsState(initial = null)
     val recommendedMovies = viewModel.recommendedMovies.collectAsState().value
     val scrollState = rememberScrollState()
 
@@ -50,19 +48,11 @@ fun SearchScreen(
         FakeSearchBar(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(horizontal = 24.dp)
                 .clickable {
                     navigate.invoke(HomeScreen.SearchResult.route)
                 }
         )
-        /*SearchBar(
-            query = searchFieldState.query,
-            hint = stringResource(id = R.string.search_bar_hint),
-            onValueChange = { viewModel.handleUIEvent(SearchScreenUIEvent.EnteredSearchQuery(it)) },
-            onSearch = { *//*TODO*//* },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-        )*/
 
         VerticalSpacer(heightDp = 24)
 
@@ -78,19 +68,20 @@ fun SearchScreen(
 
         VerticalSpacer(heightDp = 16)
 
-        /*TODO*/
-        MoviesListItemHorizontal(
-            model = MovieItem(
-                id = 0,
-                genre_ids = listOf(16, 12, 35),
-                original_title = "The Avangers",
-                poster_path = "/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg",
-                vote_average = 7.8,
-                release_date = "2022-12-07"
-            ),
-            modifier = Modifier.padding(start = 24.dp)
-        ) {
-
+        latestSearchedMovie.value?.let { entity ->
+            MoviesListItemHorizontal(
+                model = MovieItem(
+                    id = entity.id,
+                    genre_ids = entity.genre_ids,
+                    original_title = entity.original_title,
+                    poster_path = entity.poster_path,
+                    vote_average = entity.vote_average,
+                    release_date = entity.release_date
+                ),
+                modifier = Modifier.padding(start = 24.dp)
+            ) { id ->
+                navigate.invoke(HomeScreen.Detail.route.addNavArgument(id))
+            }
         }
 
         VerticalSpacer(heightDp = 95)
@@ -99,8 +90,10 @@ fun SearchScreen(
             title = stringResource(id = R.string.recommended),
             movieItemList = recommendedMovies,
             selectedGenre = Genre(0, "All"),
-            seeAll = { /*TODO*/ },
+            seeAll = { },
             modifier = Modifier
+                .fillMaxHeight()
+                .wrapContentSize(Alignment.BottomCenter)
                 .padding(bottom = 15.dp)
         ) { id ->
             navigate.invoke(HomeScreen.Detail.route.addNavArgument(id))

@@ -1,20 +1,27 @@
-package com.example.movieapp.data.remote.repository
+package com.example.movieapp.data.repository
 
+import com.example.movieapp.data.local.entity.MovieEntity
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
 import com.example.movieapp.data.remote.dto.search.MovieSearchDTO
+import com.example.movieapp.domain.datasource.LocalDataSource
 import com.example.movieapp.domain.datasource.RemoteMovieDS
-import com.example.movieapp.domain.model.MovieDetail
-import com.example.movieapp.domain.model.UpcomingMovie
+import com.example.movieapp.domain.model.cast_crew.CastCrew
+import com.example.movieapp.domain.model.detail.MovieDetail
 import com.example.movieapp.domain.model.popular.PopularMovies
 import com.example.movieapp.domain.model.recommended.RecommendedMovies
+import com.example.movieapp.domain.model.upcoming.UpcomingMovie
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.util.Resource
 import com.example.movieapp.util.safeRequest
 import com.example.movieapp.util.safeRequestMapper
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
 
 class MovieRepositoryImpl(
     private val remoteDataSource: RemoteMovieDS,
+    private val localDataSource: LocalDataSource,
     private val ioDispatcher: CoroutineDispatcher,
 ) : MovieRepository {
 
@@ -57,12 +64,39 @@ class MovieRepositoryImpl(
         )
     }
 
+    override suspend fun getMovieCredits(id: Int, apiKey: String): Resource<List<CastCrew>> {
+        return safeRequestMapper(
+            ioDispatcher,
+            execute = {
+                remoteDataSource.getMovieCredits(id, apiKey)
+            },
+            mapper = { mapperDto ->
+                val casts = mapperDto.cast.map { it.toCastCrew() }
+                val crews = mapperDto.crew.map { it.toCastCrew() }
+                return@safeRequestMapper casts.plus(crews)
+            }
+        )
+    }
+
+    override suspend fun insertMovieToRoom(model: MovieDetail) {
+        withContext(ioDispatcher) {
+            localDataSource.insertMovie(model.toMovieEntity())
+        }
+    }
+
+    override fun getLatestSearchedMovieFlow(): Flow<MovieEntity> {
+        return localDataSource.getMovieFlow().flowOn(ioDispatcher)
+    }
+
+    override suspend fun getLatestSearchedMovie(): MovieEntity? {
+        return localDataSource.getMovie()
+    }
+
     override suspend fun getRecommendedMovies(
         id: Int,
         page: Int,
         apiKey: String
     ): Resource<RecommendedMovies> {
-        println(remoteDataSource.getRecommendedMovies(id, page, apiKey).code())
         return safeRequestMapper(
             ioDispatcher,
             execute = {

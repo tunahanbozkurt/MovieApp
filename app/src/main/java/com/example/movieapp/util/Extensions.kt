@@ -3,7 +3,9 @@ package com.example.movieapp.util
 import android.content.Context
 import android.util.Patterns
 import android.widget.Toast
+import androidx.compose.runtime.MutableState
 import com.example.movieapp.R
+import com.example.movieapp.data.remote.dto.detail.Genre
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -17,6 +19,7 @@ import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
 import java.net.URLEncoder
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -47,7 +50,7 @@ suspend fun <T, R> safeRequestMapper(
             if (response.isSuccessful && body != null) {
                 return@withContext Resource.Success(mapper.invoke(body))
             }
-            throw Exception("safeRequestMapper failure")
+            throw HttpException(response)
 
         } catch (e: HttpException) {
             e.printStackTrace()
@@ -75,7 +78,7 @@ suspend fun <T> safeRequest(
             if (response.isSuccessful && body != null) {
                 return@withContext Resource.Success(body)
             }
-            throw Exception("safeRequestMapper failure")
+            throw HttpException(response)
 
         } catch (e: HttpException) {
             e.printStackTrace()
@@ -219,6 +222,41 @@ fun List<Any>.hasError(): Boolean {
     return this.any {
         it is TaskResult.Error || it == true
     }
+}
+
+fun String.getYearFromDate(): String {
+    return try {
+        val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = format.parse(this)
+        val calendar = Calendar.getInstance()
+        if (date != null) {
+            calendar.time = date
+            return calendar.get(Calendar.YEAR).toString()
+        }
+        throw ParseException(this, 0)
+    } catch (e: ParseException) {
+        this
+    }
+}
+
+fun List<Genre>.toGenreIdList(): List<Int> {
+    val list = mutableListOf<Int>()
+    this.forEach { genre ->
+        list.add(genre.id)
+    }
+    return list
+}
+
+fun MutableState<Boolean>.reverseTheValue() {
+    this.value = !this.value
+}
+
+fun MutableState<Boolean>.setTrue() {
+    this.value = true
+}
+
+fun MutableState<Boolean>.setFalse() {
+    this.value = false
 }
 
 fun TaskResult.onSuccess(): Boolean {

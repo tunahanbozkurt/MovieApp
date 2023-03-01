@@ -1,14 +1,18 @@
 package com.example.movieapp.presentation.home.screen.detail
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,7 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.movieapp.R
-import com.example.movieapp.domain.model.MovieDetail
+import com.example.movieapp.domain.model.cast_crew.CastCrew
+import com.example.movieapp.domain.model.detail.MovieDetail
 import com.example.movieapp.presentation.common.TopApplicationBar
 import com.example.movieapp.presentation.common.button.ColorfulButton
 import com.example.movieapp.presentation.common.icon.CircularIcon
@@ -30,10 +35,15 @@ import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.home.elements.MovieFeatures
 import com.example.movieapp.presentation.home.elements.Rate
+import com.example.movieapp.presentation.home.elements.card.ShareCard
 import com.example.movieapp.ui.theme.Primary_Dark
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.createImgUrl
+import com.example.movieapp.util.setFalse
+import com.example.movieapp.util.setTrue
+import com.example.movieapp.util.uppercaseFirst
+import com.skydoves.cloudy.Cloudy
 
 @Composable
 fun DetailScreen(
@@ -43,33 +53,72 @@ fun DetailScreen(
 ) {
 
     val movieItem = viewModel.movieDetailState.collectAsState().value
+    val castAndCrew = viewModel.castAndCrewState.collectAsState().value
     val scrollState = rememberScrollState()
+    val showDialog = remember { mutableStateOf(false) }
+    val interactionSource = remember { MutableInteractionSource() }
 
     LaunchedEffect(Unit) {
         viewModel.loadData(movieId)
     }
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-    ) {
+    Box {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+        ) {
 
-        MovieDetailHeadSection(movieItem) {
-            navigate.invoke()
+            MovieDetailHeadSection(
+                model = movieItem,
+                onShareClick = { showDialog.setTrue() },
+                navigate = {
+                    navigate.invoke()
+                }
+            )
+
+            MovieDetailOverviewSection(
+                movieItem,
+                modifier = Modifier.padding(horizontal = 24.dp)
+            )
+
+            VerticalSpacer(heightDp = 24)
+
+            CastAndCrew(modelList = castAndCrew)
+
+            VerticalSpacer(heightDp = 24)
         }
 
-        MovieDetailOverviewSection(
-            movieItem,
-            modifier = Modifier.padding(horizontal = 24.dp)
-        )
+        if (showDialog.value) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Transparent)
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) { showDialog.setFalse() }
+            ) {
+                Cloudy(radius = 25, modifier = Modifier.fillMaxSize()) {}
+                ShareCard(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center)
+                        .padding(24.dp)
+                ) {
+                    showDialog.setFalse()
+                }
+            }
+        }
     }
 }
 
 @Composable
 fun MovieDetailButtonSet(
     playButtonColor: Color,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onShareClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -79,9 +128,16 @@ fun MovieDetailButtonSet(
         CircularIcon(
             resId = R.drawable.ic_download,
             tint = MaterialTheme.localColor.primaryBlueAccent
-        )
+        ) {
+
+        }
         HorizontalSpacer(width = 16)
-        CircularIcon(resId = R.drawable.ic_share, tint = MaterialTheme.localColor.primaryBlueAccent)
+        CircularIcon(
+            resId = R.drawable.ic_share,
+            tint = MaterialTheme.localColor.primaryBlueAccent,
+        ) {
+            onShareClick.invoke()
+        }
     }
 }
 
@@ -113,7 +169,8 @@ fun MovieDetailOverviewSection(
 fun MovieDetailHeadSection(
     model: MovieDetail,
     modifier: Modifier = Modifier,
-    navigate: () -> Unit
+    navigate: () -> Unit,
+    onShareClick: () -> Unit
 
 ) {
     Box(
@@ -182,12 +239,95 @@ fun MovieDetailHeadSection(
 
                 VerticalSpacer(heightDp = 24)
 
-                MovieDetailButtonSet(MaterialTheme.localColor.secondaryOrange)
+                MovieDetailButtonSet(MaterialTheme.localColor.secondaryOrange) {
+                    onShareClick.invoke()
+                }
 
                 VerticalSpacer(heightDp = 24)
+
             }
         }
+    }
+}
 
+@Composable
+fun CastAndCrew(
+    modelList: List<CastCrew>?,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+    ) {
+
+        if (modelList != null) {
+
+            Text(
+                text = "Cast and Crew", style = MaterialTheme.localFont.semiBoldH4,
+                modifier = Modifier.padding(start = 24.dp)
+            )
+
+            VerticalSpacer(heightDp = 16)
+
+            LazyRow {
+                item {
+                    HorizontalSpacer(width = 24)
+                }
+                items(modelList) { item ->
+                    if (item.profile_path != null) {
+                        CastAndCrewItem(model = item)
+                        HorizontalSpacer(width = 16)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CastAndCrewItem(
+    model: CastCrew
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+        AsyncImage(
+            model = createImgUrl(model.profile_path ?: ""),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .clip(CircleShape)
+                .size(40.dp)
+        )
+
+        HorizontalSpacer(width = 8)
+
+        NameAndPosition(
+            model
+        )
+    }
+}
+
+@Composable
+fun NameAndPosition(
+    model: CastCrew,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+    ) {
+        Text(
+            text = model.name.uppercaseFirst(),
+            style = MaterialTheme.localFont.semiBoldH5
+        )
+
+        VerticalSpacer(heightDp = 4)
+
+        Text(
+            text = model.position.uppercaseFirst(),
+            style = MaterialTheme.localFont.mediumH7,
+            color = MaterialTheme.localColor.textGrey
+        )
     }
 }
 

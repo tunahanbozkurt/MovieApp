@@ -1,4 +1,4 @@
-package com.example.movieapp.domain.model
+package com.example.movieapp.domain.model.upcoming
 
 data class UpcomingMovie(
     val id: Int,

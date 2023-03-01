@@ -1,5 +1,6 @@
 package com.example.movieapp.domain.datasource
 
+import com.example.movieapp.data.remote.dto.credits.MovieCreditsDTO
 import com.example.movieapp.data.remote.dto.detail.MovieDetailDTO
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
 import com.example.movieapp.data.remote.dto.popular.PopularMoviesDTO
@@ -15,6 +16,7 @@ interface RemoteMovieDS {
     suspend fun getUpcomingMovies(page: Int, apiKey: String): Response<UpcomingMoviesDTO>
     suspend fun searchMovie(query: String, page: Int, apiKey: String): Response<MovieSearchDTO>
     suspend fun getMovieDetail(id: Int, apiKey: String): Response<MovieDetailDTO>
+    suspend fun getMovieCredits(id: Int, apiKey: String): Response<MovieCreditsDTO>
     suspend fun getRecommendedMovies(
         id: Int,
         page: Int,

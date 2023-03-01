@@ -35,7 +35,6 @@ class AuthenticationScreenVM @Inject constructor(
 
     fun signInWithFacebook(accessToken: AccessToken) {
         val credential = FacebookAuthProvider.getCredential(accessToken.token)
-        println(credential)
         viewModelScope.launch {
             val response = authUseCase.loginWithCredential(credential)
             if (response.onSuccess()) {

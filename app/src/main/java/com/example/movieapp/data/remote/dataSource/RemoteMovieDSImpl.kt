@@ -1,6 +1,7 @@
 package com.example.movieapp.data.remote.dataSource
 
 import com.example.movieapp.data.remote.MovieAPI
+import com.example.movieapp.data.remote.dto.credits.MovieCreditsDTO
 import com.example.movieapp.data.remote.dto.detail.MovieDetailDTO
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
 import com.example.movieapp.data.remote.dto.popular.PopularMoviesDTO
@@ -36,6 +37,10 @@ class RemoteMovieDSImpl(
 
     override suspend fun getMovieDetail(id: Int, apiKey: String): Response<MovieDetailDTO> {
         return api.getDetail(id, apiKey)
+    }
+
+    override suspend fun getMovieCredits(id: Int, apiKey: String): Response<MovieCreditsDTO> {
+        return api.getMovieCredits(id, apiKey)
     }
 
     override suspend fun getRecommendedMovies(

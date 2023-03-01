@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.BuildConfig
 import com.example.movieapp.data.remote.dto.genre.Genre
-import com.example.movieapp.domain.model.UpcomingMovie
 import com.example.movieapp.domain.model.popular.PopularMovies
+import com.example.movieapp.domain.model.upcoming.UpcomingMovie
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.presentation.common.model.SearchFieldState
 import com.example.movieapp.util.convertToDate

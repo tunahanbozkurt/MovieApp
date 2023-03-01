@@ -71,11 +71,11 @@ fun BottomNavigation(
         }
 
         BottomNavigationItem(
-            text = "Download",
-            isExpanded = tabState.value == "Download",
+            text = "Wishlist",
+            isExpanded = tabState.value == "Wishlist",
             iconResId = R.drawable.ic_download,
         ) {
-            tabState.value = "Download"
+            tabState.value = "Wishlist"
             navController.apply {
                 if (currentDestination.value != tabState.value) {
                     //navigate(HomeScreen.Download.route)

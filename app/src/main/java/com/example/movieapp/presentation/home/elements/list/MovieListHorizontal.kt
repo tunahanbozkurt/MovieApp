@@ -19,8 +19,8 @@ import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.BlueText
 import com.example.movieapp.presentation.common.text.pickGenre
+import com.example.movieapp.presentation.home.elements.list.MoviesListItemVertical
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.createImgUrl
 
 @Composable
 fun MovieListHorizontal(
@@ -66,7 +66,7 @@ fun MovieListHorizontal(
 
                 if (movie.poster_path != null && selectedMovieGenre) {
                     MoviesListItemVertical(
-                        imgUrl = createImgUrl(movie.poster_path),
+                        imgUrl = movie.poster_path,
                         rate = movie.vote_average,
                         title = movie.original_title,
                         id = movie.id,

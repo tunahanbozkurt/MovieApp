@@ -1,5 +1,6 @@
 package com.example.movieapp.data.remote
 
+import com.example.movieapp.data.remote.dto.credits.MovieCreditsDTO
 import com.example.movieapp.data.remote.dto.detail.MovieDetailDTO
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
 import com.example.movieapp.data.remote.dto.popular.PopularMoviesDTO
@@ -49,4 +50,10 @@ interface MovieAPI {
         @Query("page") page: Int,
         @Query("api_key") apiKey: String
     ): Response<RecommendedMoviesDTO>
+
+    @GET("movie/{movie_id}/credits")
+    suspend fun getMovieCredits(
+        @Path("movie_id") movie_id: Int,
+        @Query("api_key") apiKey: String
+    ): Response<MovieCreditsDTO>
 }

@@ -9,10 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
-import com.example.movieapp.domain.model.MovieDetail
+import com.example.movieapp.domain.model.detail.MovieDetail
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.text.pickGenre
 import com.example.movieapp.ui.theme.localColor
+import com.example.movieapp.util.getYearFromDate
 
 @Composable
 fun MovieFeatures(
@@ -28,7 +29,7 @@ fun MovieFeatures(
 
         IconWithText(
             iconResId = R.drawable.ic_calendar,
-            text = model.release_date
+            text = model.release_date.getYearFromDate()
         )
 
         HorizontalSpacer(width = 12)

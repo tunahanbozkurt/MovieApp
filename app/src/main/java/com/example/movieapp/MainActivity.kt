@@ -15,6 +15,7 @@ import com.example.movieapp.ui.theme.localColor
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
 

@@ -2,10 +2,14 @@ package com.example.movieapp.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.room.Room
+import com.example.movieapp.data.local.AppDatabase
+import com.example.movieapp.data.local.LocalDataSourceImpl
 import com.example.movieapp.data.remote.MovieAPI
 import com.example.movieapp.data.remote.dataSource.RemoteMovieDSImpl
-import com.example.movieapp.data.remote.repository.AuthenticationRepositoryImpl
-import com.example.movieapp.data.remote.repository.MovieRepositoryImpl
+import com.example.movieapp.data.repository.AuthenticationRepositoryImpl
+import com.example.movieapp.data.repository.MovieRepositoryImpl
+import com.example.movieapp.domain.datasource.LocalDataSource
 import com.example.movieapp.domain.datasource.RemoteMovieDS
 import com.example.movieapp.domain.repository.AuthenticationRepository
 import com.example.movieapp.domain.repository.MovieRepository
@@ -37,6 +41,21 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideRoomDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java, "database-main"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocalDataSource(db: AppDatabase): LocalDataSource {
+        return LocalDataSourceImpl(db.userDao)
+    }
+
+    @Provides
+    @Singleton
     fun provideMovieAPI(): MovieAPI {
         return Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/3/")
@@ -57,9 +76,10 @@ object AppModule {
     @Singleton
     fun provideMovieRepository(
         remoteDataSource: RemoteMovieDS,
+        localDataSource: LocalDataSource,
         @Dispatcher.DispatcherIO ioDispatcher: CoroutineDispatcher
     ): MovieRepository {
-        return MovieRepositoryImpl(remoteDataSource, ioDispatcher)
+        return MovieRepositoryImpl(remoteDataSource, localDataSource, ioDispatcher)
     }
 
     @Provides

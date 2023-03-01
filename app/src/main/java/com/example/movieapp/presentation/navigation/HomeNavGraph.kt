@@ -109,7 +109,9 @@ fun HomeNavGraph(
             }
 
             composable(HomeScreen.MostPopularMovies.route) {
-                MostPopularMoviesScreen()
+                MostPopularMoviesScreen { route ->
+                    navController.navigate(route)
+                }
             }
 
             composable(
@@ -164,8 +166,8 @@ private fun setTabState(tabState: MutableState<String>, destination: NavDestinat
         HomeScreen.Search.route -> {
             tabState.value = HomeScreen.Search.route
         }
-        HomeScreen.Download.route -> {
-            tabState.value = HomeScreen.Download.route
+        HomeScreen.Wishlist.route -> {
+            tabState.value = HomeScreen.Wishlist.route
         }
         HomeScreen.Profile.route -> {
             tabState.value = HomeScreen.Profile.route
@@ -176,7 +178,7 @@ private fun setTabState(tabState: MutableState<String>, destination: NavDestinat
 sealed class HomeScreen(val route: String) {
     object Home : HomeScreen(route = "Home")
     object Profile : HomeScreen(route = "Profile")
-    object Download : HomeScreen(route = "Download")
+    object Wishlist : HomeScreen(route = "Wishlist")
     object Search : HomeScreen(route = "Search")
     object Detail : HomeScreen(route = "Detail")
     object SearchResult : HomeScreen(route = "Search_Result")
