@@ -10,7 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.movieapp.R
 import com.example.movieapp.data.remote.dto.genre.Genre
 import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
@@ -46,7 +48,7 @@ fun MovieListHorizontal(
                 color = Color.White
             )
             BlueText(
-                text = "See All",
+                text = stringResource(id = R.string.see_all),
                 style = MaterialTheme.localFont.mediumH5,
                 modifier = Modifier.clickable { seeAll.invoke() })
         }
@@ -69,11 +71,10 @@ fun MovieListHorizontal(
                         title = movie.original_title,
                         id = movie.id,
                         genre = if (selectedGenre.id == 0) pickGenre(movie = movie)
-                        else selectedGenre.name,
-                        onItemClicked = {
-                            onItemClicked.invoke(it)
-                        }
-                    )
+                        else selectedGenre.name
+                    ) { id ->
+                        onItemClicked.invoke(id)
+                    }
                     HorizontalSpacer(width = 12)
                 }
             }

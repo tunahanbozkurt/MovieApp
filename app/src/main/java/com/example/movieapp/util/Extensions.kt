@@ -208,6 +208,10 @@ fun String.addNavArgument(arg: String): String {
     return this.plus("/$arg")
 }
 
+fun String.addNavArgument(arg: Int): String {
+    return this.plus("/$arg")
+}
+
 fun CharSequence?.isValidEmail() =
     !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 

@@ -14,8 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.movieapp.R
@@ -27,6 +29,7 @@ import com.example.movieapp.ui.theme.localColor
 fun FakeSearchBar(
     modifier: Modifier = Modifier
 ) {
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
@@ -47,7 +50,7 @@ fun FakeSearchBar(
         HorizontalSpacer(width = 8)
 
         Text(
-            text = "Search a title",
+            text = stringResource(id = R.string.search_title),
             style = TextStyle(
                 fontFamily = MontserratFontFamily,
                 fontWeight = FontWeight.Medium,
@@ -58,6 +61,7 @@ fun FakeSearchBar(
     }
 }
 
+@Preview
 @Composable
 fun PreviewFakeSearchBar() {
     FakeSearchBar()

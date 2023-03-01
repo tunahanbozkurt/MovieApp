@@ -67,6 +67,7 @@ fun SearchBar(
 
         Box {
             if (query.isEmpty()) {
+
                 Text(
                     text = hint,
                     style = TextStyle(
@@ -77,6 +78,7 @@ fun SearchBar(
                     )
                 )
             }
+
             BasicTextField(
                 value = query,
                 textStyle = TextStyle(

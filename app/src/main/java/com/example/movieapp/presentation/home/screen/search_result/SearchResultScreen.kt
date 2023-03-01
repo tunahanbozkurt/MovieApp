@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,29 +45,35 @@ fun SearchResultScreen(
     Column(
         modifier = Modifier.padding(horizontal = 24.dp)
     ) {
-        VerticalSpacer(heightDp = 8)
 
+        VerticalSpacer(heightDp = 8)
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
         ) {
+
             SearchBar(
                 query = searchState.query,
-                hint = "Search",
+                hint = stringResource(id = R.string.search),
                 onValueChange = { viewModel.setQuery(it) },
                 onSearch = {},
                 modifier = Modifier.weight(1f)
             )
+
             HorizontalSpacer(width = 8)
+
             Text(
-                text = "Cancel",
+                text = stringResource(id = R.string.cancel),
                 style = MaterialTheme.localFont.mediumH6,
                 modifier = Modifier.clickable { onCancel.invoke() })
         }
 
-        if (pagerState.itemCount == 0 && pagerState.loadState.refresh !is LoadState.Loading) {
+        if (
+            pagerState.itemCount == 0 &&
+            pagerState.loadState.refresh !is LoadState.Loading
+        ) {
 
             EmptySearchView(
                 modifier = Modifier
@@ -93,16 +100,21 @@ fun EmptySearchView(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
+
         Image(resId = R.drawable.ic_search_colorful)
+
         VerticalSpacer(heightDp = 16)
+
         Text(
-            text = "We Are Sorry, We Can Not Find The Movie :(",
+            text = stringResource(id = R.string.couldnt_find_movie),
             style = MaterialTheme.localFont.semiBoldH4,
             textAlign = TextAlign.Center
         )
+
         VerticalSpacer(heightDp = 8)
+
         Text(
-            text = "Find your movie by Type title, categories, years, etc",
+            text = stringResource(id = R.string.find_your_movie),
             style = MaterialTheme.localFont.mediumH6,
             color = MaterialTheme.localColor.textGrey,
             textAlign = TextAlign.Center

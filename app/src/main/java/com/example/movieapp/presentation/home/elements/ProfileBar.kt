@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
@@ -34,6 +35,7 @@ fun ProfileBar(
         Column(
             Modifier.padding(start = 16.dp)
         ) {
+            stringResource(R.string.hello_name, displayName)
 
             Text(
                 text = "Hello, ${displayName.uppercaseFirst()}",
@@ -43,7 +45,7 @@ fun ProfileBar(
             VerticalSpacer(heightDp = 4)
 
             Text(
-                text = "Let's stream your favorite movie",
+                text = stringResource(id = R.string.profile_bar_info),
                 style = MaterialTheme.localFont.mediumH6,
                 color = MaterialTheme.localColor.textGrey
             )

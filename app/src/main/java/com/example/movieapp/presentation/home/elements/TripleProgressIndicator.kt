@@ -26,6 +26,7 @@ fun TripleProgressIndicator(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
     ) {
+
         Box(
             modifier = Modifier
                 .size(
@@ -33,15 +34,13 @@ fun TripleProgressIndicator(
                     height = 8.dp
                 )
                 .clip(CircleShape)
-                .alpha(
-                    if (currentIndex == 0) 1f else 0.32f
-                )
-                .background(
-                    MaterialTheme.localColor.primaryBlueAccent
-                )
+                .alpha(if (currentIndex == 0) 1f else 0.32f)
+                .background(MaterialTheme.localColor.primaryBlueAccent)
                 .animateContentSize()
         )
+
         HorizontalSpacer(width = 8)
+
         Box(
             modifier = Modifier
                 .size(
@@ -49,16 +48,14 @@ fun TripleProgressIndicator(
                     height = 8.dp
                 )
                 .clip(CircleShape)
-                .alpha(
-                    if (currentIndex == 1) 1f else 0.32f
-                )
-                .background(
-                    MaterialTheme.localColor.primaryBlueAccent
-                )
+                .alpha(if (currentIndex == 1) 1f else 0.32f)
+                .background(MaterialTheme.localColor.primaryBlueAccent)
                 .animateContentSize()
 
         )
+
         HorizontalSpacer(width = 8)
+
         Box(
             modifier = Modifier
                 .size(
@@ -66,16 +63,10 @@ fun TripleProgressIndicator(
                     height = 8.dp
                 )
                 .clip(CircleShape)
-                .alpha(
-                    if (currentIndex == 2) 1f else 0.32f
-                )
-                .background(
-                    MaterialTheme.localColor.primaryBlueAccent
-                )
+                .alpha(if (currentIndex == 2) 1f else 0.32f)
+                .background(MaterialTheme.localColor.primaryBlueAccent)
                 .animateContentSize()
-
         )
-
     }
 }
 

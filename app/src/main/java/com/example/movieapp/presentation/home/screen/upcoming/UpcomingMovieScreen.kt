@@ -21,7 +21,7 @@ import com.example.movieapp.ui.theme.localFont
 
 @Composable
 fun UpcomingMovieScreen() {
-
+    /*TODO*/
 }
 
 @Composable
@@ -39,7 +39,7 @@ fun UpcomingMovieItem() {
         Column {
             Text(text = "The Batman", style = MaterialTheme.localFont.semiBoldH4)
             Row {
-                IconWithText(resId = R.drawable.ic_calendar, text = "March 2, 2022")
+                IconWithText(iconResId = R.drawable.ic_calendar, text = "March 2, 2022")
                 HorizontalSpacer(width = 12)
                 Divider(
                     color = MaterialTheme.localColor.textGrey,
@@ -48,7 +48,7 @@ fun UpcomingMovieItem() {
                         .height(16.dp)
                 )
                 HorizontalSpacer(width = 12)
-                IconWithText(resId = R.drawable.ic_film, text = "Action")
+                IconWithText(iconResId = R.drawable.ic_film, text = "Action")
             }
         }
     }

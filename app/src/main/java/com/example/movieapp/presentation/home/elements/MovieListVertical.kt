@@ -22,13 +22,16 @@ fun MovieListVertical(
     ) {
 
         items(itemList) { item ->
-            MoviesListItemHorizontal(
-                imgUrl = item.poster_path ?: "" /*TODO PLACEHOLDER*/,
-                title = item.original_title,
-                year = item.release_date,
-                genre = if (selectedGenre.id == 0) pickGenre(movie = item) else selectedGenre.name,
-                rate = item.vote_average
-            )
+            if (item.poster_path != null) {
+                MoviesListItemHorizontal(
+                    imgUrl = item.poster_path,
+                    title = item.original_title,
+                    year = item.release_date,
+                    genre = if (selectedGenre.id == 0) pickGenre(movie = item) else selectedGenre.name,
+                    rate = item.vote_average
+                )
+            }
+
             VerticalSpacer(heightDp = 16)
         }
     }
@@ -37,4 +40,17 @@ fun MovieListVertical(
 @Preview
 @Composable
 fun PreviewMovieListVertical() {
+    MovieListVertical(
+        itemList = listOf(
+            MovieItem(
+                id = 0,
+                genre_ids = listOf(),
+                original_title = "Spider-Man",
+                poster_path = "",
+                vote_average = 5.6,
+                release_date = "2022",
+            )
+        ),
+        selectedGenre = Genre(0, "All")
+    )
 }

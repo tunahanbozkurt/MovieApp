@@ -57,18 +57,22 @@ fun TripleMovieGroup(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         LazyRow(
             state = state,
             flingBehavior = snapFlingBehavior,
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier.fillMaxSize(),
         ) {
+
             item { HorizontalSpacer(width = 12) }
+
             itemsIndexed(movieList) { index, item ->
                 TripleMovieGroupItem(movie = item, index = index)
                 HorizontalSpacer(width = 12)
             }
         }
+
         VerticalSpacer(heightDp = 12)
 
         TripleProgressIndicator(selectedItemIndex.value)
@@ -85,6 +89,7 @@ fun TripleMovieGroupItem(
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp))
     ) {
+
         AsyncImage(
             model = createImgUrl(movie.imgUrl),
             contentDescription = null,
@@ -95,17 +100,21 @@ fun TripleMovieGroupItem(
                     if (index == 1) 154.dp else 138.dp
                 )
         )
+
         Column(
             modifier = Modifier
                 .width(295.dp)
                 .align(Alignment.BottomStart)
                 .padding(16.dp)
         ) {
+
             Text(
                 text = movie.title,
                 style = MaterialTheme.localFont.semiBoldH4
             )
+
             VerticalSpacer(heightDp = 4)
+
             Text(
                 text = movie.releaseDate,
                 style = MaterialTheme.localFont.mediumH6,

@@ -13,8 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.movieapp.R
 import com.example.movieapp.data.remote.dto.genre.Genre
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
@@ -25,9 +27,9 @@ import com.example.movieapp.util.getDataClassFromJson
 
 @Composable
 fun GenreList(
-    isTextVisible: Boolean = true,
     selectedGenre: Genre,
     modifier: Modifier = Modifier,
+    isTextVisible: Boolean = true,
     onGenreChanged: (Genre) -> Unit
 ) {
 
@@ -39,7 +41,7 @@ fun GenreList(
 
         if (isTextVisible) {
             Text(
-                text = "Categories",
+                text = stringResource(id = R.string.categories),
                 style = MaterialTheme.localFont.semiBoldH4,
                 modifier = Modifier.padding(start = 24.dp)
             )
@@ -96,7 +98,6 @@ fun GenreListItem(
             color = if (isSelected) MaterialTheme.localColor.primaryBlueAccent
             else MaterialTheme.localColor.textWhite
         )
-
     }
 }
 

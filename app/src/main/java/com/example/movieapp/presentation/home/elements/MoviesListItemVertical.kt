@@ -17,7 +17,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.movieapp.R
-import com.example.movieapp.presentation.common.Rate
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.shortenTitle
@@ -32,6 +31,7 @@ fun MoviesListItemVertical(
     modifier: Modifier = Modifier,
     onItemClicked: (Int) -> Unit
 ) {
+    /*TODO CLEANUP*/
 
     Box(
         modifier = modifier

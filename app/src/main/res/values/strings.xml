@@ -8,8 +8,6 @@
     <string name="login">Login</string>
     <string name="signup_with">Or Sign up with</string>
     <string name="sign_up">Sign Up</string>
-
-
     <string name="weak_password">Weak password!</string>
     <string name="incorrect_email_form">Incorrect email form!</string>
     <string name="user_already_exists">User is already exist</string>
@@ -22,4 +20,35 @@
     <string name="invalid_credentials">Invalid credentials</string>
     <string name="collision_exception">Collision exception</string>
     <string name="exception">Something went wrong</string>
+    <string name="search_title">Search a title</string>
+    <string name="categories">Categories</string>
+    <string name="see_all">See All</string>
+    <string name="premium">Premium</string>
+    <string name="free">Free</string>
+    <string name="movie">Movie</string>
+    <string name="profile_bar_info">Let\'s stream your favorite movie</string>
+    <string name="hello_name">Hello, %1s</string>
+    <string name="runtime">%1d Minutes</string>
+    <string name="story_line">Story Line</string>
+    <string name="account">Account</string>
+    <string name="member">Member</string>
+    <string name="change_password">Change Password</string>
+    <string name="general">General</string>
+    <string name="notification">Notification</string>
+    <string name="language">Language</string>
+    <string name="country">Country</string>
+    <string name="clear_cache">Clear Cache</string>
+    <string name="more">More</string>
+    <string name="policies">Legal and Policies</string>
+    <string name="help"><![CDATA[Help & Feedback]]></string>
+    <string name="about_us">About Us</string>
+    <string name="premium_member">Premium Member</string>
+    <string name="premium_card_message">New movies are coming for you, Download Now!</string>
+    <string name="search_bar_hint">Type title, categories, years, etc</string>
+    <string name="today">Today</string>
+    <string name="recommended">Recommended for you</string>
+    <string name="couldnt_find_movie">We Are Sorry, We Can Not Find The Movie :(</string>
+    <string name="find_your_movie">Find your movie by Type title, categories, years, etc</string>
+    <string name="search">Search</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -18,7 +18,7 @@ import com.example.movieapp.ui.theme.localColor
 fun MostPopularMoviesScreen(
     viewModel: MostPopularMoviesScreenVM = hiltViewModel()
 ) {
-
+    /*TODO*/
     val paging = viewModel.pager.collectAsLazyPagingItems()
 
     LazyColumn(

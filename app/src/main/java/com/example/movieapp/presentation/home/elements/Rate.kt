@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.common
+package com.example.movieapp.presentation.home.elements
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

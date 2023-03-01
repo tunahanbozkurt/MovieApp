@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,19 +16,20 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.movieapp.R
 import com.example.movieapp.domain.model.MovieDetail
-import com.example.movieapp.presentation.common.Rate
 import com.example.movieapp.presentation.common.TopApplicationBar
 import com.example.movieapp.presentation.common.button.ColorfulButton
 import com.example.movieapp.presentation.common.icon.CircularIcon
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
-import com.example.movieapp.presentation.home.elements.IconWithText
+import com.example.movieapp.presentation.home.elements.MovieFeatures
+import com.example.movieapp.presentation.home.elements.Rate
 import com.example.movieapp.ui.theme.Primary_Dark
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
@@ -53,40 +53,13 @@ fun DetailScreen(
             .fillMaxSize()
             .verticalScroll(scrollState)
     ) {
-        MovieDetailHeadSection(movieItem)
-        OverviewSection(movieItem, modifier = Modifier.padding(horizontal = 24.dp))
-    }
-}
 
-@Composable
-fun MovieFeatures(
-    model: MovieDetail,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-        modifier = modifier.padding(horizontal = 12.dp)
-    ) {
-        IconWithText(resId = R.drawable.ic_calendar, text = model.release_date)
-        HorizontalSpacer(width = 12)
-        Divider(
-            color = MaterialTheme.localColor.textGrey,
-            modifier = Modifier
-                .width(1.dp)
-                .height(12.dp)
+        MovieDetailHeadSection(movieItem)
+
+        MovieDetailOverviewSection(
+            movieItem,
+            modifier = Modifier.padding(horizontal = 24.dp)
         )
-        HorizontalSpacer(width = 12)
-        IconWithText(resId = R.drawable.ic_clock, text = "${model.runtime} Minutes")
-        HorizontalSpacer(width = 12)
-        Divider(
-            color = MaterialTheme.localColor.textGrey,
-            modifier = Modifier
-                .width(1.dp)
-                .height(12.dp)
-        )
-        HorizontalSpacer(width = 12)
-        IconWithText(resId = R.drawable.ic_film, text = "EXAMPLE")
     }
 }
 
@@ -110,15 +83,21 @@ fun MovieDetailButtonSet(
 }
 
 @Composable
-fun OverviewSection(
+fun MovieDetailOverviewSection(
     model: MovieDetail,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
     ) {
-        Text(text = "Story Line", style = MaterialTheme.localFont.semiBoldH4)
+
+        Text(
+            text = stringResource(id = R.string.story_line),
+            style = MaterialTheme.localFont.semiBoldH4
+        )
+
         VerticalSpacer(heightDp = 8)
+
         Text(
             text = model.overview,
             style = MaterialTheme.localFont.regularH5,
@@ -129,16 +108,17 @@ fun OverviewSection(
 
 @Composable
 fun MovieDetailHeadSection(
-    item: MovieDetail,
+    model: MovieDetail,
     modifier: Modifier = Modifier
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier.height(IntrinsicSize.Min)
     ) {
+
         Box {
             AsyncImage(
-                model = createImgUrl(item.poster_path),
+                model = createImgUrl(model.poster_path),
                 contentScale = ContentScale.Crop,
                 contentDescription = null,
                 modifier = Modifier
@@ -155,6 +135,7 @@ fun MovieDetailHeadSection(
                         }
                     }
             )
+
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -162,18 +143,18 @@ fun MovieDetailHeadSection(
 
                 VerticalSpacer(heightDp = 8)
                 TopApplicationBar(
-                    title = item.original_title,
+                    title = model.original_title,
                     isBackButtonVisible = true,
                     backGround = Color.Transparent,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-
+                    /*TODO*/
                 }
 
                 VerticalSpacer(heightDp = 24)
 
                 AsyncImage(
-                    model = createImgUrl(item.poster_path),
+                    model = createImgUrl(model.poster_path),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -184,15 +165,20 @@ fun MovieDetailHeadSection(
                 VerticalSpacer(heightDp = 16)
 
                 MovieFeatures(
-                    model = item,
+                    model = model,
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentSize(Alignment.Center)
                 )
+
                 VerticalSpacer(heightDp = 8)
-                Rate(rate = item.vote_average)
+
+                Rate(rate = model.vote_average)
+
                 VerticalSpacer(heightDp = 24)
+
                 MovieDetailButtonSet(MaterialTheme.localColor.secondaryOrange)
+
                 VerticalSpacer(heightDp = 24)
             }
         }
