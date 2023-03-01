@@ -4,15 +4,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.navArgument
+import androidx.navigation.*
 import com.example.movieapp.presentation.common.TopApplicationBar
 import com.example.movieapp.presentation.home.screen.detail.DetailScreen
 import com.example.movieapp.presentation.home.screen.home.HomeScreen
@@ -36,7 +30,7 @@ fun HomeNavGraph(
     }
 
     val tabState = remember {
-        mutableStateOf("Home")
+        mutableStateOf(HomeScreen.Home.route)
     }
 
     val currentDestination = remember {
@@ -44,34 +38,11 @@ fun HomeNavGraph(
     }
 
     DisposableEffect(Unit) {
-        val listener =
-            NavController.OnDestinationChangedListener { controller, destination, arguments ->
-                when (destination.route) {
-                    HomeScreen.Home.route -> {
-                        tabState.value = HomeScreen.Home.route
-                    }
-                    HomeScreen.Search.route -> {
-                        tabState.value = HomeScreen.Search.route
-                    }
-                    HomeScreen.Download.route -> {
-                        tabState.value = HomeScreen.Download.route
-                    }
-                    HomeScreen.Profile.route -> {
-                        tabState.value = HomeScreen.Profile.route
-                    }
-                }
-                destination.route?.let {
-                    currentDestination.value = it
-                }
-
-                isBottomBarVisible.value = when (destination.route) {
-                    HomeScreen.SearchResult.route -> false
-                    HomeScreen.MostPopularMovies.route -> false
-                    else -> {
-                        true
-                    }
-                }
-            }
+        val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
+            setTabState(tabState, destination)
+            setCurrentDestination(currentDestination, destination)
+            setBottomBarVisibility(isBottomBarVisible, destination)
+        }
         navController.addOnDestinationChangedListener(listener)
 
         onDispose {
@@ -141,6 +112,42 @@ fun HomeNavGraph(
             composable(HomeScreen.Profile.route) {
                 ProfileScreen()
             }
+        }
+    }
+}
+
+private fun setBottomBarVisibility(state: MutableState<Boolean>, destination: NavDestination) {
+    state.value = when (destination.route) {
+        HomeScreen.SearchResult.route -> false
+        HomeScreen.MostPopularMovies.route -> false
+        else -> {
+            true
+        }
+    }
+}
+
+private fun setCurrentDestination(
+    currentDestination: MutableState<String>,
+    destination: NavDestination
+) {
+    destination.route?.let {
+        currentDestination.value = it
+    }
+}
+
+private fun setTabState(tabState: MutableState<String>, destination: NavDestination) {
+    when (destination.route) {
+        HomeScreen.Home.route -> {
+            tabState.value = HomeScreen.Home.route
+        }
+        HomeScreen.Search.route -> {
+            tabState.value = HomeScreen.Search.route
+        }
+        HomeScreen.Download.route -> {
+            tabState.value = HomeScreen.Download.route
+        }
+        HomeScreen.Profile.route -> {
+            tabState.value = HomeScreen.Profile.route
         }
     }
 }
