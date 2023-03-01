@@ -14,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,10 +26,11 @@ import com.example.movieapp.BuildConfig
 import com.example.movieapp.R
 import com.example.movieapp.presentation.auth.TextWithDivider
 import com.example.movieapp.presentation.common.BlueButton
-import com.example.movieapp.presentation.common.CenterAlignedText
 import com.example.movieapp.presentation.common.SocialMediaIcon
+import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.BlueText
+import com.example.movieapp.presentation.common.text.CenterAlignedText
 import com.example.movieapp.presentation.navigation.AuthenticationScreen
 import com.example.movieapp.presentation.splash_screen.SplashView
 import com.example.movieapp.ui.theme.localColor
@@ -42,6 +44,7 @@ import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun AuthenticationScreen(
@@ -61,6 +64,19 @@ fun AuthenticationScreen(
         registerFacebookCallback(context, callbackManager, viewModel)
         onDispose {
             LoginManager.getInstance().unregisterCallback(callbackManager)
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.eventChannel.collectLatest { event ->
+            when (event) {
+                is ScreenEvent.Navigate -> {
+                    navigate.invoke(event.route)
+                }
+                else -> {
+                    return@collectLatest
+                }
+            }
         }
     }
 

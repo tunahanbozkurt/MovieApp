@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.home.elements
+package com.example.movieapp.presentation.home.elements.list
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -8,13 +8,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.movieapp.data.remote.dto.genre.Genre
 import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
-import com.example.movieapp.presentation.common.text.pickGenre
 
 @Composable
 fun MovieListVertical(
     itemList: List<MovieItem>,
     selectedGenre: Genre,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onItemClick: (Int) -> Unit
 ) {
 
     LazyColumn(
@@ -24,12 +24,10 @@ fun MovieListVertical(
         items(itemList) { item ->
             if (item.poster_path != null) {
                 MoviesListItemHorizontal(
-                    imgUrl = item.poster_path,
-                    title = item.original_title,
-                    year = item.release_date,
-                    genre = if (selectedGenre.id == 0) pickGenre(movie = item) else selectedGenre.name,
-                    rate = item.vote_average
-                )
+                    model = item
+                ) { id ->
+                    onItemClick.invoke(id)
+                }
             }
 
             VerticalSpacer(heightDp = 16)
@@ -52,5 +50,7 @@ fun PreviewMovieListVertical() {
             )
         ),
         selectedGenre = Genre(0, "All")
-    )
+    ) {
+
+    }
 }

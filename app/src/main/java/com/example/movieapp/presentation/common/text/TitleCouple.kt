@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import com.example.movieapp.presentation.common.text.CenterAlignedText
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 

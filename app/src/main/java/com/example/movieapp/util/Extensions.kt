@@ -174,7 +174,7 @@ suspend fun <T> safeFirebaseRequest(
     }
 }
 
-private const val BASE_URL = "http://image.tmdb.org/t/p/w500"
+private const val BASE_URL = "https://image.tmdb.org/t/p/w500"
 fun createImgUrl(imgPath: String): String {
     return BASE_URL.plus(imgPath)
 }

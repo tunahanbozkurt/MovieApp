@@ -10,12 +10,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.movieapp.R
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.home.elements.*
 import com.example.movieapp.presentation.navigation.HomeScreen
+import com.example.movieapp.util.addNavArgument
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -38,7 +41,8 @@ fun HomeScreen(
         VerticalSpacer(heightDp = 8)
 
         ProfileBar(
-            displayName = Firebase.auth.currentUser?.displayName ?: "Unknown"
+            displayName = Firebase.auth.currentUser?.displayName
+                ?: stringResource(id = R.string.unknown)
         )
 
         VerticalSpacer(heightDp = 32)
@@ -55,7 +59,9 @@ fun HomeScreen(
 
         VerticalSpacer(heightDp = 24)
 
-        TripleMovieGroup(upcomingMovie)
+        TripleMovieGroup(upcomingMovie) { id ->
+            navigate.invoke(HomeScreen.Detail.route.addNavArgument(id))
+        }
 
         VerticalSpacer(heightDp = 24)
 
@@ -70,7 +76,7 @@ fun HomeScreen(
         VerticalSpacer(heightDp = 24)
 
         MovieListHorizontal(
-            title = "Most popular",
+            title = stringResource(id = R.string.most_popular),
             movieItemList = popularMovieList.results,
             seeAll = { navigate.invoke(HomeScreen.MostPopularMovies.route) },
             selectedGenre = selectedGenre,
@@ -78,7 +84,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(bottom = 15.dp),
             onItemClicked = { id ->
-                navigate.invoke(HomeScreen.Detail.route.plus("/$id"))
+                navigate.invoke(HomeScreen.Detail.route.addNavArgument(id))
             }
         )
     }

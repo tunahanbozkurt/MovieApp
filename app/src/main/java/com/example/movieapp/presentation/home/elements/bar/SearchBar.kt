@@ -87,7 +87,9 @@ fun SearchBar(
                     fontSize = 14.sp,
                     color = MaterialTheme.localColor.textGrey
                 ),
-                modifier = Modifier.focusRequester(focusRequester),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester),
                 cursorBrush = SolidColor(MaterialTheme.localColor.textGrey),
                 onValueChange = { onValueChange.invoke(it) }
             )

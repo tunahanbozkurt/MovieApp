@@ -21,8 +21,8 @@ import com.example.movieapp.data.remote.dto.genre.Genre
 import com.example.movieapp.presentation.common.Image
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
-import com.example.movieapp.presentation.home.elements.MovieListVertical
 import com.example.movieapp.presentation.home.elements.SearchBar
+import com.example.movieapp.presentation.home.elements.list.MovieListVertical
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 
@@ -31,6 +31,7 @@ fun SearchResultScreen(
     query: String,
     viewModel: SearchResultScreenVM = hiltViewModel(),
     onCancel: () -> Unit,
+    navigate: (Int) -> Unit,
 ) {
 
     val searchState = viewModel.searchField.collectAsState().value
@@ -72,6 +73,7 @@ fun SearchResultScreen(
 
         if (
             pagerState.itemCount == 0 &&
+            searchState.query.isNotEmpty() &&
             pagerState.loadState.refresh !is LoadState.Loading
         ) {
 
@@ -81,12 +83,15 @@ fun SearchResultScreen(
                     .wrapContentSize(Alignment.Center)
             )
         } else {
+
             VerticalSpacer(heightDp = 32)
 
             MovieListVertical(
                 itemList = pagerState.itemSnapshotList.items,
                 selectedGenre = Genre(0, "All")
-            )
+            ) { id ->
+                navigate.invoke(id)
+            }
         }
     }
 }
@@ -125,5 +130,5 @@ fun EmptySearchView(
 @Preview
 @Composable
 fun PreviewSearchResultScreen() {
-    SearchResultScreen(query = "") {}
+    SearchResultScreen(query = "", onCancel = {}) {}
 }

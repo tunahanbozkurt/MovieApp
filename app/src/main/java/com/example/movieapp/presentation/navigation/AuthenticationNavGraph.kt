@@ -95,7 +95,21 @@ fun AuthenticationNavGraph(
                 }
             ) {
                 AuthenticationScreen { route ->
-                    navController.navigate(route = route)
+                    when (route) {
+                        AuthenticationScreen.SignUp.route -> {
+                            navController.navigate(route)
+                        }
+                        AuthenticationScreen.Login.route -> {
+                            navController.navigate(route)
+                        }
+                        else -> {
+                            rootNavController.navigate(route = route) {
+                                popUpTo(Graph.AUTHENTICATION) {
+                                    inclusive = true
+                                }
+                            }
+                        }
+                    }
                 }
             }
 

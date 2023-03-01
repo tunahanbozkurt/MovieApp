@@ -1,6 +1,7 @@
 package com.example.movieapp.presentation.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -14,6 +15,7 @@ import com.example.movieapp.presentation.home.screen.popular.MostPopularMoviesSc
 import com.example.movieapp.presentation.home.screen.profile.ProfileScreen
 import com.example.movieapp.presentation.home.screen.search.SearchScreen
 import com.example.movieapp.presentation.home.screen.search_result.SearchResultScreen
+import com.example.movieapp.util.addNavArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -22,6 +24,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 @Composable
 fun HomeNavGraph(
     modifier: Modifier = Modifier,
+    rootNavController: NavHostController,
     navController: NavHostController = rememberAnimatedNavController()
 ) {
 
@@ -55,7 +58,8 @@ fun HomeNavGraph(
             if (currentDestination.value == HomeScreen.MostPopularMovies.route) {
                 TopApplicationBar(
                     title = HomeScreen.MostPopularMovies.route,
-                    isBackButtonVisible = true
+                    isBackButtonVisible = true,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     navController.popBackStack()
                 }
@@ -63,7 +67,7 @@ fun HomeNavGraph(
         },
         bottomBar = {
             if (isBottomBarVisible.value) {
-                BottomNavigation(navController = navController, tabState.value)
+                BottomNavigation(navController = navController, tabState, currentDestination)
             }
         }
     ) {
@@ -87,9 +91,15 @@ fun HomeNavGraph(
                     defaultValue = ""
                 })
             ) { backStackEntry ->
-                SearchResultScreen(query = backStackEntry.arguments?.getString("query") ?: "") {
-                    navController.popBackStack()
-                }
+                SearchResultScreen(
+                    query = backStackEntry.arguments?.getString("query") ?: "",
+                    onCancel = {
+                        navController.popBackStack()
+
+                    },
+                    navigate = {
+                        navController.navigate(HomeScreen.Detail.route.addNavArgument(it))
+                    })
             }
 
             composable(HomeScreen.Search.route) {
@@ -106,11 +116,21 @@ fun HomeNavGraph(
                 HomeScreen.Detail.route.plus("/{id}"),
                 arguments = listOf(navArgument("id") { type = NavType.IntType })
             ) { backStackEntry ->
-                DetailScreen(movieId = backStackEntry.arguments?.getInt("id") ?: 0)
+                DetailScreen(movieId = backStackEntry.arguments?.getInt("id") ?: 0) {
+                    navController.popBackStack()
+                }
             }
 
             composable(HomeScreen.Profile.route) {
-                ProfileScreen()
+                ProfileScreen { route ->
+                    if (route == Graph.AUTHENTICATION) {
+                        rootNavController.navigate(route) {
+                            popUpTo(Graph.HOME) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -120,6 +140,7 @@ private fun setBottomBarVisibility(state: MutableState<Boolean>, destination: Na
     state.value = when (destination.route) {
         HomeScreen.SearchResult.route -> false
         HomeScreen.MostPopularMovies.route -> false
+        HomeScreen.Detail.route.plus("/{id}") -> false
         else -> {
             true
         }

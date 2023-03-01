@@ -48,12 +48,12 @@ fun SignUpScreen(
                     navigate.invoke(it.route)
                 }
                 ScreenEvent.ShowToast -> {
-                    context.showToast("You need to accept Terms and Services and Privacy Policy")
+                    context.showToast(context.getString(R.string.terms_policies))
                 }
             }
         }
     }
-
+    /*TODO NEEDS VERTICAL SCROLL*/
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,

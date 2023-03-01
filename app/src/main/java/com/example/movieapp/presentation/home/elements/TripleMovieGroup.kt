@@ -2,6 +2,7 @@ package com.example.movieapp.presentation.home.elements
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -30,7 +31,8 @@ import com.example.movieapp.util.createImgUrl
 @Composable
 fun TripleMovieGroup(
     movieList: List<UpcomingMovie>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (Int) -> Unit
 ) {
 
     val state = rememberLazyListState()
@@ -68,7 +70,9 @@ fun TripleMovieGroup(
             item { HorizontalSpacer(width = 12) }
 
             itemsIndexed(movieList) { index, item ->
-                TripleMovieGroupItem(movie = item, index = index)
+                TripleMovieGroupItem(movie = item, index = index) { id ->
+                    onClick.invoke(id)
+                }
                 HorizontalSpacer(width = 12)
             }
         }
@@ -82,12 +86,14 @@ fun TripleMovieGroup(
 @Composable
 fun TripleMovieGroupItem(
     movie: UpcomingMovie,
-    index: Int
+    index: Int,
+    onClick: (Int) -> Unit
 ) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp))
+            .clickable { onClick.invoke(movie.id) }
     ) {
 
         AsyncImage(

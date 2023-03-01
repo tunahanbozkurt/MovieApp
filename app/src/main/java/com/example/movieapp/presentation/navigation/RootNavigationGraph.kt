@@ -30,7 +30,7 @@ fun RootNavigationGraph(
         }
 
         composable(Graph.HOME) {
-            HomeNavGraph(modifier = modifier)
+            HomeNavGraph(modifier = modifier, rootNavController = navController)
         }
 
         composable(Graph.SPLASH) {

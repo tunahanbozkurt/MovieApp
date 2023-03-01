@@ -4,19 +4,27 @@ import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.domain.usecase.auth.AuthUseCase
+import com.example.movieapp.presentation.common.model.ScreenEvent
+import com.example.movieapp.presentation.navigation.Graph
+import com.example.movieapp.util.onSuccess
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthenticationScreenVM @Inject constructor(
     private val authUseCase: AuthUseCase,
-    private val sharedPreferences: SharedPreferences
+    sharedPreferences: SharedPreferences
 ) : ViewModel() {
+
+    private val _eventChannel = Channel<ScreenEvent>()
+    val eventChannel = _eventChannel.receiveAsFlow()
 
     init {
         with(sharedPreferences.edit()) {
@@ -29,14 +37,20 @@ class AuthenticationScreenVM @Inject constructor(
         val credential = FacebookAuthProvider.getCredential(accessToken.token)
         println(credential)
         viewModelScope.launch {
-            authUseCase.loginWithCredential(credential)
+            val response = authUseCase.loginWithCredential(credential)
+            if (response.onSuccess()) {
+                _eventChannel.trySend(ScreenEvent.Navigate(Graph.HOME))
+            }
         }
     }
 
     fun signInWithGoogle(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
         viewModelScope.launch {
-            authUseCase.loginWithCredential(credential)
+            val response = authUseCase.loginWithCredential(credential)
+            if (response.onSuccess()) {
+                _eventChannel.trySend(ScreenEvent.Navigate(Graph.HOME))
+            }
         }
     }
 }

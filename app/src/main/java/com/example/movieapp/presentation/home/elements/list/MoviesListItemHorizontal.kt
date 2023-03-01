@@ -1,5 +1,6 @@
-package com.example.movieapp.presentation.home.elements
+package com.example.movieapp.presentation.home.elements.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
@@ -14,34 +15,42 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
+import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.presentation.common.Image
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
+import com.example.movieapp.presentation.common.text.pickGenre
+import com.example.movieapp.presentation.home.elements.IconWithText
+import com.example.movieapp.presentation.home.elements.ImageWithRate
+import com.example.movieapp.presentation.home.elements.PriceTag
+import com.example.movieapp.presentation.home.elements.Rate
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 
 @Composable
 fun MoviesListItemHorizontal(
-    imgUrl: String,
-    title: String,
-    year: String,
-    genre: String,
-    rate: Double,
+    model: MovieItem,
     modifier: Modifier = Modifier,
-    type: String = stringResource(id = R.string.movie)
+    type: String = stringResource(id = R.string.movie),
+    onClick: (Int) -> Unit
 ) {
     /*TODO CLEANUP*/
 
     Row(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onClick.invoke(model.id) }
     ) {
         Box(
             contentAlignment = Alignment.Center
         ) {
-            ImageWithRate(imgUrl = imgUrl, rate)
+            ImageWithRate(
+                imgUrl = model.poster_path ?: "",
+                model.vote_average
+            )
 
             Rate(
-                rate = 4.5, modifier = Modifier
+                rate = model.vote_average, modifier = Modifier
                     .align(Alignment.TopStart)
                     .padding(8.dp)
             )
@@ -54,16 +63,20 @@ fun MoviesListItemHorizontal(
         ) {
             PriceTag(isPremium = true, backgroundColor = MaterialTheme.localColor.secondaryOrange)
             VerticalSpacer(heightDp = 12)
-            Text(text = title, style = MaterialTheme.localFont.semiBoldH4, maxLines = 1)
+            Text(
+                text = model.original_title,
+                style = MaterialTheme.localFont.semiBoldH4,
+                maxLines = 1
+            )
             VerticalSpacer(heightDp = 12)
 
             IconWithText(
                 iconResId = R.drawable.ic_calendar,
-                text = year
+                text = model.release_date
             )
             VerticalSpacer(heightDp = 12)
             Row {
-                IconWithText(iconResId = R.drawable.ic_film, text = genre)
+                IconWithText(iconResId = R.drawable.ic_film, text = pickGenre(movie = model))
                 HorizontalSpacer(width = 8)
                 Divider(
                     color = MaterialTheme.localColor.textGrey, modifier = Modifier

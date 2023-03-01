@@ -1,6 +1,7 @@
 package com.example.movieapp.presentation.home.screen.search
 
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,11 +19,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.R
 import com.example.movieapp.data.remote.dto.genre.Genre
+import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
+import com.example.movieapp.presentation.home.elements.FakeSearchBar
 import com.example.movieapp.presentation.home.elements.GenreList
 import com.example.movieapp.presentation.home.elements.MovieListHorizontal
-import com.example.movieapp.presentation.home.elements.MoviesListItemHorizontal
-import com.example.movieapp.presentation.home.elements.SearchBar
+import com.example.movieapp.presentation.home.elements.list.MoviesListItemHorizontal
 import com.example.movieapp.presentation.navigation.HomeScreen
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.addNavArgument
@@ -45,15 +47,22 @@ fun SearchScreen(
 
         VerticalSpacer(heightDp = 8)
 
-        SearchBar(
+        FakeSearchBar(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    navigate.invoke(HomeScreen.SearchResult.route)
+                }
+        )
+        /*SearchBar(
             query = searchFieldState.query,
             hint = stringResource(id = R.string.search_bar_hint),
             onValueChange = { viewModel.handleUIEvent(SearchScreenUIEvent.EnteredSearchQuery(it)) },
-            onSearch = { /*TODO*/ },
+            onSearch = { *//*TODO*//* },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)
-        )
+        )*/
 
         VerticalSpacer(heightDp = 24)
 
@@ -71,13 +80,18 @@ fun SearchScreen(
 
         /*TODO*/
         MoviesListItemHorizontal(
-            imgUrl = "/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg",
-            title = "The Avengers",
-            year = "2012",
-            genre = "Genre",
-            rate = 3.0,
+            model = MovieItem(
+                id = 0,
+                genre_ids = listOf(16, 12, 35),
+                original_title = "The Avangers",
+                poster_path = "/uJYYizSuA9Y3DCs0qS4qWvHfZg4.jpg",
+                vote_average = 7.8,
+                release_date = "2022-12-07"
+            ),
             modifier = Modifier.padding(start = 24.dp)
-        )
+        ) {
+
+        }
 
         VerticalSpacer(heightDp = 95)
 

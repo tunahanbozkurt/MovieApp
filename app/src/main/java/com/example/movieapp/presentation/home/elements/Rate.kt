@@ -3,8 +3,8 @@ package com.example.movieapp.presentation.home.elements
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +29,7 @@ fun Rate(
 
     Box(
         modifier = modifier
-            .size(55.dp, 24.dp)
+            .height(24.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(MaterialTheme.localColor.primarySoft.copy(alpha = 0.62f))
 
@@ -53,7 +53,7 @@ fun Rate(
             HorizontalSpacer(width = 4)
 
             Text(
-                text = rate.toString(),
+                text = String.format("%.1f", rate),
                 color = MaterialTheme.localColor.secondaryOrange,
                 style = MaterialTheme.localFont.semiBoldBody
             )
@@ -64,5 +64,5 @@ fun Rate(
 @Preview
 @Composable
 fun PreviewRate() {
-    Rate(4.5)
+    Rate(8.542)
 }

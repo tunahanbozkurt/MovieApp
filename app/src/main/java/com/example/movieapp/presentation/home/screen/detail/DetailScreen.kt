@@ -38,7 +38,8 @@ import com.example.movieapp.util.createImgUrl
 @Composable
 fun DetailScreen(
     movieId: Int,
-    viewModel: DetailScreenVM = hiltViewModel()
+    viewModel: DetailScreenVM = hiltViewModel(),
+    navigate: () -> Unit
 ) {
 
     val movieItem = viewModel.movieDetailState.collectAsState().value
@@ -54,7 +55,9 @@ fun DetailScreen(
             .verticalScroll(scrollState)
     ) {
 
-        MovieDetailHeadSection(movieItem)
+        MovieDetailHeadSection(movieItem) {
+            navigate.invoke()
+        }
 
         MovieDetailOverviewSection(
             movieItem,
@@ -109,7 +112,9 @@ fun MovieDetailOverviewSection(
 @Composable
 fun MovieDetailHeadSection(
     model: MovieDetail,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navigate: () -> Unit
+
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -148,7 +153,7 @@ fun MovieDetailHeadSection(
                     backGround = Color.Transparent,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    /*TODO*/
+                    navigate.invoke()
                 }
 
                 VerticalSpacer(heightDp = 24)

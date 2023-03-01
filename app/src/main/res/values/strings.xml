@@ -51,4 +51,7 @@
     <string name="find_your_movie">Find your movie by Type title, categories, years, etc</string>
     <string name="search">Search</string>
     <string name="cancel">Cancel</string>
+    <string name="terms_policies">You need to accept Terms and Services and Privacy Policy</string>
+    <string name="unknown">Unknown</string>
+    <string name="most_popular">Most popular</string>
 </resources>

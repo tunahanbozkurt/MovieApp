@@ -21,13 +21,16 @@ import com.example.movieapp.R
 import com.example.movieapp.presentation.common.button.LogOutButton
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.home.elements.ProfileCard
-import com.example.movieapp.presentation.home.elements.SettingsCardGroup
+import com.example.movieapp.presentation.home.elements.card.SettingsCardGroup
+import com.example.movieapp.presentation.navigation.Graph
 import com.example.movieapp.ui.theme.localColor
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    navigate: (String) -> Unit
+) {
 
     val currentUser by remember {
         mutableStateOf(Firebase.auth.currentUser)
@@ -90,7 +93,8 @@ fun ProfileScreen() {
         LogOutButton(
             modifier = Modifier.fillMaxWidth()
         ) {
-            /*TODO*/
+            Firebase.auth.signOut()
+            navigate.invoke(Graph.AUTHENTICATION)
         }
     }
 }
@@ -98,5 +102,5 @@ fun ProfileScreen() {
 @Preview
 @Composable
 fun PreviewProfileScreen() {
-
+    ProfileScreen() {}
 }

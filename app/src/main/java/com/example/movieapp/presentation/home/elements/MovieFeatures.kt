@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
 import com.example.movieapp.domain.model.MovieDetail
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
+import com.example.movieapp.presentation.common.text.pickGenre
 import com.example.movieapp.ui.theme.localColor
 
 @Composable
@@ -58,10 +59,9 @@ fun MovieFeatures(
 
         HorizontalSpacer(width = 12)
 
-        /*TODO*/
         IconWithText(
             iconResId = R.drawable.ic_film,
-            text = "TODO"
+            text = pickGenre(movie = model)
         )
     }
 }
