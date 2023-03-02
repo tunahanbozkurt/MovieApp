@@ -2,6 +2,9 @@ package com.example.movieapp.presentation.home.screen.search_result
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -9,6 +12,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,8 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import coil.compose.AsyncImage
 import com.example.movieapp.R
-import com.example.movieapp.data.remote.dto.genre.Genre
+import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchResult
 import com.example.movieapp.presentation.common.Image
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
@@ -25,13 +31,14 @@ import com.example.movieapp.presentation.home.elements.SearchBar
 import com.example.movieapp.presentation.home.elements.list.MovieListVertical
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
+import com.example.movieapp.util.createImgUrl
 
 @Composable
 fun SearchResultScreen(
     query: String,
     viewModel: SearchResultScreenVM = hiltViewModel(),
     onCancel: () -> Unit,
-    navigate: (Int) -> Unit,
+    navigate: (Int, String) -> Unit,
 ) {
 
     val searchState = viewModel.searchField.collectAsState().value
@@ -84,15 +91,72 @@ fun SearchResultScreen(
             )
         } else {
 
-            VerticalSpacer(heightDp = 32)
+            VerticalSpacer(heightDp = 24)
+
+            if (pagerState.itemSnapshotList.items.filter { it.media_type == "person" }
+                    .isNotEmpty()) {
+                ActorsList(
+                    list = pagerState.itemSnapshotList.items.filter { it.media_type == "person" }
+                )
+            }
+
+            VerticalSpacer(heightDp = 24)
 
             MovieListVertical(
-                itemList = pagerState.itemSnapshotList.items,
-                selectedGenre = Genre(0, "All")
-            ) { id ->
-                navigate.invoke(id)
+                itemList = pagerState.itemSnapshotList.items.filter { it.media_type != "person" }
+                    .map { it.toMovieItem() },
+            ) { id, type ->
+                navigate.invoke(id, type)
             }
         }
+    }
+}
+
+@Composable
+fun ActorsList(
+    list: List<MultiSearchResult>,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+    ) {
+        Text(text = "Actors", style = MaterialTheme.localFont.semiBoldH4)
+
+        VerticalSpacer(heightDp = 16)
+
+        LazyRow {
+
+            items(list) {
+                if (it.profile_path != null) {
+                    ActorListItem(url = it.profile_path, name = it.name)
+                    HorizontalSpacer(width = 12)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ActorListItem(
+    url: String,
+    name: String
+) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        AsyncImage(
+            model = createImgUrl(url),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .clip(CircleShape)
+                .size(64.dp)
+        )
+
+        VerticalSpacer(heightDp = 8)
+
+        Text(text = name, style = MaterialTheme.localFont.semiBoldH6)
     }
 }
 
@@ -130,5 +194,4 @@ fun EmptySearchView(
 @Preview
 @Composable
 fun PreviewSearchResultScreen() {
-    SearchResultScreen(query = "", onCancel = {}) {}
 }

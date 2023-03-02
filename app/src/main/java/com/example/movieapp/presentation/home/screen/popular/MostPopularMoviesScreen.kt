@@ -36,8 +36,10 @@ fun MostPopularMoviesScreen(
             if (item != null) {
                 MoviesListItemHorizontal(
                     model = item
-                ) { id ->
-                    navigate.invoke(HomeScreen.Detail.route.addNavArgument(id))
+                ) { id, type ->
+                    navigate.invoke(
+                        HomeScreen.Detail.route.addNavArgument(id).addNavArgument("movie")
+                    )
                 }
                 VerticalSpacer(heightDp = 16)
             }

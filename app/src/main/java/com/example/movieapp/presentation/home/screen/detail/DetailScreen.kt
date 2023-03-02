@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -20,6 +21,7 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,7 +37,9 @@ import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.home.elements.MovieFeatures
 import com.example.movieapp.presentation.home.elements.Rate
+import com.example.movieapp.presentation.home.elements.card.SeasonPicker
 import com.example.movieapp.presentation.home.elements.card.ShareCard
+import com.example.movieapp.presentation.home.elements.card.TvSeriesEpisodeCard
 import com.example.movieapp.ui.theme.Primary_Dark
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
@@ -48,18 +52,22 @@ import com.skydoves.cloudy.Cloudy
 @Composable
 fun DetailScreen(
     movieId: Int,
+    type: String,
     viewModel: DetailScreenVM = hiltViewModel(),
     navigate: () -> Unit
 ) {
 
     val movieItem = viewModel.movieDetailState.collectAsState().value
     val castAndCrew = viewModel.castAndCrewState.collectAsState().value
+    val seasonDetailState = viewModel.seasonDetailState.collectAsState().value
     val scrollState = rememberScrollState()
     val showDialog = remember { mutableStateOf(false) }
+    val showSeasonPicker = remember { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
+    val selectedSeason = remember { mutableStateOf(1) }
 
     LaunchedEffect(Unit) {
-        viewModel.loadData(movieId)
+        viewModel.loadData(movieId, type)
     }
 
     Box {
@@ -87,6 +95,52 @@ fun DetailScreen(
             CastAndCrew(modelList = castAndCrew)
 
             VerticalSpacer(heightDp = 24)
+
+            if (type == "series") {
+
+                VerticalSpacer(heightDp = 24)
+
+                Text(
+                    text = "Episode",
+                    style = MaterialTheme.localFont.semiBoldH4,
+                    modifier = Modifier.padding(start = 24.dp)
+                )
+
+                VerticalSpacer(heightDp = 13)
+
+                Row(
+                    Modifier.padding(start = 24.dp)
+                ) {
+                    Text(
+                        text = "Season ${selectedSeason.value}",
+                        style = MaterialTheme.localFont.mediumH5,
+                        modifier = Modifier.clickable { showSeasonPicker.setTrue() }
+                    )
+                    HorizontalSpacer(width = 5)
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_arrow_down),
+                        tint = MaterialTheme.localColor.textWhite,
+                        contentDescription = null
+                    )
+                }
+
+                VerticalSpacer(heightDp = 12)
+
+                if (seasonDetailState?.poster_path != null) {
+                    repeat(seasonDetailState.episodes.size) {
+                        TvSeriesEpisodeCard(
+                            imageUrl = createImgUrl(
+                                seasonDetailState.episodes[it].still_path ?: ""
+                            ),
+                            runtime = seasonDetailState.episodes[it].air_date,
+                            episode = seasonDetailState.episodes[it].episode_number.toString(),
+                            modifier = Modifier.padding(horizontal = 24.dp),
+                            overview = seasonDetailState.episodes[it].overview
+                        )
+                        VerticalSpacer(heightDp = 16)
+                    }
+                }
+            }
         }
 
         if (showDialog.value) {
@@ -109,6 +163,35 @@ fun DetailScreen(
                 ) {
                     showDialog.setFalse()
                 }
+            }
+        }
+
+        if (showSeasonPicker.value) {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Transparent)
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null
+                    ) { }
+            ) {
+                Cloudy(radius = 25, modifier = Modifier.fillMaxSize()) {}
+                SeasonPicker(seasonNumber = movieItem.number_of_seasons, modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(1f, false)
+                    .padding(24.dp),
+                    selectedSeason = selectedSeason.value,
+                    onClose = {
+                        showSeasonPicker.setFalse()
+                    },
+                    onClick = {
+                        selectedSeason.value = it
+                        viewModel.loadSeasonData(movieId, selectedSeason.value)
+                        showSeasonPicker.setFalse()
+                    }
+                )
             }
         }
     }

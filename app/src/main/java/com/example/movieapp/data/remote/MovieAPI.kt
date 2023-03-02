@@ -7,6 +7,9 @@ import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchDTO
 import com.example.movieapp.data.remote.dto.popular.PopularMoviesDTO
 import com.example.movieapp.data.remote.dto.recommended.RecommendedMoviesDTO
 import com.example.movieapp.data.remote.dto.search.MovieSearchDTO
+import com.example.movieapp.data.remote.dto.seriesdetail.TvSeriesDetailDTO
+import com.example.movieapp.data.remote.dto.tvCredits.TvShowCreditsDTO
+import com.example.movieapp.data.remote.dto.tvseasondetail.TvSeasonDetailDTO
 import com.example.movieapp.data.remote.dto.upcoming.UpcomingMoviesDTO
 import retrofit2.Response
 import retrofit2.http.GET
@@ -64,4 +67,23 @@ interface MovieAPI {
         @Query("page") page: Int,
         @Query("api_key") apiKey: String
     ): Response<MultiSearchDTO>
+
+    @GET("tv/{tv_id}")
+    suspend fun getTvShowDetail(
+        @Path("tv_id") tv_id: Int,
+        @Query("api_key") apiKey: String
+    ): Response<TvSeriesDetailDTO>
+
+    @GET("tv/{tv_id}/credits")
+    suspend fun getTvShowCredits(
+        @Path("tv_id") tv_id: Int,
+        @Query("api_key") apiKey: String
+    ): Response<TvShowCreditsDTO>
+
+    @GET("tv/{tv_id}/season/{season_number}")
+    suspend fun getTvSeasonDetails(
+        @Path("tv_id") tv_id: Int,
+        @Path("season_number") season_number: Int,
+        @Query("api_key") apiKey: String,
+    ): Response<TvSeasonDetailDTO>
 }

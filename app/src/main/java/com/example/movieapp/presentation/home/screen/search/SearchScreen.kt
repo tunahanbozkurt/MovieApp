@@ -79,8 +79,8 @@ fun SearchScreen(
                     release_date = entity.release_date
                 ),
                 modifier = Modifier.padding(start = 24.dp)
-            ) { id ->
-                navigate.invoke(HomeScreen.Detail.route.addNavArgument(id))
+            ) { id, type ->
+                navigate.invoke(HomeScreen.Detail.route.addNavArgument(id).addNavArgument("movie"))
             }
         }
 
@@ -102,7 +102,7 @@ fun SearchScreen(
                 .wrapContentSize(Alignment.BottomCenter)
                 .padding(bottom = 15.dp)
         ) { id ->
-            navigate.invoke(HomeScreen.Detail.route.addNavArgument(id))
+            navigate.invoke(HomeScreen.Detail.route.addNavArgument(id).addNavArgument("movie"))
         }
     }
 }

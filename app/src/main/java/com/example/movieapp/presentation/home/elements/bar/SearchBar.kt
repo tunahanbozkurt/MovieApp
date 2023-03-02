@@ -87,6 +87,8 @@ fun SearchBar(
                     fontSize = 14.sp,
                     color = MaterialTheme.localColor.textGrey
                 ),
+                singleLine = true,
+                maxLines = 1,
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester),

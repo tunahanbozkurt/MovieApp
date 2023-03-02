@@ -2,6 +2,7 @@ package com.example.movieapp.domain.model.detail
 
 import com.example.movieapp.data.local.entity.MovieEntity
 import com.example.movieapp.data.remote.dto.detail.Genre
+import com.example.movieapp.data.remote.dto.seriesdetail.Season
 import com.example.movieapp.util.toGenreIdList
 
 data class MovieDetail(
@@ -13,6 +14,9 @@ data class MovieDetail(
     val runtime: Int = 0,
     val vote_average: Double = 0.0,
     val overview: String = "",
+    val number_of_episodes: Int = 0,
+    val number_of_seasons: Int = 0,
+    val seasons: List<Season> = listOf()
 ) {
 
     fun toMovieEntity(): MovieEntity {

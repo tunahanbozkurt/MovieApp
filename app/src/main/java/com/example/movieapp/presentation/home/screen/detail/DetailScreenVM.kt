@@ -3,6 +3,7 @@ package com.example.movieapp.presentation.home.screen.detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.BuildConfig
+import com.example.movieapp.data.remote.dto.tvseasondetail.TvSeasonDetailDTO
 import com.example.movieapp.domain.model.cast_crew.CastCrew
 import com.example.movieapp.domain.model.detail.MovieDetail
 import com.example.movieapp.domain.repository.MovieRepository
@@ -24,26 +25,67 @@ class DetailScreenVM @Inject constructor(
     private val _movieDetailState: MutableStateFlow<MovieDetail> = MutableStateFlow(MovieDetail())
     val movieDetailState: StateFlow<MovieDetail> = _movieDetailState.asStateFlow()
 
+    private val _seasonDetailState: MutableStateFlow<TvSeasonDetailDTO?> = MutableStateFlow(null)
+    val seasonDetailState: StateFlow<TvSeasonDetailDTO?> = _seasonDetailState.asStateFlow()
+
     private val _castAndCrewState: MutableStateFlow<List<CastCrew>?> = MutableStateFlow(null)
     val castAndCrewState: StateFlow<List<CastCrew>?> = _castAndCrewState.asStateFlow()
 
-    fun loadData(movieId: Int) {
+    fun loadSeasonData(id: Int, seasonNumber: Int) {
         viewModelScope.launch {
-            val movieDetailResponse = async {
-                repository.getMovieDetail(movieId, apiKey = BuildConfig.MOVIE_DB_API_KEY)
-            }
-            val castAndCrew = async {
-                repository.getMovieCredits(movieId, apiKey = BuildConfig.MOVIE_DB_API_KEY)
-            }
-            movieDetailResponse.await().onSuccess { result ->
-                updateLastSearchedMovie(result.data)
-                _movieDetailState.update {
+            val detail = repository.getTvSeasonDetail(
+                id = id,
+                season = seasonNumber,
+                apiKey = BuildConfig.MOVIE_DB_API_KEY
+            )
+            detail.onSuccess { result ->
+                _seasonDetailState.update {
                     result.data
                 }
             }
-            castAndCrew.await().onSuccess { result ->
-                _castAndCrewState.update {
-                    result.data
+        }
+    }
+
+    fun loadData(id: Int, type: String) {
+        if (type == "movie") {
+            viewModelScope.launch {
+                val movieDetailResponse = async {
+                    repository.getMovieDetail(id, apiKey = BuildConfig.MOVIE_DB_API_KEY)
+                }
+                val castAndCrew = async {
+                    repository.getMovieCredits(id, apiKey = BuildConfig.MOVIE_DB_API_KEY)
+                }
+                movieDetailResponse.await().onSuccess { result ->
+                    updateLastSearchedMovie(result.data)
+                    _movieDetailState.update {
+                        result.data
+                    }
+                }
+                castAndCrew.await().onSuccess { result ->
+                    _castAndCrewState.update {
+                        result.data
+                    }
+                }
+            }
+        } else {
+            viewModelScope.launch {
+                val tvDetailResponse =
+                    async { repository.getTvShowDetail(id, BuildConfig.MOVIE_DB_API_KEY) }
+                val castAndCrew =
+                    async { repository.getTvShowCredits(id, BuildConfig.MOVIE_DB_API_KEY) }
+
+                async { loadSeasonData(id, 1) }
+
+                tvDetailResponse.await().onSuccess { result ->
+                    updateLastSearchedMovie(model = result.data)
+                    _movieDetailState.update {
+                        result.data
+                    }
+                }
+                castAndCrew.await().onSuccess { result ->
+                    _castAndCrewState.update {
+                        result.data
+                    }
                 }
             }
         }

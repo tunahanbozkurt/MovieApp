@@ -7,7 +7,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.movieapp.data.remote.pager.SearchMoviesDataSource
-import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.presentation.common.model.SearchFieldState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,9 +18,10 @@ class SearchResultScreenVM @Inject constructor(
     private val repository: MovieRepository
 ) : ViewModel() {
 
-    private val _pagerFlow: MutableStateFlow<Flow<PagingData<MovieItem>>> =
+    private val _pagerFlow: MutableStateFlow<Flow<PagingData<com.example.movieapp.data.remote.dto.multiSearch.MultiSearchResult>>> =
         MutableStateFlow(emptyFlow())
-    val pagerFlow: StateFlow<Flow<PagingData<MovieItem>>> = _pagerFlow
+    val pagerFlow: StateFlow<Flow<PagingData<com.example.movieapp.data.remote.dto.multiSearch.MultiSearchResult>>> =
+        _pagerFlow
 
     private val _searchField: MutableStateFlow<SearchFieldState> =
         MutableStateFlow(SearchFieldState())

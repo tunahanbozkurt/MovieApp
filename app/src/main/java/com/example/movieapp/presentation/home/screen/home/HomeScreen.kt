@@ -60,7 +60,7 @@ fun HomeScreen(
         VerticalSpacer(heightDp = 24)
 
         TripleMovieGroup(upcomingMovie) { id ->
-            navigate.invoke(HomeScreen.Detail.route.addNavArgument(id))
+            navigate.invoke(HomeScreen.Detail.route.addNavArgument(id).addNavArgument("movie"))
         }
 
         VerticalSpacer(heightDp = 24)
@@ -84,7 +84,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(bottom = 15.dp),
             onItemClicked = { id ->
-                navigate.invoke(HomeScreen.Detail.route.addNavArgument(id))
+                navigate.invoke(HomeScreen.Detail.route.addNavArgument(id).addNavArgument("movie"))
             }
         )
     }

@@ -104,8 +104,10 @@ fun HomeNavGraph(
                         navController.popBackStack()
 
                     },
-                    navigate = {
-                        navController.navigate(HomeScreen.Detail.route.addNavArgument(it))
+                    navigate = { id, type ->
+                        navController.navigate(
+                            HomeScreen.Detail.route.addNavArgument(id).addNavArgument(type)
+                        )
                     })
             }
 
@@ -122,10 +124,16 @@ fun HomeNavGraph(
             }
 
             composable(
-                HomeScreen.Detail.route.plus("/{id}"),
-                arguments = listOf(navArgument("id") { type = NavType.IntType })
+                HomeScreen.Detail.route.plus("/{id}/{type}"),
+                arguments = listOf(
+                    navArgument("id") { type = NavType.IntType },
+                    navArgument("type") { type = NavType.StringType }
+                )
             ) { backStackEntry ->
-                DetailScreen(movieId = backStackEntry.arguments?.getInt("id") ?: 0) {
+                DetailScreen(
+                    movieId = backStackEntry.arguments?.getInt("id") ?: 0,
+                    type = backStackEntry.arguments?.getString("type") ?: "movie"
+                ) {
                     navController.popBackStack()
                 }
             }
@@ -167,7 +175,7 @@ private fun setBottomBarVisibility(state: MutableState<Boolean>, destination: Na
     state.value = when (destination.route) {
         HomeScreen.SearchResult.route -> false
         HomeScreen.MostPopularMovies.route -> false
-        HomeScreen.Detail.route.plus("/{id}") -> false
+        HomeScreen.Detail.route.plus("/{id}/{type}") -> false
         HomeScreen.RecommendedMovies.route.plus("/{id}") -> false
         HomeScreen.PrivacyPolicy.route -> false
         else -> {

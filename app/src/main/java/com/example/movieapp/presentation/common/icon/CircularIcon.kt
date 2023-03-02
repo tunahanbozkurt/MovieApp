@@ -23,12 +23,13 @@ import com.example.movieapp.ui.theme.localColor
 fun CircularIcon(
     @DrawableRes resId: Int,
     tint: Color,
+    modifier: Modifier = Modifier,
     backGroundColor: Color = MaterialTheme.localColor.primarySoft,
     onClick: () -> Unit
 ) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
+        modifier = modifier
             .size(48.dp)
             .clip(CircleShape)
             .background(backGroundColor)

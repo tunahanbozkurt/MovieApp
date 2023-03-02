@@ -33,14 +33,14 @@ fun MoviesListItemHorizontal(
     model: MovieItem,
     modifier: Modifier = Modifier,
     type: String = stringResource(id = R.string.movie),
-    onClick: (Int) -> Unit
+    onClick: (Int, String) -> Unit
 ) {
     /*TODO CLEANUP*/
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick.invoke(model.id) }
+            .clickable { onClick.invoke(model.id, type.lowercase()) }
     ) {
         Box(
             contentAlignment = Alignment.Center
