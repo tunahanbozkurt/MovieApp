@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.movieapp.R
+import com.example.movieapp.presentation.common.button.PlayButton
 import com.example.movieapp.presentation.common.icon.CircularIcon
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
@@ -40,14 +41,19 @@ fun TvSeriesEpisodeCard(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            AsyncImage(
-                model = createImgUrl(imageUrl),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(8.dp))
-                    .size(121.dp, 83.dp)
-            )
+            Box(
+                contentAlignment = Alignment.Center
+            ) {
+                AsyncImage(
+                    model = createImgUrl(imageUrl),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .size(121.dp, 83.dp)
+                )
+                PlayButton()
+            }
 
             HorizontalSpacer(width = 16)
 

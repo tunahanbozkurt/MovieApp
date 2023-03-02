@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -116,7 +117,9 @@ fun TripleMovieGroupItem(
 
             Text(
                 text = movie.title,
-                style = MaterialTheme.localFont.semiBoldH4
+                style = MaterialTheme.localFont.semiBoldH4,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
 
             VerticalSpacer(heightDp = 4)

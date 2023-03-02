@@ -91,6 +91,12 @@ class DetailScreenVM @Inject constructor(
         }
     }
 
+    fun addWish(model: MovieDetail, type: String) {
+        viewModelScope.launch {
+            repository.insertWish(model, type)
+        }
+    }
+
     private fun updateLastSearchedMovie(model: MovieDetail) {
         viewModelScope.launch { repository.insertMovieToRoom(model) }
     }

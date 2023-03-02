@@ -1,6 +1,7 @@
 package com.example.movieapp.data.repository
 
 import com.example.movieapp.data.local.entity.MovieEntity
+import com.example.movieapp.data.local.entity.WishEntity
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchDTO
 import com.example.movieapp.data.remote.dto.search.MovieSearchDTO
@@ -116,6 +117,16 @@ class MovieRepositoryImpl(
         ) {
             remoteDataSource.getTvSeriesDetail(id = id, apiKey = apiKey, season = season)
         }
+    }
+
+    override suspend fun insertWish(model: MovieDetail, type: String) {
+        withContext(ioDispatcher) {
+            localDataSource.insertWish(model.toWishEntity(type))
+        }
+    }
+
+    override fun getWishFlow(): Flow<List<WishEntity>> {
+        return localDataSource.getWishFlow().flowOn(ioDispatcher)
     }
 
     override suspend fun insertMovieToRoom(model: MovieDetail) {

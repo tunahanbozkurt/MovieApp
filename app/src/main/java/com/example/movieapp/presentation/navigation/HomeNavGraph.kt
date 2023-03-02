@@ -8,7 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.*
-import com.example.movieapp.presentation.common.TopApplicationBar
+import com.example.movieapp.presentation.common.component.TopApplicationBar
 import com.example.movieapp.presentation.home.screen.PrivacyPolicyScreen
 import com.example.movieapp.presentation.home.screen.detail.DetailScreen
 import com.example.movieapp.presentation.home.screen.home.HomeScreen
@@ -18,6 +18,7 @@ import com.example.movieapp.presentation.home.screen.recommended.RecommendedMovi
 import com.example.movieapp.presentation.home.screen.search.SearchScreen
 import com.example.movieapp.presentation.home.screen.search.SearchScreenVM
 import com.example.movieapp.presentation.home.screen.search_result.SearchResultScreen
+import com.example.movieapp.presentation.home.screen.wish.WishScreen
 import com.example.movieapp.util.addNavArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -146,8 +147,9 @@ fun HomeNavGraph(
                                 inclusive = true
                             }
                         }
+                    } else {
+                        navController.navigate(route)
                     }
-                    navController.navigate(route)
                 }
             }
 
@@ -166,6 +168,14 @@ fun HomeNavGraph(
 
             composable(HomeScreen.PrivacyPolicy.route) {
                 PrivacyPolicyScreen()
+            }
+
+            composable(HomeScreen.Wishlist.route) {
+                WishScreen { id, type ->
+                    navController.navigate(
+                        HomeScreen.Detail.route.addNavArgument(id).addNavArgument(type)
+                    )
+                }
             }
         }
     }

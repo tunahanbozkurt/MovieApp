@@ -1,6 +1,7 @@
 package com.example.movieapp.domain.model.detail
 
 import com.example.movieapp.data.local.entity.MovieEntity
+import com.example.movieapp.data.local.entity.WishEntity
 import com.example.movieapp.data.remote.dto.detail.Genre
 import com.example.movieapp.data.remote.dto.seriesdetail.Season
 import com.example.movieapp.util.toGenreIdList
@@ -28,6 +29,17 @@ data class MovieDetail(
             poster_path = poster_path,
             vote_average = vote_average,
             release_date = release_date
+        )
+    }
+
+    fun toWishEntity(mediaType: String): WishEntity {
+        return WishEntity(
+            id = id,
+            genre = if (genres.isNotEmpty()) genres[0].name else "Unknown",
+            original_title = original_title,
+            poster_path = poster_path,
+            vote_average = vote_average,
+            media_type = mediaType
         )
     }
 }

@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.movieapp.data.local.entity.MovieEntity
+import com.example.movieapp.data.local.entity.WishEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -18,4 +19,10 @@ interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovie(movie: MovieEntity)
+
+    @Query("SELECT * FROM wishentity")
+    fun getWishFlow(): Flow<List<WishEntity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertWish(entity: WishEntity)
 }

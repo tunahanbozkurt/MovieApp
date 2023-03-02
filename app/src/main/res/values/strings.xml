@@ -54,4 +54,5 @@
     <string name="terms_policies">You need to accept Terms and Services and Privacy Policy</string>
     <string name="unknown">Unknown</string>
     <string name="most_popular">Most popular</string>
+    <string name="no_movie">There Is No Movie Yet!</string>
 </resources>

@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,8 +31,8 @@ import coil.compose.AsyncImage
 import com.example.movieapp.R
 import com.example.movieapp.domain.model.cast_crew.CastCrew
 import com.example.movieapp.domain.model.detail.MovieDetail
-import com.example.movieapp.presentation.common.TopApplicationBar
 import com.example.movieapp.presentation.common.button.ColorfulButton
+import com.example.movieapp.presentation.common.component.DetailScreenTopApplicationBar
 import com.example.movieapp.presentation.common.icon.CircularIcon
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
@@ -43,10 +44,7 @@ import com.example.movieapp.presentation.home.elements.card.TvSeriesEpisodeCard
 import com.example.movieapp.ui.theme.Primary_Dark
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.createImgUrl
-import com.example.movieapp.util.setFalse
-import com.example.movieapp.util.setTrue
-import com.example.movieapp.util.uppercaseFirst
+import com.example.movieapp.util.*
 import com.skydoves.cloudy.Cloudy
 
 @Composable
@@ -65,6 +63,7 @@ fun DetailScreen(
     val showSeasonPicker = remember { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
     val selectedSeason = remember { mutableStateOf(1) }
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         viewModel.loadData(movieId, type)
@@ -83,7 +82,10 @@ fun DetailScreen(
                 navigate = {
                     navigate.invoke()
                 }
-            )
+            ) { movieDetail ->
+                viewModel.addWish(movieDetail, type)
+                context.showToast("Added to Wishlist")
+            }
 
             MovieDetailOverviewSection(
                 movieItem,
@@ -253,7 +255,8 @@ fun MovieDetailHeadSection(
     model: MovieDetail,
     modifier: Modifier = Modifier,
     navigate: () -> Unit,
-    onShareClick: () -> Unit
+    onShareClick: () -> Unit,
+    onWishClick: (MovieDetail) -> Unit
 
 ) {
     Box(
@@ -287,14 +290,19 @@ fun MovieDetailHeadSection(
             ) {
 
                 VerticalSpacer(heightDp = 8)
-                TopApplicationBar(
+
+                DetailScreenTopApplicationBar(
                     title = model.original_title,
                     isBackButtonVisible = true,
                     backGround = Color.Transparent,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    navigate.invoke()
-                }
+                    onWishClick = {
+                        onWishClick.invoke(model)
+                    },
+                    onBackClicked = {
+                        navigate.invoke()
+                    }
+                )
+
 
                 VerticalSpacer(heightDp = 24)
 

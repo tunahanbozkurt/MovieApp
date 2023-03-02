@@ -20,7 +20,7 @@ import com.example.movieapp.presentation.auth.base.AuthenticationScreen
 import com.example.movieapp.presentation.auth.login.LoginScreen
 import com.example.movieapp.presentation.auth.reset.ResetPasswordScreen
 import com.example.movieapp.presentation.auth.signup.SignUpScreen
-import com.example.movieapp.presentation.common.TopApplicationBar
+import com.example.movieapp.presentation.common.component.TopApplicationBar
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController

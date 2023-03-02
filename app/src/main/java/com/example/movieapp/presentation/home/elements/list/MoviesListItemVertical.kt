@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -23,7 +24,6 @@ import com.example.movieapp.presentation.home.elements.Rate
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.createImgUrl
-import com.example.movieapp.util.shortenTitle
 
 @Composable
 fun MoviesListItemVertical(
@@ -62,7 +62,12 @@ fun MoviesListItemVertical(
                     .fillMaxSize()
                     .padding(start = 8.dp, bottom = 8.dp, top = 12.dp)
             ) {
-                Text(text = title.shortenTitle(), style = MaterialTheme.localFont.semiBoldH5)
+                Text(
+                    text = title,
+                    style = MaterialTheme.localFont.semiBoldH5,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
                 Text(
                     text = genre,
                     style = MaterialTheme.localFont.mediumH7,

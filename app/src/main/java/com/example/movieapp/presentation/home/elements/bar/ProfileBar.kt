@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.home.elements
+package com.example.movieapp.presentation.home.elements.bar
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme

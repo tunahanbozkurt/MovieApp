@@ -86,11 +86,11 @@ fun BottomNavigation(
             tabState.value = "Wishlist"
             navController.apply {
                 if (currentDestination.value != tabState.value) {
-                    //navigate(HomeScreen.Download.route) {
-                    //                        popUpTo(Graph.HOME) {
-                    //                            inclusive = true
-                    //                        }
-                    //                    }
+                    navigate(HomeScreen.Wishlist.route) {
+                        popUpTo(Graph.HOME) {
+                            inclusive = true
+                        }
+                    }
                 }
 
             }
