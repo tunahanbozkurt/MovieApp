@@ -1,7 +1,8 @@
-package com.example.movieapp.presentation.home.elements
+package com.example.movieapp.presentation.home.elements.card
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
@@ -21,8 +23,10 @@ import com.example.movieapp.ui.theme.localFont
 @Composable
 fun SettingsCardGroupItem(
     title: String,
+    tint: Color,
+    modifier: Modifier = Modifier,
     @DrawableRes iconResId: Int,
-    modifier: Modifier = Modifier
+    onClick: (String) -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -38,6 +42,7 @@ fun SettingsCardGroupItem(
         ) {
 
             Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .clip(CircleShape)
                     .background(MaterialTheme.localColor.primarySoft)
@@ -45,7 +50,8 @@ fun SettingsCardGroupItem(
 
                 Icon(
                     painter = painterResource(id = iconResId),
-                    tint = MaterialTheme.localColor.textGrey,
+                    tint = tint,
+                    modifier = Modifier.padding(4.dp),
                     contentDescription = null
                 )
             }
@@ -58,7 +64,9 @@ fun SettingsCardGroupItem(
         Icon(
             painter = painterResource(id = R.drawable.ic_arrow_forward),
             tint = MaterialTheme.localColor.primaryBlueAccent,
-            modifier = Modifier.padding(end = 4.dp),
+            modifier = Modifier
+                .padding(end = 4.dp)
+                .clickable { onClick.invoke(title) },
             contentDescription = null
         )
     }

@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.home.screen.popular
+package com.example.movieapp.presentation.home.screen.recommended
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -6,8 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -19,12 +20,17 @@ import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.util.addNavArgument
 
 @Composable
-fun MostPopularMoviesScreen(
-    viewModel: MostPopularMoviesScreenVM = hiltViewModel(),
+fun RecommendedMoviesScreen(
+    viewModel: RecommendedMoviesVM = hiltViewModel(),
+    movieId: Int,
     navigate: (String) -> Unit
 ) {
 
-    val paging = viewModel.pager.collectAsLazyPagingItems()
+    val paging = viewModel.pagerFlow.collectAsState().value.collectAsLazyPagingItems()
+
+    LaunchedEffect(Unit) {
+        viewModel.setId(movieId)
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -43,10 +49,4 @@ fun MostPopularMoviesScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewMostPopularMoviesScreen() {
-
 }

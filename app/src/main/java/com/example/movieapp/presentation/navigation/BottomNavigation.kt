@@ -51,7 +51,11 @@ fun BottomNavigation(
             tabState.value = "Home"
             navController.apply {
                 if (currentDestination.value != tabState.value) {
-                    navigate(Graph.HOME)
+                    navigate(Graph.HOME) {
+                        popUpTo(Graph.HOME) {
+                            inclusive = true
+                        }
+                    }
                 }
 
             }
@@ -65,7 +69,11 @@ fun BottomNavigation(
             tabState.value = "Search"
             navController.apply {
                 if (currentDestination.value != tabState.value) {
-                    navigate(HomeScreen.Search.route)
+                    navigate(HomeScreen.Search.route) {
+                        popUpTo(Graph.HOME) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }
@@ -78,7 +86,11 @@ fun BottomNavigation(
             tabState.value = "Wishlist"
             navController.apply {
                 if (currentDestination.value != tabState.value) {
-                    //navigate(HomeScreen.Download.route)
+                    //navigate(HomeScreen.Download.route) {
+                    //                        popUpTo(Graph.HOME) {
+                    //                            inclusive = true
+                    //                        }
+                    //                    }
                 }
 
             }
@@ -92,7 +104,11 @@ fun BottomNavigation(
             tabState.value = "Profile"
             navController.apply {
                 if (currentDestination.value != tabState.value) {
-                    navigate(HomeScreen.Profile.route)
+                    navigate(HomeScreen.Profile.route) {
+                        popUpTo(Graph.HOME) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }

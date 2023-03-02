@@ -33,7 +33,7 @@ fun SearchScreen(
     navigate: (String) -> Unit
 ) {
 
-    val latestSearchedMovie = viewModel.latestSearchedMovie.collectAsState(initial = null)
+    val latestSearchedMovie = viewModel.latestSearchedMovie.collectAsState(initial = null).value
     val recommendedMovies = viewModel.recommendedMovies.collectAsState().value
     val scrollState = rememberScrollState()
 
@@ -68,7 +68,7 @@ fun SearchScreen(
 
         VerticalSpacer(heightDp = 16)
 
-        latestSearchedMovie.value?.let { entity ->
+        latestSearchedMovie?.let { entity ->
             MoviesListItemHorizontal(
                 model = MovieItem(
                     id = entity.id,
@@ -90,7 +90,13 @@ fun SearchScreen(
             title = stringResource(id = R.string.recommended),
             movieItemList = recommendedMovies,
             selectedGenre = Genre(0, "All"),
-            seeAll = { },
+            seeAll = {
+                navigate.invoke(
+                    HomeScreen.RecommendedMovies.route.addNavArgument(
+                        latestSearchedMovie?.id ?: SearchScreenVM.BASE_MOVIE_ID
+                    )
+                )
+            },
             modifier = Modifier
                 .fillMaxHeight()
                 .wrapContentSize(Alignment.BottomCenter)

@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
-import com.example.movieapp.presentation.home.elements.SettingsCardGroupItem
 import com.example.movieapp.presentation.home.screen.profile.SettingModel
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
@@ -25,7 +24,8 @@ import com.example.movieapp.ui.theme.localFont
 fun SettingsCardGroup(
     title: String,
     settings: List<SettingModel>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: (String) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -51,8 +51,11 @@ fun SettingsCardGroup(
 
             SettingsCardGroupItem(
                 title = settings[it].title,
-                iconResId = settings[it].icon
-            )
+                iconResId = settings[it].icon,
+                tint = settings[it].tint
+            ) { settingTitle ->
+                onClick.invoke(settingTitle)
+            }
 
             if (it != settings.size - 1) {
                 Divider(
@@ -69,5 +72,8 @@ fun SettingsCardGroup(
 @Preview
 @Composable
 fun PreviewSettingsCardGroup() {
-    SettingsCardGroup(title = "Title", settings = listOf(SettingModel("Title", R.drawable.ic_edit)))
+    SettingsCardGroup(
+        title = "Title",
+        settings = listOf(SettingModel("Title", R.drawable.ic_edit))
+    ) {}
 }

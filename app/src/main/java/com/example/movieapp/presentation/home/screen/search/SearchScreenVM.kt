@@ -24,18 +24,30 @@ class SearchScreenVM @Inject constructor(
 
     val latestSearchedMovie = repository.getLatestSearchedMovieFlow()
 
-    init {
-        getRecommendedMovies()
+    companion object {
+        const val BASE_MOVIE_ID = 634649
     }
 
-    private fun getRecommendedMovies() {
+    init {
+        getRecommendedMovies(false)
+    }
+
+    private fun getRecommendedMovies(useBaseId: Boolean) {
         viewModelScope.launch {
             val id = repository.getLatestSearchedMovie()?.id
             val response = repository
-                .getRecommendedMovies(id = id ?: 634649, 1, apiKey = BuildConfig.MOVIE_DB_API_KEY)
+                .getRecommendedMovies(
+                    id = if (useBaseId) BASE_MOVIE_ID else id ?: BASE_MOVIE_ID,
+                    1,
+                    apiKey = BuildConfig.MOVIE_DB_API_KEY
+                )
 
             response.onSuccess { recommendedMovies ->
-                _recommendedMovies.update { recommendedMovies.data.results }
+                if (recommendedMovies.data.total_results == 0) {
+                    getRecommendedMovies(true)
+                } else {
+                    _recommendedMovies.update { recommendedMovies.data.results }
+                }
             }
         }
     }

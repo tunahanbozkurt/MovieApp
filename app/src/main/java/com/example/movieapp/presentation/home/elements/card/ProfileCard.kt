@@ -1,9 +1,8 @@
-package com.example.movieapp.presentation.home.elements
+package com.example.movieapp.presentation.home.elements.card
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -25,43 +24,55 @@ import com.example.movieapp.ui.theme.localFont
 fun ProfileCard(
     displayName: String,
     email: String,
+    modifier: Modifier = Modifier,
     @DrawableRes iconResId: Int
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .clip(RoundedCornerShape(16.dp))
-            .padding(start = 16.dp, top = 16.dp, bottom = 16.dp, end = 19.dp)
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier
     ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .border(
+                    width = 1.dp,
+                    MaterialTheme.localColor.primarySoft,
+                    RoundedCornerShape(16.dp)
+                )
+                .padding(start = 16.dp, top = 16.dp, bottom = 16.dp, end = 19.dp)
+        ) {
 
-        ProfileImage(resId = R.drawable.profile_image)
+            ProfileImage(resId = R.drawable.profile_image)
 
-        HorizontalSpacer(width = 16)
+            HorizontalSpacer(width = 16)
 
-        Column {
+            Column {
 
-            Text(
-                text = displayName,
-                maxLines = 1,
-                style = MaterialTheme.localFont.semiBoldH4
-            )
+                Text(
+                    text = displayName,
+                    maxLines = 1,
+                    style = MaterialTheme.localFont.semiBoldH4
+                )
 
-            VerticalSpacer(heightDp = 4)
+                VerticalSpacer(heightDp = 4)
 
-            Text(
-                text = email,
-                maxLines = 1,
-                style = MaterialTheme.localFont.mediumH6,
-                color = MaterialTheme.localColor.textGrey
+                Text(
+                    text = email,
+                    maxLines = 1,
+                    style = MaterialTheme.localFont.mediumH6,
+                    color = MaterialTheme.localColor.textGrey
+                )
+            }
+
+            HorizontalSpacer(width = 18)
+
+            Icon(
+                painter = painterResource(id = iconResId),
+                tint = MaterialTheme.localColor.primaryBlueAccent,
+                contentDescription = null
             )
         }
-
-        HorizontalSpacer(width = 18)
-
-        Icon(
-            painter = painterResource(id = iconResId),
-            tint = MaterialTheme.localColor.primaryBlueAccent,
-            contentDescription = null
-        )
     }
 }

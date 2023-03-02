@@ -3,6 +3,7 @@ package com.example.movieapp.data.remote
 import com.example.movieapp.data.remote.dto.credits.MovieCreditsDTO
 import com.example.movieapp.data.remote.dto.detail.MovieDetailDTO
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
+import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchDTO
 import com.example.movieapp.data.remote.dto.popular.PopularMoviesDTO
 import com.example.movieapp.data.remote.dto.recommended.RecommendedMoviesDTO
 import com.example.movieapp.data.remote.dto.search.MovieSearchDTO
@@ -56,4 +57,11 @@ interface MovieAPI {
         @Path("movie_id") movie_id: Int,
         @Query("api_key") apiKey: String
     ): Response<MovieCreditsDTO>
+
+    @GET("search/multi")
+    suspend fun multiSearch(
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("api_key") apiKey: String
+    ): Response<MultiSearchDTO>
 }
