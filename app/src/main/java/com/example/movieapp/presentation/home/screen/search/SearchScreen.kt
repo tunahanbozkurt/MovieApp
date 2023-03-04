@@ -62,18 +62,17 @@ fun SearchScreen(
         GenreList(isTextVisible = false, selectedGenre = selectedGenre.value) {
             selectedGenre.value = it
         }
-
         VerticalSpacer(heightDp = 24)
 
-        Text(
-            text = stringResource(id = R.string.today),
-            style = MaterialTheme.localFont.semiBoldH4,
-            modifier = Modifier.padding(start = 24.dp)
-        )
-
-        VerticalSpacer(heightDp = 16)
-
         latestSearchedMovie?.let { entity ->
+
+            Text(
+                text = stringResource(id = R.string.today),
+                style = MaterialTheme.localFont.semiBoldH4,
+                modifier = Modifier.padding(start = 24.dp)
+            )
+
+            VerticalSpacer(heightDp = 16)
 
             MoviesListItemHorizontal(
                 model = MovieItem(
@@ -88,10 +87,9 @@ fun SearchScreen(
             ) { id, type ->
                 navigate.invoke(HomeScreen.Detail.route.addNavArgument(id).addNavArgument("movie"))
             }
+            VerticalSpacer(heightDp = 95)
+
         }
-
-
-        VerticalSpacer(heightDp = 95)
 
         MovieListHorizontal(
             title = stringResource(id = R.string.recommended),

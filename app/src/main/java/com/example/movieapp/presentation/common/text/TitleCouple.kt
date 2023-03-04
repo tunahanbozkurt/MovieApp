@@ -44,6 +44,12 @@ fun TitleCouple(
             width = if (halfSizeInfo) Dimension.percent(0.65f)
             else Dimension.fillToConstraints
         }
+
+        constrain(bigTitle) {
+            top.linkTo(parent.top)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+        }
     }
 
     ConstraintLayout(

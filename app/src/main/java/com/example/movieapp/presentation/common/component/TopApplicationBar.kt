@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.Image
 import com.example.movieapp.presentation.common.icon.RectangularIcon
-import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 
@@ -27,8 +26,7 @@ fun TopApplicationBar(
     backGround: Color = MaterialTheme.localColor.primaryDark,
     onBackClicked: () -> Unit
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
+    Box(
         modifier = modifier
             .height(55.dp)
             .background(backGround)
@@ -39,18 +37,17 @@ fun TopApplicationBar(
             Image(
                 R.drawable.ic_back_button,
                 modifier = Modifier
+                    .align(Alignment.CenterStart)
                     .clickable { onBackClicked.invoke() }
             )
         }
-
-        HorizontalSpacer(width = 32)
 
         Text(
             text = title,
             style = MaterialTheme.localFont.semiBoldH4,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
-            modifier = Modifier
+            modifier = Modifier.align(Alignment.Center)
 
         )
     }
@@ -111,5 +108,5 @@ fun DetailScreenTopApplicationBar(
 @Preview
 @Composable
 fun PreviewTopApplicationBar() {
-    TopApplicationBar("MovieApp", isBackButtonVisible = true) {}
+    TopApplicationBar("MovieApp", isBackButtonVisible = true, modifier = Modifier.fillMaxWidth()) {}
 }

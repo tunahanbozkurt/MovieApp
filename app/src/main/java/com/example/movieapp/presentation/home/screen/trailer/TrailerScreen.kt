@@ -60,7 +60,7 @@ fun TrailerScreen(
     }
 
     DisposableEffect(isFullScreen) {
-        systemUiController.isStatusBarVisible = !isFullScreen
+        systemUiController.isSystemBarsVisible = !isFullScreen
         onDispose { }
     }
 

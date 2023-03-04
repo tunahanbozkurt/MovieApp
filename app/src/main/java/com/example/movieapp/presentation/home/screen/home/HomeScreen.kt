@@ -47,7 +47,9 @@ fun HomeScreen(
         ProfileBar(
             displayName = Firebase.auth.currentUser?.displayName
                 ?: stringResource(id = R.string.unknown)
-        )
+        ) {
+            navigate.invoke(HomeScreen.Wishlist.route)
+        }
 
         VerticalSpacer(heightDp = 32)
 

@@ -369,8 +369,7 @@ fun CastAndCrew(
         modifier = modifier
     ) {
 
-        if (modelList != null) {
-
+        if (modelList != null && modelList.any { it.profile_path != null }) {
             Text(
                 text = "Cast and Crew", style = MaterialTheme.localFont.semiBoldH4,
             )

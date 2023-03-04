@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.home.elements.bar
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,7 +21,8 @@ import com.example.movieapp.util.uppercaseFirst
 @Composable
 fun ProfileBar(
     displayName: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onIconCLick: () -> Unit
 ) {
 
     Row(
@@ -57,6 +59,7 @@ fun ProfileBar(
                 .fillMaxWidth()
                 .wrapContentSize(Alignment.CenterEnd)
                 .size(32.dp)
+                .clickable { onIconCLick.invoke() }
         )
     }
 }
@@ -64,5 +67,5 @@ fun ProfileBar(
 @Preview
 @Composable
 fun PreviewProfileBar() {
-    ProfileBar("Tiffany")
+    ProfileBar("Tiffany") {}
 }

@@ -31,7 +31,7 @@ fun SettingsCardGroupItem(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier
+        modifier = modifier.clickable { onClick.invoke(title) },
     ) {
 
         Row(
@@ -65,8 +65,7 @@ fun SettingsCardGroupItem(
             painter = painterResource(id = R.drawable.ic_arrow_forward),
             tint = MaterialTheme.localColor.primaryBlueAccent,
             modifier = Modifier
-                .padding(end = 4.dp)
-                .clickable { onClick.invoke(title) },
+                .padding(end = 4.dp),
             contentDescription = null
         )
     }

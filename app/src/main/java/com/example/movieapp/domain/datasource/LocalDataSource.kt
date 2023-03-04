@@ -10,5 +10,6 @@ interface LocalDataSource {
     suspend fun getMovie(): MovieEntity?
     suspend fun insertMovie(movie: MovieEntity)
     suspend fun insertWish(model: WishEntity)
+    suspend fun deleteWish(entity: WishEntity)
     fun getWishFlow(): Flow<List<WishEntity>>
 }

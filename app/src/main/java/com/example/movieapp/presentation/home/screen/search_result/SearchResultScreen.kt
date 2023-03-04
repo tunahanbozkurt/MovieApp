@@ -93,18 +93,10 @@ fun SearchResultScreen(
 
             VerticalSpacer(heightDp = 24)
 
-            if (pagerState.itemSnapshotList.items.filter { it.media_type == "person" }
-                    .isNotEmpty()) {
-                ActorsList(
-                    list = pagerState.itemSnapshotList.items.filter { it.media_type == "person" }
-                )
-            }
-
-            VerticalSpacer(heightDp = 24)
-
             MovieListVertical(
                 itemList = pagerState.itemSnapshotList.items.filter { it.media_type != "person" }
                     .map { it.toMovieItem() },
+                list = pagerState.itemSnapshotList.items.filter { it.media_type == "person" }
             ) { id, type ->
                 navigate.invoke(id, type)
             }

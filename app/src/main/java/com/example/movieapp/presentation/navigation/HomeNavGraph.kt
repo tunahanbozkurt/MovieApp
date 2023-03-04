@@ -68,7 +68,7 @@ fun HomeNavGraph(
             val isEditProfileScreen = currentDestination.value == HomeScreen.EditProfile.route
             if (isPopularScreen || isRecommendedScreen || isPrivacyPolicyScreen || isEditProfileScreen) {
                 TopApplicationBar(
-                    title = currentDestination.value,
+                    title = if (isRecommendedScreen) "Recommended Movies" else currentDestination.value,
                     isBackButtonVisible = true,
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -207,7 +207,7 @@ fun HomeNavGraph(
 
 private fun setBottomBarVisibility(state: MutableState<Boolean>, destination: NavDestination) {
     state.value = when (destination.route) {
-        HomeScreen.SearchResult.route -> false
+        HomeScreen.SearchResult.route.plus("?query={query}}") -> false
         HomeScreen.MostPopularMovies.route -> false
         HomeScreen.Detail.route.plus("/{id}/{type}") -> false
         HomeScreen.RecommendedMovies.route.plus("/{id}") -> false

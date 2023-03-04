@@ -28,4 +28,8 @@ class LocalDataSourceImpl(
     override fun getWishFlow(): Flow<List<WishEntity>> {
         return dao.getWishFlow()
     }
+
+    override suspend fun deleteWish(entity: WishEntity) {
+        return dao.deleteWish(entity)
+    }
 }

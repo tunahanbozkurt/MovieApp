@@ -1,9 +1,6 @@
 package com.example.movieapp.presentation.navigation
 
-import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -71,29 +68,7 @@ fun AuthenticationNavGraph(
             modifier = modifier.padding(it)
         ) {
             composable(
-                route = AuthenticationScreen.Authentication.route,
-                enterTransition = {
-                    fadeIn(
-                        animationSpec = tween(700)
-                    )
-                },
-                exitTransition = {
-                    slideOutOfContainer(
-                        AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
-                    )
-                },
-                popEnterTransition = {
-                    fadeIn(
-                        animationSpec = tween(700)
-                    )
-                },
-                popExitTransition = {
-                    slideOutOfContainer(
-                        AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
-                    )
-                }
+                route = AuthenticationScreen.Authentication.route
             ) {
                 AuthenticationScreen { route ->
                     when (route) {
@@ -115,31 +90,8 @@ fun AuthenticationNavGraph(
             }
 
             composable(
-                AuthenticationScreen.SignUp.route,
-                enterTransition = {
-                    slideIntoContainer(
-                        AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
-                    )
-                },
-                exitTransition = {
-                    slideOutOfContainer(
-                        AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
-                    )
-                },
-                popEnterTransition = {
-                    slideIntoContainer(
-                        AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
-                    )
-                },
-                popExitTransition = {
-                    slideOutOfContainer(
-                        AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
-                    )
-                }) {
+                AuthenticationScreen.SignUp.route
+            ) {
                 SignUpScreen { route ->
                     if (route == HomeScreen.PrivacyPolicy.route) {
                         navController.navigate(route)
@@ -154,31 +106,8 @@ fun AuthenticationNavGraph(
             }
 
             composable(
-                AuthenticationScreen.Login.route,
-                enterTransition = {
-                    slideIntoContainer(
-                        AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
-                    )
-                },
-                exitTransition = {
-                    slideOutOfContainer(
-                        AnimatedContentScope.SlideDirection.Left,
-                        animationSpec = tween(700)
-                    )
-                },
-                popEnterTransition = {
-                    slideIntoContainer(
-                        AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
-                    )
-                },
-                popExitTransition = {
-                    slideOutOfContainer(
-                        AnimatedContentScope.SlideDirection.Right,
-                        animationSpec = tween(700)
-                    )
-                }) {
+                AuthenticationScreen.Login.route
+            ) {
                 LoginScreen { route ->
                     when (route) {
                         Graph.HOME -> {

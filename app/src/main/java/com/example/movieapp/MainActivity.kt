@@ -50,5 +50,4 @@ class MainActivity : ComponentActivity() {
 
     private fun dontShowOnboarding() = sharedPreferences.getBoolean("DONT_SHOW_ONBOARDING", false)
     private fun isUserExist() = firebaseAuth.currentUser != null
-
 }

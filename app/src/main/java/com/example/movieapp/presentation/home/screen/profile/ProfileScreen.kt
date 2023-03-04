@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +27,7 @@ import com.example.movieapp.presentation.home.elements.card.SignOutCard
 import com.example.movieapp.presentation.navigation.Graph
 import com.example.movieapp.presentation.navigation.HomeScreen
 import com.example.movieapp.ui.theme.localColor
+import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.setFalse
 import com.example.movieapp.util.setTrue
 import com.google.firebase.auth.ktx.auth
@@ -54,6 +56,10 @@ fun ProfileScreen(
     ) {
 
         VerticalSpacer(heightDp = 8)
+
+        Text("Profile", style = MaterialTheme.localFont.semiBoldH4)
+
+        VerticalSpacer(heightDp = 24)
 
         ProfileCard(
             displayName = currentUser?.displayName ?: "",

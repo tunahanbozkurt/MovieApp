@@ -2,6 +2,8 @@ package com.example.movieapp.presentation.auth.signup
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -13,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,7 +23,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.BlueButton
 import com.example.movieapp.presentation.common.PasswordField
-import com.example.movieapp.presentation.common.TitleCouple
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.CommonTextField
@@ -42,6 +44,7 @@ fun SignUpScreen(
     val emailField = viewModel.emailFieldState.collectAsState().value
     val passwordField = viewModel.passwordFieldState.collectAsState().value
     val checkBox = viewModel.checkBoxState.collectAsState().value
+    val scrollState = rememberScrollState()
 
     LaunchedEffect(Unit) {
         viewModel.eventFlow.collectLatest {
@@ -55,21 +58,39 @@ fun SignUpScreen(
             }
         }
     }
-    /*TODO NEEDS VERTICAL SCROLL*/
+
     Column(
-        verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)
+            .verticalScroll(scrollState)
     ) {
 
         VerticalSpacer(heightDp = 40)
 
-        TitleCouple(
-            bigTitle = "Let's get started",
-            infoText = "The latest movies and series are here"
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.Center)
+        ) {
+            Text(
+                text = "Let' get started",
+                style = MaterialTheme.localFont.semiBoldH2,
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+            )
+
+            VerticalSpacer(heightDp = 8)
+
+            Text(
+                text = "The latest movies and series are here",
+                style = MaterialTheme.localFont.mediumH6,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+            )
+        }
 
         VerticalSpacer(heightDp = 64)
 
@@ -104,7 +125,7 @@ fun SignUpScreen(
             })
 
         val annotatedString = buildAnnotatedString {
-            append("By joining, you agree to the ")
+            append("I agree to the ")
 
             pushStringAnnotation(tag = "terms and services", annotation = "terms")
             withStyle(style = SpanStyle(color = MaterialTheme.localColor.primaryBlueAccent)) {
