@@ -11,6 +11,7 @@ import com.example.movieapp.presentation.common.model.SearchFieldState
 import com.example.movieapp.util.convertToDate
 import com.example.movieapp.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,6 +27,10 @@ class HomeScreenVM @Inject constructor(
     private val _popularMovies: MutableStateFlow<PopularMovies> =
         MutableStateFlow(PopularMovies())
     val popularMovie: StateFlow<PopularMovies> = _popularMovies.asStateFlow()
+
+    private val _topRatedMovies: MutableStateFlow<PopularMovies> =
+        MutableStateFlow(PopularMovies())
+    val topRatedMovies: StateFlow<PopularMovies> = _topRatedMovies.asStateFlow()
 
     private val _upcomingMovies: MutableStateFlow<List<UpcomingMovie>> =
         MutableStateFlow(listOf())
@@ -61,11 +66,22 @@ class HomeScreenVM @Inject constructor(
 
     private fun loadPopularMovies() {
         viewModelScope.launch {
-            val response =
+            val popularResponse = async {
                 movieRepository.getPopularMovies(page = 1, apiKey = BuildConfig.MOVIE_DB_API_KEY)
+            }
 
-            response.onSuccess { resource ->
+            val topRatedResponse = async {
+                movieRepository.getTopRatedMovies(page = 1, apiKey = BuildConfig.MOVIE_DB_API_KEY)
+            }
+
+            popularResponse.await().onSuccess { resource ->
                 _popularMovies.update {
+                    resource.data
+                }
+            }
+
+            topRatedResponse.await().onSuccess { resource ->
+                _topRatedMovies.update {
                     resource.data
                 }
             }

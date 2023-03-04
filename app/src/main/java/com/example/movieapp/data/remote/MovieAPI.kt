@@ -100,4 +100,10 @@ interface MovieAPI {
         @Path("tv_id") tv_id: Int,
         @Query("api_key") apiKey: String
     ): Response<TvSeriesVideosDTO>
+
+    @GET("movie/top_rated")
+    suspend fun getTopRatedMovies(
+        @Query("page") page: Int,
+        @Query("api_key") apiKey: String
+    ): Response<PopularMoviesDTO>
 }

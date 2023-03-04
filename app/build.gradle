@@ -125,6 +125,7 @@ dependencies {
     implementation "com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0"
 
     // Leak Canary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.10'
 }
 
 kapt {

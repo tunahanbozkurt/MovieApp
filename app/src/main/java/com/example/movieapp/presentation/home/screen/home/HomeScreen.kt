@@ -33,6 +33,7 @@ fun HomeScreen(
 ) {
     val scrollState = rememberScrollState()
     val popularMovieList = viewModel.popularMovie.collectAsState().value
+    val topRatedMovieList = viewModel.topRatedMovies.collectAsState().value
     val upcomingMovie = viewModel.upcomingMovies.collectAsState().value
     val selectedGenre = viewModel.selectedGenre.collectAsState().value
 
@@ -85,6 +86,21 @@ fun HomeScreen(
             title = stringResource(id = R.string.most_popular),
             movieItemList = popularMovieList.results,
             seeAll = { navigate.invoke(HomeScreen.MostPopularMovies.route) },
+            selectedGenre = selectedGenre,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 15.dp),
+            onItemClicked = { id ->
+                navigate.invoke(HomeScreen.Detail.route.addNavArgument(id).addNavArgument("movie"))
+            }
+        )
+
+        VerticalSpacer(heightDp = 24)
+
+        MovieListHorizontal(
+            title = stringResource(id = R.string.toprated),
+            movieItemList = topRatedMovieList.results,
+            seeAll = { navigate.invoke(HomeScreen.TopRatedMovies.route) },
             selectedGenre = selectedGenre,
             modifier = Modifier
                 .fillMaxSize()

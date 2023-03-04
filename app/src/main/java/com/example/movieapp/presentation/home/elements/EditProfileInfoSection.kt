@@ -10,18 +10,22 @@ import com.example.movieapp.R
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
+import com.example.movieapp.util.uppercaseFirst
 
 @Composable
-fun EditProfileInfoSection() {
+fun EditProfileInfoSection(
+    name: String,
+    email: String
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ProfileImageWithIcon(iconResId = R.drawable.ic_edit_pencil)
         VerticalSpacer(heightDp = 21)
-        Text(text = "Tiffany", style = MaterialTheme.localFont.semiBoldH4)
+        Text(text = name.uppercaseFirst(), style = MaterialTheme.localFont.semiBoldH4)
         VerticalSpacer(heightDp = 8)
         Text(
-            text = "Tiffanyjearsey@gmail.com",
+            text = email,
             style = MaterialTheme.localFont.mediumH5,
             color = MaterialTheme.localColor.textGrey
         )
@@ -31,5 +35,5 @@ fun EditProfileInfoSection() {
 @Preview
 @Composable
 fun PreviewEditProfileInfoSection() {
-    EditProfileInfoSection()
+    EditProfileInfoSection("tiffany", "example@gmail.com")
 }

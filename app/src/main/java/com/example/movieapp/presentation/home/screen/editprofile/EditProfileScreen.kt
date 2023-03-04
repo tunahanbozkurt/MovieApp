@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.home.screen
+package com.example.movieapp.presentation.home.screen.editprofile
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,8 +22,6 @@ import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.CommonTextField
 import com.example.movieapp.presentation.home.elements.EditProfileInfoSection
-import com.example.movieapp.presentation.home.screen.editprofile.EditProfileScreenUIEvent
-import com.example.movieapp.presentation.home.screen.editprofile.EditProfileScreenVM
 import com.example.movieapp.util.showToast
 import kotlinx.coroutines.flow.collectLatest
 
@@ -57,7 +55,10 @@ fun EditProfileScreen(
             .verticalScroll(scrollState)
             .padding(horizontal = 24.dp)
     ) {
-        EditProfileInfoSection()
+        EditProfileInfoSection(
+            name = nameState.text,
+            email = emailState.text
+        )
         VerticalSpacer(heightDp = 40)
         CommonTextField(
             text = nameState.text,
@@ -99,6 +100,7 @@ fun EditProfileScreen(
         ) {
             viewModel.handleUIEvent(EditProfileScreenUIEvent.Save)
         }
+        VerticalSpacer(heightDp = 20)
     }
 }
 

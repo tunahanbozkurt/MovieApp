@@ -19,6 +19,7 @@ interface RemoteMovieDS {
 
     suspend fun getAllMovieGenres(apiKey: String): Response<MovieGenreListDTO>
     suspend fun getPopularMovies(page: Int, apiKey: String): Response<PopularMoviesDTO>
+    suspend fun getTopRatedMovies(page: Int, apiKey: String): Response<PopularMoviesDTO>
     suspend fun getUpcomingMovies(page: Int, apiKey: String): Response<UpcomingMoviesDTO>
     suspend fun searchMovie(query: String, page: Int, apiKey: String): Response<MovieSearchDTO>
     suspend fun getMovieDetail(id: Int, apiKey: String): Response<MovieDetailDTO>

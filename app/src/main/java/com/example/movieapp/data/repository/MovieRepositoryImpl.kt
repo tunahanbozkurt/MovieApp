@@ -46,11 +46,22 @@ class MovieRepositoryImpl(
         )
     }
 
+    override suspend fun getTopRatedMovies(page: Int, apiKey: String): Resource<PopularMovies> {
+        return safeRequestMapper(
+            ioDispatcher,
+            execute = { remoteDataSource.getTopRatedMovies(page, apiKey) },
+            mapper = { mapperDto ->
+                mapperDto.toPopularMovies()
+            }
+        )
+    }
+
     override suspend fun getUpcomingMovies(
         page: Int,
         apiKey: String
     ): Resource<List<UpcomingMovie>> {
-        return safeRequestMapper(ioDispatcher,
+        return safeRequestMapper(
+            ioDispatcher,
             execute = {
                 remoteDataSource.getUpcomingMovies(page, apiKey)
             },

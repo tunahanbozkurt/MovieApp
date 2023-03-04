@@ -20,9 +20,9 @@ class EditProfileScreenVM @Inject constructor(
     private val authenticationRepository: AuthenticationRepository
 ) : ViewModel() {
 
-    val currentUser = Firebase.auth.currentUser
-    var initDisplayName: String = currentUser?.displayName ?: ""
-    var initEmail: String = currentUser?.email ?: ""
+    private val currentUser = Firebase.auth.currentUser
+    private var initDisplayName: String = currentUser?.displayName ?: ""
+    private var initEmail: String = currentUser?.email ?: ""
 
     private val _nameFieldState = MutableStateFlow(
         TextFieldState(

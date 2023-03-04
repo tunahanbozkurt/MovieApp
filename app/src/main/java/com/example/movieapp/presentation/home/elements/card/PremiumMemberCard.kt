@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.home.elements
+package com.example.movieapp.presentation.home.elements.card
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
@@ -19,22 +20,28 @@ import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 
 @Composable
-fun PremiumMemberCard() {
-    /*TODO*/
+fun PremiumMemberCard(
+    modifier: Modifier = Modifier
+) {
 
     Row(
         horizontalArrangement = Arrangement.Center,
-        modifier = Modifier
+        modifier = modifier
             .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.localColor.secondaryOrange)
             .padding(24.dp)
     ) {
 
-        Box {
+        Box(
+            modifier = Modifier
+                .clip(RoundedCornerShape(12.dp))
+                .background(MaterialTheme.localColor.textWhite.copy(0.2f))
+        ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_workspace),
                 tint = MaterialTheme.localColor.textWhite,
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.padding(8.dp)
             )
         }
 
@@ -55,4 +62,10 @@ fun PremiumMemberCard() {
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewMemberCard() {
+    PremiumMemberCard()
 }

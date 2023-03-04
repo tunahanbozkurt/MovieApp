@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.button.LogOutButton
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
+import com.example.movieapp.presentation.home.elements.card.PremiumMemberCard
 import com.example.movieapp.presentation.home.elements.card.ProfileCard
 import com.example.movieapp.presentation.home.elements.card.SettingsCardGroup
 import com.example.movieapp.presentation.home.elements.card.SignOutCard
@@ -68,6 +69,12 @@ fun ProfileScreen(
         ) {
             navigate.invoke(HomeScreen.EditProfile.route)
         }
+
+        VerticalSpacer(heightDp = 24)
+
+        PremiumMemberCard(
+            modifier = Modifier.fillMaxWidth()
+        )
 
         VerticalSpacer(heightDp = 24)
 

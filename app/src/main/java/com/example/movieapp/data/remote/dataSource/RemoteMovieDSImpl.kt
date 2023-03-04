@@ -29,6 +29,10 @@ class RemoteMovieDSImpl(
         return api.getPopularMovies(page = page, apiKey = apiKey)
     }
 
+    override suspend fun getTopRatedMovies(page: Int, apiKey: String): Response<PopularMoviesDTO> {
+        return api.getTopRatedMovies(page, apiKey)
+    }
+
     override suspend fun getUpcomingMovies(page: Int, apiKey: String): Response<UpcomingMoviesDTO> {
         return api.getUpcoming(page, apiKey)
     }

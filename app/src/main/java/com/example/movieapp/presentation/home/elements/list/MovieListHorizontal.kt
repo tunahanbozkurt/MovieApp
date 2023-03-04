@@ -56,6 +56,7 @@ fun MovieListHorizontal(
         VerticalSpacer(heightDp = 16)
 
         LazyRow {
+            println(movieItemList)
             item { HorizontalSpacer(width = 24) }
             items(movieItemList) { movie ->
 

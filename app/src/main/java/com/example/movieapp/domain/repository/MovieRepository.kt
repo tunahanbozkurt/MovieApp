@@ -20,6 +20,7 @@ interface MovieRepository {
 
     suspend fun getAllMovieGenres(apiKey: String): Resource<MovieGenreListDTO>
     suspend fun getPopularMovies(page: Int, apiKey: String): Resource<PopularMovies>
+    suspend fun getTopRatedMovies(page: Int, apiKey: String): Resource<PopularMovies>
     suspend fun getUpcomingMovies(page: Int, apiKey: String): Resource<List<UpcomingMovie>>
     suspend fun getMovieDetail(id: Int, apiKey: String): Resource<MovieDetail>
     suspend fun getMovieCredits(id: Int, apiKey: String): Resource<List<CastCrew>>

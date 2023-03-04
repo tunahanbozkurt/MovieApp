@@ -9,9 +9,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.*
 import com.example.movieapp.presentation.common.component.TopApplicationBar
-import com.example.movieapp.presentation.home.screen.EditProfileScreen
 import com.example.movieapp.presentation.home.screen.PrivacyPolicyScreen
 import com.example.movieapp.presentation.home.screen.detail.DetailScreen
+import com.example.movieapp.presentation.home.screen.editprofile.EditProfileScreen
 import com.example.movieapp.presentation.home.screen.home.HomeScreen
 import com.example.movieapp.presentation.home.screen.popular.MostPopularMoviesScreen
 import com.example.movieapp.presentation.home.screen.profile.ProfileScreen
@@ -19,6 +19,7 @@ import com.example.movieapp.presentation.home.screen.recommended.RecommendedMovi
 import com.example.movieapp.presentation.home.screen.search.SearchScreen
 import com.example.movieapp.presentation.home.screen.search.SearchScreenVM
 import com.example.movieapp.presentation.home.screen.search_result.SearchResultScreen
+import com.example.movieapp.presentation.home.screen.toprated.TopRatedMoviesScreen
 import com.example.movieapp.presentation.home.screen.trailer.TrailerScreen
 import com.example.movieapp.presentation.home.screen.wish.WishScreen
 import com.example.movieapp.util.addNavArgument
@@ -62,11 +63,12 @@ fun HomeNavGraph(
     Scaffold(
         topBar = {
             val isPopularScreen = currentDestination.value == HomeScreen.MostPopularMovies.route
+            val isTopRatedScreen = currentDestination.value == HomeScreen.TopRatedMovies.route
             val isRecommendedScreen =
                 currentDestination.value == HomeScreen.RecommendedMovies.route.plus("/{id}")
             val isPrivacyPolicyScreen = currentDestination.value == HomeScreen.PrivacyPolicy.route
             val isEditProfileScreen = currentDestination.value == HomeScreen.EditProfile.route
-            if (isPopularScreen || isRecommendedScreen || isPrivacyPolicyScreen || isEditProfileScreen) {
+            if (isPopularScreen || isRecommendedScreen || isPrivacyPolicyScreen || isEditProfileScreen || isTopRatedScreen) {
                 TopApplicationBar(
                     title = if (isRecommendedScreen) "Recommended Movies" else currentDestination.value,
                     isBackButtonVisible = true,
@@ -123,6 +125,12 @@ fun HomeNavGraph(
 
             composable(HomeScreen.MostPopularMovies.route) {
                 MostPopularMoviesScreen { route ->
+                    navController.navigate(route)
+                }
+            }
+
+            composable(HomeScreen.TopRatedMovies.route) {
+                TopRatedMoviesScreen { route ->
                     navController.navigate(route)
                 }
             }
@@ -209,6 +217,7 @@ private fun setBottomBarVisibility(state: MutableState<Boolean>, destination: Na
     state.value = when (destination.route) {
         HomeScreen.SearchResult.route.plus("?query={query}}") -> false
         HomeScreen.MostPopularMovies.route -> false
+        HomeScreen.TopRatedMovies.route -> false
         HomeScreen.Detail.route.plus("/{id}/{type}") -> false
         HomeScreen.RecommendedMovies.route.plus("/{id}") -> false
         HomeScreen.PrivacyPolicy.route -> false
@@ -253,6 +262,7 @@ sealed class HomeScreen(val route: String) {
     object Detail : HomeScreen(route = "Detail")
     object SearchResult : HomeScreen(route = "Search_Result")
     object MostPopularMovies : HomeScreen("Most Popular Movies")
+    object TopRatedMovies : HomeScreen("Top Rated Movies")
     object RecommendedMovies : HomeScreen("Recommended Movies")
     object PrivacyPolicy : HomeScreen("Privacy Policy")
     object EditProfile : HomeScreen("Edit Profile")
