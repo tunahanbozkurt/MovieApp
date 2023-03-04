@@ -10,5 +10,6 @@ data class WishEntity(
     val original_title: String,
     val poster_path: String,
     val vote_average: Double,
-    val media_type: String
+    val media_type: String,
+    val backdrop: String
 )

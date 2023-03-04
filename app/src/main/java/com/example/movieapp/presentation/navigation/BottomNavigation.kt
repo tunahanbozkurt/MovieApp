@@ -81,7 +81,7 @@ fun BottomNavigation(
         BottomNavigationItem(
             text = "Wishlist",
             isExpanded = tabState.value == "Wishlist",
-            iconResId = R.drawable.ic_download,
+            iconResId = R.drawable.ic_heart,
         ) {
             tabState.value = "Wishlist"
             navController.apply {

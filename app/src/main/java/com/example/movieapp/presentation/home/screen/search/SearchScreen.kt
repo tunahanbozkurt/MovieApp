@@ -9,6 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -35,6 +37,7 @@ fun SearchScreen(
 
     val latestSearchedMovie = viewModel.latestSearchedMovie.collectAsState(initial = null).value
     val recommendedMovies = viewModel.recommendedMovies.collectAsState().value
+    val selectedGenre = remember { mutableStateOf(Genre(0, "All")) }
     val scrollState = rememberScrollState()
 
     Column(
@@ -56,7 +59,9 @@ fun SearchScreen(
 
         VerticalSpacer(heightDp = 24)
 
-        GenreList(isTextVisible = false, selectedGenre = Genre(0, "All")) {} /*TODO*/
+        GenreList(isTextVisible = false, selectedGenre = selectedGenre.value) {
+            selectedGenre.value = it
+        }
 
         VerticalSpacer(heightDp = 24)
 
@@ -69,6 +74,7 @@ fun SearchScreen(
         VerticalSpacer(heightDp = 16)
 
         latestSearchedMovie?.let { entity ->
+
             MoviesListItemHorizontal(
                 model = MovieItem(
                     id = entity.id,
@@ -84,12 +90,13 @@ fun SearchScreen(
             }
         }
 
+
         VerticalSpacer(heightDp = 95)
 
         MovieListHorizontal(
             title = stringResource(id = R.string.recommended),
             movieItemList = recommendedMovies,
-            selectedGenre = Genre(0, "All"),
+            selectedGenre = selectedGenre.value,
             seeAll = {
                 navigate.invoke(
                     HomeScreen.RecommendedMovies.route.addNavArgument(

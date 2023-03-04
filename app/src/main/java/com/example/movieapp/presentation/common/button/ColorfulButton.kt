@@ -1,6 +1,7 @@
 package com.example.movieapp.presentation.common.button
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -24,7 +25,9 @@ import com.example.movieapp.ui.theme.localFont
 
 @Composable
 fun ColorfulButton(
-    color: Color
+    text: String,
+    color: Color,
+    onClick: () -> Unit
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -35,7 +38,9 @@ fun ColorfulButton(
     ) {
 
         Row(
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 14.dp)
+            modifier = Modifier
+                .padding(horizontal = 24.dp, vertical = 14.dp)
+                .clickable { onClick.invoke() }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_play),
@@ -43,7 +48,7 @@ fun ColorfulButton(
                 contentDescription = null
             )
             HorizontalSpacer(width = 8)
-            Text(text = "Play", style = MaterialTheme.localFont.mediumH4)
+            Text(text = text, style = MaterialTheme.localFont.mediumH4)
         }
     }
 }
@@ -51,5 +56,5 @@ fun ColorfulButton(
 @Preview
 @Composable
 fun PreviewOrangeButton() {
-    ColorfulButton(MaterialTheme.localColor.secondaryOrange)
+
 }

@@ -8,7 +8,9 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.*
 import com.example.movieapp.presentation.navigation.RootNavigationGraph
 import com.example.movieapp.ui.theme.MovieAppTheme
 import com.example.movieapp.ui.theme.localColor
@@ -18,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
+
 
 @OptIn(ExperimentalAnimationApi::class)
 @AndroidEntryPoint
@@ -47,4 +50,5 @@ class MainActivity : ComponentActivity() {
 
     private fun dontShowOnboarding() = sharedPreferences.getBoolean("DONT_SHOW_ONBOARDING", false)
     private fun isUserExist() = firebaseAuth.currentUser != null
+
 }

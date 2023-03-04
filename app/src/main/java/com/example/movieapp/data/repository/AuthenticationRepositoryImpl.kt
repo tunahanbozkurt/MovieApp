@@ -1,5 +1,6 @@
 package com.example.movieapp.data.repository
 
+import com.example.movieapp.R
 import com.example.movieapp.domain.repository.AuthenticationRepository
 import com.example.movieapp.util.TaskResult
 import com.example.movieapp.util.safeFirebaseRequest
@@ -42,6 +43,20 @@ class AuthenticationRepositoryImpl(
     override suspend fun signInWithCredential(credential: AuthCredential): TaskResult {
         return safeFirebaseRequest(ioDispatcher) {
             auth.signInWithCredential(credential)
+        }
+    }
+
+    override suspend fun updateUserInfo(
+        displayName: String?,
+        password: String?,
+        email: String?,
+    ): TaskResult {
+        return try {
+
+            TaskResult.Success
+
+        } catch (e: Exception) {
+            TaskResult.Error(R.string.exception)
         }
     }
 }

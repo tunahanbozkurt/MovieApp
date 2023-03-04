@@ -41,6 +41,7 @@ import com.example.movieapp.presentation.home.elements.Rate
 import com.example.movieapp.presentation.home.elements.card.SeasonPicker
 import com.example.movieapp.presentation.home.elements.card.ShareCard
 import com.example.movieapp.presentation.home.elements.card.TvSeriesEpisodeCard
+import com.example.movieapp.presentation.navigation.HomeScreen
 import com.example.movieapp.ui.theme.Primary_Dark
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
@@ -52,7 +53,7 @@ fun DetailScreen(
     movieId: Int,
     type: String,
     viewModel: DetailScreenVM = hiltViewModel(),
-    navigate: () -> Unit
+    navigate: (String) -> Unit
 ) {
 
     val movieItem = viewModel.movieDetailState.collectAsState().value
@@ -80,12 +81,18 @@ fun DetailScreen(
                 model = movieItem,
                 onShareClick = { showDialog.setTrue() },
                 navigate = {
-                    navigate.invoke()
+                    navigate.invoke("")
+                },
+                onTrailerClick = {
+                    navigate.invoke(
+                        HomeScreen.Trailer.route.addNavArgument(movieItem.id).addNavArgument(type)
+                    )
+                },
+                onWishClick = { movieDetail ->
+                    viewModel.addWish(movieDetail, type)
+                    context.showToast("Added to Wishlist")
                 }
-            ) { movieDetail ->
-                viewModel.addWish(movieDetail, type)
-                context.showToast("Added to Wishlist")
-            }
+            )
 
             MovieDetailOverviewSection(
                 movieItem,
@@ -94,7 +101,7 @@ fun DetailScreen(
 
             VerticalSpacer(heightDp = 24)
 
-            CastAndCrew(modelList = castAndCrew)
+            CastAndCrew(modelList = castAndCrew, modifier = Modifier.padding(horizontal = 24.dp))
 
             VerticalSpacer(heightDp = 24)
 
@@ -111,12 +118,13 @@ fun DetailScreen(
                 VerticalSpacer(heightDp = 13)
 
                 Row(
-                    Modifier.padding(start = 24.dp)
+                    Modifier
+                        .padding(start = 24.dp)
+                        .clickable { showSeasonPicker.setTrue() }
                 ) {
                     Text(
                         text = "Season ${selectedSeason.value}",
-                        style = MaterialTheme.localFont.mediumH5,
-                        modifier = Modifier.clickable { showSeasonPicker.setTrue() }
+                        style = MaterialTheme.localFont.mediumH5
                     )
                     HorizontalSpacer(width = 5)
                     Icon(
@@ -204,11 +212,14 @@ fun MovieDetailButtonSet(
     playButtonColor: Color,
     modifier: Modifier = Modifier,
     onShareClick: () -> Unit,
+    onTrailerClick: () -> Unit,
 ) {
     Row(
         modifier = modifier
     ) {
-        ColorfulButton(color = playButtonColor)
+        ColorfulButton(text = "Trailer", color = playButtonColor) {
+            onTrailerClick.invoke()
+        }
         HorizontalSpacer(width = 16)
         CircularIcon(
             resId = R.drawable.ic_download,
@@ -256,9 +267,11 @@ fun MovieDetailHeadSection(
     modifier: Modifier = Modifier,
     navigate: () -> Unit,
     onShareClick: () -> Unit,
-    onWishClick: (MovieDetail) -> Unit
+    onWishClick: (MovieDetail) -> Unit,
+    onTrailerClick: () -> Unit
 
 ) {
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier.height(IntrinsicSize.Min)
@@ -330,9 +343,15 @@ fun MovieDetailHeadSection(
 
                 VerticalSpacer(heightDp = 24)
 
-                MovieDetailButtonSet(MaterialTheme.localColor.secondaryOrange) {
-                    onShareClick.invoke()
-                }
+                MovieDetailButtonSet(
+                    MaterialTheme.localColor.secondaryOrange,
+                    onShareClick = {
+                        onShareClick.invoke()
+                    },
+                    onTrailerClick = {
+                        onTrailerClick.invoke()
+                    }
+                )
 
                 VerticalSpacer(heightDp = 24)
 
@@ -354,15 +373,11 @@ fun CastAndCrew(
 
             Text(
                 text = "Cast and Crew", style = MaterialTheme.localFont.semiBoldH4,
-                modifier = Modifier.padding(start = 24.dp)
             )
 
             VerticalSpacer(heightDp = 16)
 
             LazyRow {
-                item {
-                    HorizontalSpacer(width = 24)
-                }
                 items(modelList) { item ->
                     if (item.profile_path != null) {
                         CastAndCrewItem(model = item)

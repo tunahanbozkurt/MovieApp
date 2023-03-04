@@ -21,6 +21,7 @@ import com.example.movieapp.presentation.auth.login.LoginScreen
 import com.example.movieapp.presentation.auth.reset.ResetPasswordScreen
 import com.example.movieapp.presentation.auth.signup.SignUpScreen
 import com.example.movieapp.presentation.common.component.TopApplicationBar
+import com.example.movieapp.presentation.home.screen.PrivacyPolicyScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -140,9 +141,13 @@ fun AuthenticationNavGraph(
                     )
                 }) {
                 SignUpScreen { route ->
-                    rootNavController.navigate(route) {
-                        popUpTo(Graph.AUTHENTICATION) {
-                            inclusive = true
+                    if (route == HomeScreen.PrivacyPolicy.route) {
+                        navController.navigate(route)
+                    } else {
+                        rootNavController.navigate(route) {
+                            popUpTo(Graph.AUTHENTICATION) {
+                                inclusive = true
+                            }
                         }
                     }
                 }
@@ -194,6 +199,10 @@ fun AuthenticationNavGraph(
                 ResetPasswordScreen {
                     /*TODO*/
                 }
+            }
+
+            composable(HomeScreen.PrivacyPolicy.route) {
+                PrivacyPolicyScreen()
             }
         }
     }

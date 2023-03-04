@@ -62,6 +62,7 @@ fun DetailScreenTopApplicationBar(
     modifier: Modifier = Modifier,
     isBackButtonVisible: Boolean = false,
     backGround: Color = MaterialTheme.localColor.primaryDark,
+    padding: PaddingValues = PaddingValues(horizontal = 24.dp),
     onBackClicked: () -> Unit,
     onWishClick: () -> Unit
 ) {
@@ -72,7 +73,7 @@ fun DetailScreenTopApplicationBar(
             .fillMaxWidth()
             .height(55.dp)
             .background(backGround)
-            .padding(horizontal = 24.dp)
+            .padding(padding)
     ) {
 
         if (isBackButtonVisible) {
@@ -97,7 +98,7 @@ fun DetailScreenTopApplicationBar(
 
         RectangularIcon(
             iconResId = R.drawable.ic_heart,
-            backGroundColor = MaterialTheme.localColor.primaryDark,
+            backGroundColor = MaterialTheme.localColor.primarySoft,
             iconTint = MaterialTheme.localColor.secondaryRed,
             modifier = Modifier
                 .size(32.dp)

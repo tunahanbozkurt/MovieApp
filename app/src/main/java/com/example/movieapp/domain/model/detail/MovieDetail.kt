@@ -17,7 +17,8 @@ data class MovieDetail(
     val overview: String = "",
     val number_of_episodes: Int = 0,
     val number_of_seasons: Int = 0,
-    val seasons: List<Season> = listOf()
+    val seasons: List<Season> = listOf(),
+    val backdrop: String? = null
 ) {
 
     fun toMovieEntity(): MovieEntity {
@@ -39,7 +40,8 @@ data class MovieDetail(
             original_title = original_title,
             poster_path = poster_path,
             vote_average = vote_average,
-            media_type = mediaType
+            media_type = mediaType,
+            backdrop = backdrop ?: poster_path
         )
     }
 }

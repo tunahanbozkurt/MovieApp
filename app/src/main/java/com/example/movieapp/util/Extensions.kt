@@ -247,6 +247,10 @@ fun List<Genre>.toGenreIdList(): List<Int> {
     return list
 }
 
+fun String.createYoutubeTrailUrl(): String {
+    return "https://www.youtube.com/watch?v=$this"
+}
+
 fun MutableState<Boolean>.reverseTheValue() {
     this.value = !this.value
 }
@@ -263,6 +267,14 @@ fun TaskResult.onSuccess(): Boolean {
     return this is TaskResult.Success
 }
 
+fun TaskResult.onSuccess(execute: () -> Unit) {
+    return execute.invoke()
+}
+
 fun TaskResult.onError(): Boolean {
     return this is TaskResult.Error
+}
+
+fun TaskResult.onError(execute: () -> Unit) {
+    return execute.invoke()
 }

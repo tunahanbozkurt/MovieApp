@@ -1,4 +1,4 @@
-package com.example.movieapp.presentation.common
+package com.example.movieapp.presentation.common.text
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -18,6 +18,7 @@ fun CommonTextField(
     labelText: String,
     modifier: Modifier = Modifier,
     hasError: Boolean,
+    readOnly: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -30,6 +31,7 @@ fun CommonTextField(
         isError = hasError,
         singleLine = true,
         maxLines = 1,
+        readOnly = readOnly,
         trailingIcon = trailingIcon,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,

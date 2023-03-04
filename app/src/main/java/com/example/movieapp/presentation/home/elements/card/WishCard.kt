@@ -33,7 +33,8 @@ fun WishCard(
     title: String,
     media_type: String,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onDeleteWish: () -> Unit
 ) {
 
     Row(
@@ -49,7 +50,7 @@ fun WishCard(
             AsyncImage(
                 model = createImgUrl(imgUrl),
                 contentDescription = null,
-                contentScale = ContentScale.FillWidth,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .padding(start = 12.dp, top = 12.dp, bottom = 12.dp)
                     .clip(RoundedCornerShape(16.dp))
@@ -85,6 +86,7 @@ fun WishCard(
                         .padding(end = 12.dp)
                         .fillMaxWidth()
                         .wrapContentSize(Alignment.CenterEnd)
+                        .clickable { onDeleteWish.invoke() }
                 )
             }
         }
@@ -94,5 +96,5 @@ fun WishCard(
 @Preview
 @Composable
 fun PreviewWishCard() {
-    WishCard("", "", "", "") {}
+    WishCard("", "", "", "", onClick = {}) {}
 }

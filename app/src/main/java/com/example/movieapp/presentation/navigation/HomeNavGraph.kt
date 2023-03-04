@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.navigation.*
 import com.example.movieapp.presentation.common.component.TopApplicationBar
+import com.example.movieapp.presentation.home.screen.EditProfileScreen
 import com.example.movieapp.presentation.home.screen.PrivacyPolicyScreen
 import com.example.movieapp.presentation.home.screen.detail.DetailScreen
 import com.example.movieapp.presentation.home.screen.home.HomeScreen
@@ -18,6 +19,7 @@ import com.example.movieapp.presentation.home.screen.recommended.RecommendedMovi
 import com.example.movieapp.presentation.home.screen.search.SearchScreen
 import com.example.movieapp.presentation.home.screen.search.SearchScreenVM
 import com.example.movieapp.presentation.home.screen.search_result.SearchResultScreen
+import com.example.movieapp.presentation.home.screen.trailer.TrailerScreen
 import com.example.movieapp.presentation.home.screen.wish.WishScreen
 import com.example.movieapp.util.addNavArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -63,7 +65,8 @@ fun HomeNavGraph(
             val isRecommendedScreen =
                 currentDestination.value == HomeScreen.RecommendedMovies.route.plus("/{id}")
             val isPrivacyPolicyScreen = currentDestination.value == HomeScreen.PrivacyPolicy.route
-            if (isPopularScreen || isRecommendedScreen || isPrivacyPolicyScreen) {
+            val isEditProfileScreen = currentDestination.value == HomeScreen.EditProfile.route
+            if (isPopularScreen || isRecommendedScreen || isPrivacyPolicyScreen || isEditProfileScreen) {
                 TopApplicationBar(
                     title = currentDestination.value,
                     isBackButtonVisible = true,
@@ -134,8 +137,12 @@ fun HomeNavGraph(
                 DetailScreen(
                     movieId = backStackEntry.arguments?.getInt("id") ?: 0,
                     type = backStackEntry.arguments?.getString("type") ?: "movie"
-                ) {
-                    navController.popBackStack()
+                ) { route ->
+                    if (route.isEmpty()) {
+                        navController.popBackStack()
+                    } else {
+                        navController.navigate(route)
+                    }
                 }
             }
 
@@ -177,6 +184,23 @@ fun HomeNavGraph(
                     )
                 }
             }
+
+            composable(HomeScreen.EditProfile.route) {
+                EditProfileScreen()
+            }
+
+            composable(
+                HomeScreen.Trailer.route.plus("/{id}/{type}"),
+                arguments = listOf(
+                    navArgument("id") { type = NavType.IntType },
+                    navArgument("type") { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                TrailerScreen(
+                    id = backStackEntry.arguments?.getInt("id") ?: 0,
+                    type = backStackEntry.arguments?.getString("type") ?: "movie"
+                )
+            }
         }
     }
 }
@@ -188,6 +212,7 @@ private fun setBottomBarVisibility(state: MutableState<Boolean>, destination: Na
         HomeScreen.Detail.route.plus("/{id}/{type}") -> false
         HomeScreen.RecommendedMovies.route.plus("/{id}") -> false
         HomeScreen.PrivacyPolicy.route -> false
+        HomeScreen.Trailer.route.plus("/{id}/{type}") -> false
         else -> {
             true
         }
@@ -230,4 +255,6 @@ sealed class HomeScreen(val route: String) {
     object MostPopularMovies : HomeScreen("Most Popular Movies")
     object RecommendedMovies : HomeScreen("Recommended Movies")
     object PrivacyPolicy : HomeScreen("Privacy Policy")
+    object EditProfile : HomeScreen("Edit Profile")
+    object Trailer : HomeScreen("Trailer")
 }

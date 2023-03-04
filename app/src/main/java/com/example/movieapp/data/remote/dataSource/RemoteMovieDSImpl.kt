@@ -4,10 +4,12 @@ import com.example.movieapp.data.remote.MovieAPI
 import com.example.movieapp.data.remote.dto.credits.MovieCreditsDTO
 import com.example.movieapp.data.remote.dto.detail.MovieDetailDTO
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
+import com.example.movieapp.data.remote.dto.movieVideo.MovieVideosDTO
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchDTO
 import com.example.movieapp.data.remote.dto.popular.PopularMoviesDTO
 import com.example.movieapp.data.remote.dto.recommended.RecommendedMoviesDTO
 import com.example.movieapp.data.remote.dto.search.MovieSearchDTO
+import com.example.movieapp.data.remote.dto.seriesVideos.TvSeriesVideosDTO
 import com.example.movieapp.data.remote.dto.seriesdetail.TvSeriesDetailDTO
 import com.example.movieapp.data.remote.dto.tvCredits.TvShowCreditsDTO
 import com.example.movieapp.data.remote.dto.tvseasondetail.TvSeasonDetailDTO
@@ -69,6 +71,14 @@ class RemoteMovieDSImpl(
         season: Int
     ): Response<TvSeasonDetailDTO> {
         return api.getTvSeasonDetails(tv_id = id, season_number = season, apiKey = apiKey)
+    }
+
+    override suspend fun getTvSeriesMovies(id: Int, apiKey: String): Response<TvSeriesVideosDTO> {
+        return api.getSeriesVideos(id, apiKey)
+    }
+
+    override suspend fun getMovieVideos(id: Int, apiKey: String): Response<MovieVideosDTO> {
+        return api.getMovieVideos(id, apiKey)
     }
 
     override suspend fun getRecommendedMovies(

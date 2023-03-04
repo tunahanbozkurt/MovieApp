@@ -28,6 +28,7 @@ android {
 
         buildConfigField "String", "WEB_CLIENT_ID", "\"${properties.getProperty("WEB_CLIENT_ID")}\""
         buildConfigField "String", "MOVIE_DB_API_KEY", "\"${properties.getProperty("MOVIE_DB_API_KEY")}\""
+        buildConfigField "String", "YOUTUBE_API_KEY", "\"${properties.getProperty("YOUTUBE_API_KEY")}\""
         resValue "string", "FACEBOOK_APP_ID", "\"${properties.getProperty("FACEBOOK_APP_ID")}\""
         resValue "string", "FACEBOOK_CLIENT_TOKEN", "\"${properties.getProperty("FACEBOOK_CLIENT_TOKEN")}\""
         resValue "string", "FB_LOGIN_PROTOCOL_SCHEME", "\"${properties.getProperty("FB_LOGIN_PROTOCOL_SCHEME")}\""
@@ -116,6 +117,14 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    // System UI Controller
+    implementation "com.google.accompanist:accompanist-systemuicontroller:0.29.1-alpha"
+
+    // YoutubePlayer
+    implementation "com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0"
+
+    // Leak Canary
 }
 
 kapt {

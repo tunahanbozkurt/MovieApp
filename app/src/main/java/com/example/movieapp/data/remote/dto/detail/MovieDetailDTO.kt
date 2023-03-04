@@ -38,7 +38,8 @@ data class MovieDetailDTO(
             release_date = release_date,
             runtime = runtime ?: 0,
             vote_average = vote_average,
-            overview = overview ?: ""
+            overview = overview ?: "",
+            backdrop = backdrop_path ?: ""
         )
     }
 }

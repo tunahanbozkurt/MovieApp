@@ -47,16 +47,22 @@ fun WishScreen(
             ) {
                 items(wishes) { item ->
                     WishCard(
-                        imgUrl = item.poster_path,
+                        imgUrl = item.backdrop,
                         genre = item.genre,
                         title = item.original_title,
                         media_type = item.media_type,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 24.dp)
-                    ) {
-                        navigate.invoke(item.id, item.media_type)
-                    }
+                            .padding(horizontal = 24.dp),
+                        onClick = {
+                            navigate.invoke(item.id, item.media_type)
+
+                        },
+                        onDeleteWish = {
+                            viewModel.deleteWish(item)
+                        }
+                    )
+
                     VerticalSpacer(heightDp = 16)
                 }
             }

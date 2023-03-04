@@ -48,7 +48,8 @@ data class TvSeriesDetailDTO(
             release_date = first_air_date,
             runtime = if (episode_run_time.isNotEmpty()) episode_run_time[0] else 40,
             vote_average = vote_average,
-            overview = overview
+            overview = overview,
+            backdrop = backdrop_path ?: ""
         )
     }
 }

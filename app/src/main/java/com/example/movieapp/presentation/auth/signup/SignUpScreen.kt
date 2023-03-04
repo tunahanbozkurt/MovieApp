@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.auth.signup
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
@@ -18,11 +19,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.BlueButton
-import com.example.movieapp.presentation.common.CommonTextField
 import com.example.movieapp.presentation.common.PasswordField
 import com.example.movieapp.presentation.common.TitleCouple
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
+import com.example.movieapp.presentation.common.text.CommonTextField
+import com.example.movieapp.presentation.navigation.HomeScreen
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.showToast
@@ -47,7 +49,7 @@ fun SignUpScreen(
                 is ScreenEvent.Navigate -> {
                     navigate.invoke(it.route)
                 }
-                ScreenEvent.ShowToast -> {
+                is ScreenEvent.ShowToast -> {
                     context.showToast(context.getString(R.string.terms_policies))
                 }
             }
@@ -133,7 +135,8 @@ fun SignUpScreen(
             Text(
                 text = annotatedString,
                 style = MaterialTheme.localFont.mediumBody,
-                color = MaterialTheme.localColor.textGrey
+                color = MaterialTheme.localColor.textGrey,
+                modifier = Modifier.clickable { navigate.invoke(HomeScreen.PrivacyPolicy.route) }
             )
         }
 

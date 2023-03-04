@@ -102,7 +102,7 @@ class SignUpScreenVM @Inject constructor(
         _emailFieldState.update { it.copy(hasError = emailValidation.onError()) }
 
         if (!checkBox) {
-            _eventChannel.trySend(ScreenEvent.ShowToast)
+            _eventChannel.trySend(ScreenEvent.ShowToast())
         }
 
         return listOf(nameValidation, passwordValidation, emailValidation, !checkBox).hasError()

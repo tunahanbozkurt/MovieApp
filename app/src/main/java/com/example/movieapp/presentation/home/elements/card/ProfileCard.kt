@@ -2,6 +2,7 @@ package com.example.movieapp.presentation.home.elements.card
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -25,7 +26,8 @@ fun ProfileCard(
     displayName: String,
     email: String,
     modifier: Modifier = Modifier,
-    @DrawableRes iconResId: Int
+    @DrawableRes iconResId: Int,
+    onClickIcon: () -> Unit
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -48,7 +50,9 @@ fun ProfileCard(
 
             HorizontalSpacer(width = 16)
 
-            Column {
+            Column(
+                Modifier.weight(1f)
+            ) {
 
                 Text(
                     text = displayName,
@@ -71,7 +75,8 @@ fun ProfileCard(
             Icon(
                 painter = painterResource(id = iconResId),
                 tint = MaterialTheme.localColor.primaryBlueAccent,
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.clickable { onClickIcon.invoke() }
             )
         }
     }

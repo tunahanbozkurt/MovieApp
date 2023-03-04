@@ -64,7 +64,7 @@ fun MovieListHorizontal(
                     it == selectedGenre.id
                 }
 
-                if (movie.poster_path != null && selectedMovieGenre && movie.original_title != null) {
+                if (movie.poster_path != null && selectedMovieGenre) {
                     MoviesListItemVertical(
                         imgUrl = movie.poster_path,
                         rate = movie.vote_average,

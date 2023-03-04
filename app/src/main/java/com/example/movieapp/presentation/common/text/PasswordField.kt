@@ -10,6 +10,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import com.example.movieapp.R
+import com.example.movieapp.presentation.common.text.CommonTextField
 import com.example.movieapp.ui.theme.localColor
 
 @Composable

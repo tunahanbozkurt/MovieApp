@@ -3,8 +3,10 @@ package com.example.movieapp.data.repository
 import com.example.movieapp.data.local.entity.MovieEntity
 import com.example.movieapp.data.local.entity.WishEntity
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
+import com.example.movieapp.data.remote.dto.movieVideo.MovieVideosDTO
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchDTO
 import com.example.movieapp.data.remote.dto.search.MovieSearchDTO
+import com.example.movieapp.data.remote.dto.seriesVideos.TvSeriesVideosDTO
 import com.example.movieapp.data.remote.dto.tvseasondetail.TvSeasonDetailDTO
 import com.example.movieapp.domain.datasource.LocalDataSource
 import com.example.movieapp.domain.datasource.RemoteMovieDS
@@ -125,6 +127,18 @@ class MovieRepositoryImpl(
         }
     }
 
+    override suspend fun getMovieVideos(id: Int, apiKey: String): Resource<MovieVideosDTO> {
+        return safeRequest(ioDispatcher) {
+            remoteDataSource.getMovieVideos(id, apiKey)
+        }
+    }
+
+    override suspend fun getSeriesVideos(id: Int, apiKey: String): Resource<TvSeriesVideosDTO> {
+        return safeRequest(ioDispatcher) {
+            remoteDataSource.getTvSeriesMovies(id, apiKey)
+        }
+    }
+
     override fun getWishFlow(): Flow<List<WishEntity>> {
         return localDataSource.getWishFlow().flowOn(ioDispatcher)
     }
@@ -177,5 +191,9 @@ class MovieRepositoryImpl(
         return safeRequest(ioDispatcher) {
             remoteDataSource.multiSearchMovie(query, page, apiKey)
         }
+    }
+
+    override suspend fun deleteWish(entity: WishEntity) {
+        return localDataSource.deleteWish(entity)
     }
 }

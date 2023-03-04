@@ -14,12 +14,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.BlueButton
-import com.example.movieapp.presentation.common.CommonTextField
 import com.example.movieapp.presentation.common.PasswordField
 import com.example.movieapp.presentation.common.TitleCouple
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.BlueText
+import com.example.movieapp.presentation.common.text.CommonTextField
 import com.example.movieapp.presentation.navigation.AuthenticationScreen
 import com.example.movieapp.ui.theme.localFont
 import kotlinx.coroutines.flow.collectLatest
