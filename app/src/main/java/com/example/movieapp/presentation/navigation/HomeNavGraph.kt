@@ -13,6 +13,7 @@ import com.example.movieapp.presentation.home.screen.PrivacyPolicyScreen
 import com.example.movieapp.presentation.home.screen.detail.DetailScreen
 import com.example.movieapp.presentation.home.screen.editprofile.EditProfileScreen
 import com.example.movieapp.presentation.home.screen.home.HomeScreen
+import com.example.movieapp.presentation.home.screen.notification.NotificationScreen
 import com.example.movieapp.presentation.home.screen.popular.MostPopularMoviesScreen
 import com.example.movieapp.presentation.home.screen.profile.ProfileScreen
 import com.example.movieapp.presentation.home.screen.recommended.RecommendedMoviesScreen
@@ -68,7 +69,14 @@ fun HomeNavGraph(
                 currentDestination.value == HomeScreen.RecommendedMovies.route.plus("/{id}")
             val isPrivacyPolicyScreen = currentDestination.value == HomeScreen.PrivacyPolicy.route
             val isEditProfileScreen = currentDestination.value == HomeScreen.EditProfile.route
-            if (isPopularScreen || isRecommendedScreen || isPrivacyPolicyScreen || isEditProfileScreen || isTopRatedScreen) {
+            val isNotificationScreen = currentDestination.value == HomeScreen.Notification.route
+            if (isPopularScreen ||
+                isRecommendedScreen ||
+                isPrivacyPolicyScreen ||
+                isEditProfileScreen ||
+                isTopRatedScreen ||
+                isNotificationScreen
+            ) {
                 TopApplicationBar(
                     title = if (isRecommendedScreen) "Recommended Movies" else currentDestination.value,
                     isBackButtonVisible = true,
@@ -209,6 +217,10 @@ fun HomeNavGraph(
                     type = backStackEntry.arguments?.getString("type") ?: "movie"
                 )
             }
+
+            composable(HomeScreen.Notification.route) {
+                NotificationScreen()
+            }
         }
     }
 }
@@ -260,6 +272,7 @@ sealed class HomeScreen(val route: String) {
     object Wishlist : HomeScreen(route = "Wishlist")
     object Search : HomeScreen(route = "Search")
     object Detail : HomeScreen(route = "Detail")
+    object Notification : HomeScreen(route = "Notification")
     object SearchResult : HomeScreen(route = "Search_Result")
     object MostPopularMovies : HomeScreen("Most Popular Movies")
     object TopRatedMovies : HomeScreen("Top Rated Movies")

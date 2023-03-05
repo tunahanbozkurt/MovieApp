@@ -1,20 +1,27 @@
 package com.example.movieapp.presentation.auth.reset
 
-import androidx.compose.foundation.layout.*
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.presentation.common.BlueButton
 import com.example.movieapp.presentation.common.TitleCouple
+import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.CommonTextField
 import com.example.movieapp.ui.theme.localFont
+import com.example.movieapp.util.showToast
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -25,16 +32,26 @@ fun ResetPasswordScreen(
 ) {
 
     val nameField = viewModel.emailFieldState.collectAsState().value
+    val onBackDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewModel.eventFlow.collectLatest {
-            navigate.invoke()
+        viewModel.eventFlow.collectLatest { event ->
+            when (event) {
+                is ScreenEvent.Navigate -> {
+                    if (event.route.isEmpty()) {
+                        onBackDispatcher?.onBackPressed()
+                    }
+                }
+                is ScreenEvent.ShowToast -> {
+                    context.showToast(event.msg)
+                }
+            }
         }
     }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)

@@ -3,25 +3,27 @@ package com.example.movieapp.presentation.auth.login
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.BlueButton
 import com.example.movieapp.presentation.common.PasswordField
-import com.example.movieapp.presentation.common.TitleCouple
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.BlueText
 import com.example.movieapp.presentation.common.text.CommonTextField
 import com.example.movieapp.presentation.navigation.AuthenticationScreen
 import com.example.movieapp.ui.theme.localFont
+import com.example.movieapp.util.uppercaseFirst
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -32,6 +34,7 @@ fun LoginScreen(
 ) {
 
     val context = LocalContext.current
+    val name = viewModel.name
     val passwordState = viewModel.passwordFieldState.collectAsState().value
     val emailState = viewModel.emailFieldState.collectAsState().value
 
@@ -47,13 +50,36 @@ fun LoginScreen(
     }
 
     Column(
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 24.dp)
     ) {
-        TitleCouple(bigTitle = "Hi, Tiffany", infoText = "Welcome back! Please enter your details")
+
+        VerticalSpacer(heightDp = 40)
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.Center)
+        ) {
+            Text(
+                text = if (name.isNotEmpty()) "Hi, ${name.uppercaseFirst()}" else "Hi",
+                style = MaterialTheme.localFont.semiBoldH2,
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+            )
+
+            VerticalSpacer(heightDp = 8)
+
+            Text(
+                text = "Welcome back! Please enter your details",
+                style = MaterialTheme.localFont.mediumH6,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+            )
+        }
 
         VerticalSpacer(heightDp = 64)
 

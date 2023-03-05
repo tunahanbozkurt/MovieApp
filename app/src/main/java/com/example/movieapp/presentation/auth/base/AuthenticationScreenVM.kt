@@ -38,7 +38,7 @@ class AuthenticationScreenVM @Inject constructor(
         viewModelScope.launch {
             val response = authUseCase.loginWithCredential(credential)
             if (response.onSuccess()) {
-                _eventChannel.trySend(ScreenEvent.Navigate(Graph.HOME))
+                _eventChannel.send(ScreenEvent.Navigate(Graph.HOME))
             }
         }
     }
@@ -48,7 +48,7 @@ class AuthenticationScreenVM @Inject constructor(
         viewModelScope.launch {
             val response = authUseCase.loginWithCredential(credential)
             if (response.onSuccess()) {
-                _eventChannel.trySend(ScreenEvent.Navigate(Graph.HOME))
+                _eventChannel.send(ScreenEvent.Navigate(Graph.HOME))
             }
         }
     }

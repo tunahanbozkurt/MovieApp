@@ -14,5 +14,6 @@ interface AuthenticationRepository {
     suspend fun signInWithEmailAndPassword(email: String, password: String): TaskResult
     suspend fun sendPasswordResetEmail(email: String): TaskResult
     suspend fun signInWithCredential(credential: AuthCredential): TaskResult
-    suspend fun updateUserInfo(displayName: String?, password: String?, email: String?): TaskResult
+    suspend fun updateDisplayName(name: String, password: String): TaskResult
+    suspend fun updateEmail(originalEmail: String, email: String, password: String): TaskResult
 }

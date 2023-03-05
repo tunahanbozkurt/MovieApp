@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.home.screen.editprofile
 
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,7 +24,6 @@ import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.CommonTextField
 import com.example.movieapp.presentation.home.elements.EditProfileInfoSection
 import com.example.movieapp.util.showToast
-import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun EditProfileScreen(
@@ -33,14 +33,14 @@ fun EditProfileScreen(
     val nameState = viewModel.nameFieldState.collectAsState().value
     val passwordState = viewModel.passwordFieldState.collectAsState().value
     val emailState = viewModel.emailFieldState.collectAsState().value
-    val phoneNumberState = viewModel.phoneNumber.collectAsState().value
+    val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     val scrollState = rememberScrollState()
 
     LaunchedEffect(Unit) {
-        viewModel.eventFlow.collectLatest { event ->
+        viewModel.eventFlow.collect { event ->
             when (event) {
                 is ScreenEvent.Navigate -> {
-
+                    onBackPressedDispatcher?.onBackPressed()
                 }
                 is ScreenEvent.ShowToast -> {
                     context.showToast(event.msg)
@@ -56,8 +56,8 @@ fun EditProfileScreen(
             .padding(horizontal = 24.dp)
     ) {
         EditProfileInfoSection(
-            name = nameState.text,
-            email = emailState.text
+            name = viewModel.initDisplayName,
+            email = viewModel.initEmail
         )
         VerticalSpacer(heightDp = 40)
         CommonTextField(
@@ -86,11 +86,12 @@ fun EditProfileScreen(
         )
         VerticalSpacer(heightDp = 24)
         CommonTextField(
-            text = phoneNumberState.text,
+            text = "+90 555 555 55 55",
             labelText = "Phone Number",
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
             hasError = false,
-            onValueChange = { viewModel.handleUIEvent(EditProfileScreenUIEvent.EnteredPhoneNumber(it)) },
+            readOnly = true,
+            onValueChange = {},
             modifier = Modifier.fillMaxWidth()
         )
         VerticalSpacer(heightDp = 40)

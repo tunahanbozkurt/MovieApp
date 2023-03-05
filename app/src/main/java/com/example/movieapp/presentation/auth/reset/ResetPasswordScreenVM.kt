@@ -39,7 +39,11 @@ class ResetPasswordScreenVM @Inject constructor(
                 _emailFieldState.update { it.copy(hasError = emailValidation.onError()) }
                 if (emailValidation.onSuccess()) {
                     viewModelScope.launch {
-                        authUseCase.resetPassword(_emailFieldState.value.text)
+                        val reset = authUseCase.resetPassword(_emailFieldState.value.text)
+                        if (reset.onSuccess()) {
+                            _eventChannel.send(ScreenEvent.Navigate(""))
+                            _eventChannel.send(ScreenEvent.ShowToast("We have sent a password reset link, please check your email"))
+                        }
                     }
                 }
             }

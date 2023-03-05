@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.auth.signup
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.domain.repository.AuthenticationRepository
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpScreenVM @Inject constructor(
     private val authRepository: AuthenticationRepository,
-    private val checkFieldUseCase: CheckFieldUseCase
+    private val checkFieldUseCase: CheckFieldUseCase,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     private val _nameFieldState = MutableStateFlow(TextFieldState())
@@ -79,7 +81,11 @@ class SignUpScreenVM @Inject constructor(
             viewModelScope.launch {
                 val response = authRepository.createUserWithEmailAndPassword(email, password, name)
                 if (response.onSuccess()) {
-                    _eventChannel.trySend(ScreenEvent.Navigate(Graph.HOME))
+                    with(sharedPreferences.edit()) {
+                        putString("USER_NAME", _nameFieldState.value.text)
+                        apply()
+                    }
+                    _eventChannel.send(ScreenEvent.Navigate(Graph.HOME))
                 } else {
                     /*TOOD*/
                 }

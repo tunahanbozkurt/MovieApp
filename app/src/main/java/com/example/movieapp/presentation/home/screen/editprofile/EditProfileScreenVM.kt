@@ -1,6 +1,8 @@
 package com.example.movieapp.presentation.home.screen.editprofile
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.movieapp.domain.repository.AuthenticationRepository
 import com.example.movieapp.presentation.common.model.PasswordFieldState
 import com.example.movieapp.presentation.common.model.ScreenEvent
@@ -13,16 +15,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EditProfileScreenVM @Inject constructor(
-    private val authenticationRepository: AuthenticationRepository
+    private val authenticationRepository: AuthenticationRepository,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     private val currentUser = Firebase.auth.currentUser
-    private var initDisplayName: String = currentUser?.displayName ?: ""
-    private var initEmail: String = currentUser?.email ?: ""
+    var initDisplayName: String = currentUser?.displayName ?: ""
+    var initEmail: String = currentUser?.email ?: ""
 
     private val _nameFieldState = MutableStateFlow(
         TextFieldState(
@@ -41,13 +45,6 @@ class EditProfileScreenVM @Inject constructor(
     private val _passwordFieldState = MutableStateFlow(PasswordFieldState())
     val passwordFieldState = _passwordFieldState.asStateFlow()
 
-    private val _phoneNumber = MutableStateFlow(
-        TextFieldState(
-            text = currentUser?.phoneNumber ?: ""
-        )
-    )
-    val phoneNumber = _phoneNumber.asStateFlow()
-
     private val _eventChannel = Channel<ScreenEvent>()
     val eventFlow = _eventChannel.receiveAsFlow()
 
@@ -59,9 +56,7 @@ class EditProfileScreenVM @Inject constructor(
             is EditProfileScreenUIEvent.EnteredName -> {
                 _nameFieldState.update { it.copy(text = event.name) }
             }
-            is EditProfileScreenUIEvent.EnteredPhoneNumber -> {
-                _phoneNumber.update { it.copy(text = event.number) }
-            }
+
             is EditProfileScreenUIEvent.EnteredPassword -> {
                 _passwordFieldState.update { it.copy(password = event.password) }
             }
@@ -76,12 +71,41 @@ class EditProfileScreenVM @Inject constructor(
     }
 
     private fun updateUserInfo(name: String, password: String, email: String) {
-        val nameToUpdate = if (name != initDisplayName) name else null
-        val emailToUpdate = if (email != initEmail) email else null
-        val update = ((nameToUpdate != null || emailToUpdate != null) && password.isNotEmpty())
-        if (update) {
+        val updateName = name != initDisplayName
+        val updateEmail = email != initEmail
 
+        if (password.isNotEmpty()) {
+            viewModelScope.launch {
+                if (updateName && updateEmail) {
+                    authenticationRepository.updateDisplayName(name, password)
+                    authenticationRepository.updateEmail(initEmail, email, password)
+                    with(sharedPreferences.edit()) {
+                        putString("USER_NAME", name)
+                        apply()
+                    }
+                    _eventChannel.send(ScreenEvent.Navigate(""))
+                    _eventChannel.send(ScreenEvent.ShowToast("Name and email are updated"))
+                    return@launch
+                }
+                if (updateName) {
+                    authenticationRepository.updateDisplayName(name, password)
+                    with(sharedPreferences.edit()) {
+                        putString("USER_NAME", name)
+                        apply()
+                    }
+                    _eventChannel.send(ScreenEvent.Navigate(""))
+                    _eventChannel.send(ScreenEvent.ShowToast("Name is updated"))
+                    return@launch
+                }
+                if (updateEmail) {
+                    authenticationRepository.updateEmail(initEmail, email, password)
+                    _eventChannel.send(ScreenEvent.Navigate(""))
+                    _eventChannel.send(ScreenEvent.ShowToast("Email is updated"))
+                    return@launch
+                }
+            }
+        } else {
+            _eventChannel.trySend(ScreenEvent.ShowToast("You need to enter password to update profile"))
         }
-
     }
 }

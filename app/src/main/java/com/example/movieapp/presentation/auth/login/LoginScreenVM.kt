@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.auth.login
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.domain.usecase.auth.AuthUseCase
@@ -11,6 +12,8 @@ import com.example.movieapp.presentation.navigation.Graph
 import com.example.movieapp.util.hasError
 import com.example.movieapp.util.onError
 import com.example.movieapp.util.onSuccess
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,11 +26,14 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginScreenVM @Inject constructor(
     private val checkFieldUseCase: CheckFieldUseCase,
-    private val authUseCase: AuthUseCase
+    private val authUseCase: AuthUseCase,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     private val _emailFieldState = MutableStateFlow(TextFieldState())
     val emailFieldState = _emailFieldState.asStateFlow()
+
+    val name = getUserName()
 
     private val _passwordFieldState = MutableStateFlow(PasswordFieldState())
     val passwordFieldState = _passwordFieldState.asStateFlow()
@@ -61,7 +67,11 @@ class LoginScreenVM @Inject constructor(
                             _passwordFieldState.value.password
                         )
                         if (response.onSuccess()) {
-                            _eventChannel.trySend(ScreenEvent.Navigate(Graph.HOME))
+                            with(sharedPreferences.edit()) {
+                                putString("USER_NAME", Firebase.auth.currentUser?.displayName)
+                                apply()
+                            }
+                            _eventChannel.send(ScreenEvent.Navigate(Graph.HOME))
                         } else {
                             /*TODO*/
                         }
@@ -69,6 +79,10 @@ class LoginScreenVM @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun getUserName(): String {
+        return sharedPreferences.getString("USER_NAME", "") ?: ""
     }
 
     private fun checkFields(email: String, password: String): Boolean {

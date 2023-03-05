@@ -5,9 +5,11 @@ import com.example.movieapp.domain.repository.AuthenticationRepository
 import com.example.movieapp.util.TaskResult
 import com.example.movieapp.util.safeFirebaseRequest
 import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.tasks.await
 
 class AuthenticationRepositoryImpl(
     private val auth: FirebaseAuth,
@@ -46,17 +48,36 @@ class AuthenticationRepositoryImpl(
         }
     }
 
-    override suspend fun updateUserInfo(
-        displayName: String?,
-        password: String?,
-        email: String?,
-    ): TaskResult {
+    override suspend fun updateDisplayName(name: String, password: String): TaskResult {
         return try {
+            auth.currentUser?.updateProfile(
+                userProfileChangeRequest { displayName = name }
+            )?.await()
+            TaskResult.Success
+        } catch (e: Exception) {
+            TaskResult.Error(R.string.invalid_user)
+        }
+    }
 
+    override suspend fun updateEmail(
+        originalEmail: String,
+        email: String,
+        password: String
+    ): TaskResult {
+
+        return try {
+            auth.currentUser?.reauthenticate(
+                EmailAuthProvider.getCredential(originalEmail, password)
+            )?.await()
+
+            auth.currentUser?.updateEmail(email)?.await()
             TaskResult.Success
 
         } catch (e: Exception) {
-            TaskResult.Error(R.string.exception)
+            e.printStackTrace()
+            TaskResult.Error(R.string.invalid_user)
         }
+
     }
+
 }

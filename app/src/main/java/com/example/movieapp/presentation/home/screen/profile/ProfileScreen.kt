@@ -97,12 +97,21 @@ fun ProfileScreen(
             title = stringResource(id = R.string.general),
             modifier = Modifier.fillMaxWidth(),
             settings = listOf(
-                SettingModel(stringResource(id = R.string.language), R.drawable.ic_notification),
-                SettingModel(stringResource(id = R.string.country), R.drawable.ic_globe),
-                SettingModel(stringResource(id = R.string.clear_cache), R.drawable.ic_flag),
-                SettingModel(stringResource(id = R.string.notification), R.drawable.ic_trash)
+                SettingModel(
+                    stringResource(id = R.string.notification),
+                    R.drawable.ic_notification
+                ),
+                SettingModel(stringResource(id = R.string.language), R.drawable.ic_globe),
+                SettingModel(stringResource(id = R.string.country), R.drawable.ic_flag),
+                SettingModel(stringResource(id = R.string.clear_cache), R.drawable.ic_trash)
             )
-        ) {}
+        ) {
+            when (it) {
+                "Notification" -> {
+                    navigate.invoke(HomeScreen.Notification.route)
+                }
+            }
+        }
 
         VerticalSpacer(heightDp = 20)
 
