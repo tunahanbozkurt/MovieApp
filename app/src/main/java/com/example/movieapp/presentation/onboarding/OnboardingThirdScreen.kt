@@ -3,30 +3,24 @@ package com.example.movieapp.presentation.onboarding
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.movieapp.R
-import com.example.movieapp.presentation.onboarding.elements.OnboardingProgress
 import com.example.movieapp.presentation.onboarding.elements.OnboardingSheet
 import com.example.movieapp.ui.theme.localColor
 
 @Composable
 fun OnboardingThirdScreen(
     modifier: Modifier = Modifier,
-    navigate: () -> Unit
 ) {
 
     Column(
         modifier = modifier
             .background(MaterialTheme.localColor.textBlack)
-            .fillMaxSize()
     ) {
 
         Image(
@@ -34,22 +28,14 @@ fun OnboardingThirdScreen(
             contentDescription = null,
             modifier = modifier
                 .fillMaxWidth()
-                .wrapContentSize(Alignment.Center)
-                .weight(10f)
         )
 
-        OnboardingSheet(
-            progress = OnboardingProgress.THIRD,
-            halfSizeInfo = true,
-            modifier = modifier.weight(9f)
-        ) {
-            navigate.invoke()
-        }
+        OnboardingSheet()
     }
 }
 
 @Preview
 @Composable
 fun PreviewOnboardingThirdScreen() {
-    OnboardingThirdScreen {}
+    OnboardingThirdScreen()
 }

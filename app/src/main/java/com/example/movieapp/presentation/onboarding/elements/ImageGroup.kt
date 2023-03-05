@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,12 +62,14 @@ fun ImageGroup(
                 modifier = Modifier
                     .layoutId("leftImage")
                     .alpha(0.3f)
+                    .clipToBounds()
             )
             ClippedImage(
                 drawableRes = R.drawable.onboarding_life_of_pi,
                 modifier = Modifier
                     .layoutId("rightImage")
                     .alpha(0.3f)
+                    .clipToBounds()
             )
         }
     }
