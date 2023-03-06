@@ -2,7 +2,6 @@ package com.example.movieapp.presentation.auth.base
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResult
@@ -182,7 +181,7 @@ fun rememberFirebaseAuthLauncher(
                 viewModel.signInWithGoogle(account)
             }
         } catch (apiException: ApiException) {
-            Log.w("AuthenticationScreen", "Unexpected error parsing sign-in result")
+            apiException.printStackTrace()
         } catch (e: RuntimeException) {
             e.printStackTrace()
         }
@@ -205,7 +204,7 @@ fun registerFacebookCallback(
             }
 
             override fun onError(error: FacebookException) {
-                context.showToast("Something went wrong try again later")
+                context.showToast(R.string.try_again_later)
             }
         })
 }

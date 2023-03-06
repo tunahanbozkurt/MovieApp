@@ -3,12 +3,14 @@ package com.example.movieapp.presentation.auth.signup
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movieapp.R
 import com.example.movieapp.domain.repository.AuthenticationRepository
 import com.example.movieapp.domain.usecase.field.CheckFieldUseCase
 import com.example.movieapp.presentation.common.model.PasswordFieldState
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.model.TextFieldState
 import com.example.movieapp.presentation.navigation.Graph
+import com.example.movieapp.util.constants.SharedPref
 import com.example.movieapp.util.extensions.hasError
 import com.example.movieapp.util.onError
 import com.example.movieapp.util.onSuccess
@@ -82,7 +84,7 @@ class SignUpScreenVM @Inject constructor(
                 val response = authRepository.createUserWithEmailAndPassword(email, password, name)
                 if (response.onSuccess()) {
                     with(sharedPreferences.edit()) {
-                        putString("USER_NAME", _nameFieldState.value.text)
+                        putString(SharedPref.USER_NAME, _nameFieldState.value.text)
                         apply()
                     }
                     _eventChannel.send(ScreenEvent.Navigate(Graph.HOME))
@@ -108,7 +110,7 @@ class SignUpScreenVM @Inject constructor(
         _emailFieldState.update { it.copy(hasError = emailValidation.onError()) }
 
         if (!checkBox) {
-            _eventChannel.trySend(ScreenEvent.ShowToast())
+            _eventChannel.trySend(ScreenEvent.ShowToast(R.string.need_to_accept_privacy))
         }
 
         return listOf(nameValidation, passwordValidation, emailValidation, !checkBox).hasError()

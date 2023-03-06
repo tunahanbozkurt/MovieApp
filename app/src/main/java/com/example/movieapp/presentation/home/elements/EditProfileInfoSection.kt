@@ -14,13 +14,20 @@ import com.example.movieapp.util.extensions.uppercaseFirst
 
 @Composable
 fun EditProfileInfoSection(
+    profileImagePath: String?,
     name: String,
-    email: String
+    email: String,
+    onEditClick: () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ProfileImageWithIcon(iconResId = R.drawable.ic_edit_pencil)
+        ProfileImageWithIcon(
+            profileImagePath = profileImagePath ?: "",
+            iconResId = R.drawable.ic_edit_pencil
+        ) {
+            onEditClick.invoke()
+        }
         VerticalSpacer(heightDp = 21)
         Text(text = name.uppercaseFirst(), style = MaterialTheme.localFont.semiBoldH4)
         VerticalSpacer(heightDp = 8)
@@ -35,5 +42,4 @@ fun EditProfileInfoSection(
 @Preview
 @Composable
 fun PreviewEditProfileInfoSection() {
-    EditProfileInfoSection("tiffany", "example@gmail.com")
 }

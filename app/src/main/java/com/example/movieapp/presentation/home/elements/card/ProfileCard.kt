@@ -1,6 +1,9 @@
 package com.example.movieapp.presentation.home.elements.card
 
+import android.graphics.BitmapFactory
+import android.util.Base64
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,6 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
@@ -23,6 +28,7 @@ import com.example.movieapp.ui.theme.localFont
 
 @Composable
 fun ProfileCard(
+    imgBase64: String?,
     displayName: String,
     email: String,
     modifier: Modifier = Modifier,
@@ -46,7 +52,27 @@ fun ProfileCard(
                 .padding(start = 16.dp, top = 16.dp, bottom = 16.dp, end = 19.dp)
         ) {
 
-            ProfileImage(resId = R.drawable.profile_image)
+
+            if (imgBase64 != null) {
+                val decodedString: ByteArray = Base64.decode(imgBase64, Base64.DEFAULT)
+                val decodedByte =
+                    BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
+                if (decodedByte != null) {
+                    Image(
+                        bitmap = decodedByte.asImageBitmap(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(54.dp)
+                            .clip(RoundedCornerShape(27.dp))
+                    )
+                } else {
+                    ProfileImage(resId = R.drawable.profile_image)
+                }
+            } else {
+                ProfileImage(resId = R.drawable.profile_image)
+            }
+
 
             HorizontalSpacer(width = 16)
 

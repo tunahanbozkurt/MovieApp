@@ -25,6 +25,7 @@ import com.example.movieapp.presentation.home.elements.FakeSearchBar
 import com.example.movieapp.presentation.home.elements.GenreList
 import com.example.movieapp.presentation.home.elements.MovieListHorizontal
 import com.example.movieapp.presentation.home.elements.list.MoviesListItemHorizontal
+import com.example.movieapp.presentation.home.screen.detail.ItemType
 import com.example.movieapp.presentation.navigation.HomeScreen
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.extensions.addNavArgument
@@ -85,7 +86,9 @@ fun SearchScreen(
                 ),
                 modifier = Modifier.padding(start = 24.dp)
             ) { id, type ->
-                navigate.invoke(HomeScreen.Detail.route.addNavArgument(id).addNavArgument("movie"))
+                navigate.invoke(
+                    HomeScreen.Detail.route.addNavArgument(id).addNavArgument(ItemType.MOVIE.type)
+                )
             }
             VerticalSpacer(heightDp = 95)
 
@@ -107,7 +110,9 @@ fun SearchScreen(
                 .wrapContentSize(Alignment.BottomCenter)
                 .padding(bottom = 15.dp)
         ) { id ->
-            navigate.invoke(HomeScreen.Detail.route.addNavArgument(id).addNavArgument("movie"))
+            navigate.invoke(
+                HomeScreen.Detail.route.addNavArgument(id).addNavArgument(ItemType.MOVIE.type)
+            )
         }
     }
 }

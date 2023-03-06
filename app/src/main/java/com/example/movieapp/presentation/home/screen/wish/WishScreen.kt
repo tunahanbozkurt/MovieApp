@@ -33,7 +33,10 @@ fun WishScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         VerticalSpacer(heightDp = 14)
-        Text(text = "Wishlist", style = MaterialTheme.localFont.semiBoldH4)
+        Text(
+            text = stringResource(id = R.string.wishlist),
+            style = MaterialTheme.localFont.semiBoldH4
+        )
         VerticalSpacer(heightDp = 30)
 
         if (wishes.isEmpty()) {

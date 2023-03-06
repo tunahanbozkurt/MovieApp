@@ -1,6 +1,11 @@
 package com.example.movieapp.presentation.home.screen.editprofile
 
+import android.graphics.Bitmap
+import android.provider.MediaStore
+import android.util.Base64
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,17 +18,21 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.movieapp.R
 import com.example.movieapp.presentation.common.BlueButton
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.CommonTextField
 import com.example.movieapp.presentation.home.elements.EditProfileInfoSection
 import com.example.movieapp.util.extensions.showToast
+import java.io.ByteArrayOutputStream
+
 
 @Composable
 fun EditProfileScreen(
@@ -34,7 +43,19 @@ fun EditProfileScreen(
     val passwordState = viewModel.passwordFieldState.collectAsState().value
     val emailState = viewModel.emailFieldState.collectAsState().value
     val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
+    val profileImageUri = viewModel.profileImageUri.collectAsState().value
     val scrollState = rememberScrollState()
+
+    val pickImageLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
+            val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+            val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
+            val encoded: String = Base64.encodeToString(byteArray, Base64.DEFAULT)
+            viewModel.setProfileImageBase64(encoded)
+            viewModel.getProfileImageUri()
+        }
 
     LaunchedEffect(Unit) {
         viewModel.eventFlow.collect { event ->
@@ -56,13 +77,16 @@ fun EditProfileScreen(
             .padding(horizontal = 24.dp)
     ) {
         EditProfileInfoSection(
+            profileImagePath = profileImageUri,
             name = viewModel.initDisplayName,
             email = viewModel.initEmail
-        )
+        ) {
+            pickImageLauncher.launch("image/*")
+        }
         VerticalSpacer(heightDp = 40)
         CommonTextField(
             text = nameState.text,
-            labelText = "Full Name",
+            labelText = stringResource(id = R.string.full_name),
             hasError = false,
             onValueChange = { viewModel.handleUIEvent(EditProfileScreenUIEvent.EnteredName(it)) },
             modifier = Modifier.fillMaxWidth()
@@ -70,7 +94,7 @@ fun EditProfileScreen(
         VerticalSpacer(heightDp = 24)
         CommonTextField(
             text = emailState.text,
-            labelText = "Email",
+            labelText = stringResource(id = R.string.email),
             hasError = false,
             onValueChange = { viewModel.handleUIEvent(EditProfileScreenUIEvent.EnteredEmail(it)) },
             modifier = Modifier.fillMaxWidth()
@@ -78,7 +102,7 @@ fun EditProfileScreen(
         VerticalSpacer(heightDp = 24)
         CommonTextField(
             text = passwordState.password,
-            labelText = "Password",
+            labelText = stringResource(id = R.string.password),
             hasError = passwordState.hasError,
             visualTransformation = PasswordVisualTransformation(),
             onValueChange = { viewModel.handleUIEvent(EditProfileScreenUIEvent.EnteredPassword(it)) },
@@ -86,8 +110,8 @@ fun EditProfileScreen(
         )
         VerticalSpacer(heightDp = 24)
         CommonTextField(
-            text = "+90 555 555 55 55",
-            labelText = "Phone Number",
+            text = stringResource(id = R.string.example_phone),
+            labelText = stringResource(id = R.string.phone_number),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
             hasError = false,
             readOnly = true,
@@ -96,7 +120,7 @@ fun EditProfileScreen(
         )
         VerticalSpacer(heightDp = 40)
         BlueButton(
-            buttonText = "Save Changes",
+            buttonText = stringResource(id = R.string.save_changes),
             modifier = Modifier.fillMaxWidth()
         ) {
             viewModel.handleUIEvent(EditProfileScreenUIEvent.Save)

@@ -128,7 +128,10 @@ fun PreviewMostPopularMoviesListItem() {
             VerticalSpacer(heightDp = 14)
 
             Row {
-                IconWithText(iconResId = R.drawable.ic_film, text = "Action")
+                IconWithText(
+                    iconResId = R.drawable.ic_film,
+                    text = stringResource(id = R.string.action)
+                )
                 HorizontalSpacer(width = 8)
                 Divider(
                     color = MaterialTheme.localColor.textGrey, modifier = Modifier
@@ -136,7 +139,10 @@ fun PreviewMostPopularMoviesListItem() {
                         .height(16.dp)
                 )
                 HorizontalSpacer(width = 8)
-                Text(text = "Movie", style = MaterialTheme.localFont.mediumH6)
+                Text(
+                    text = stringResource(id = R.string.movie),
+                    style = MaterialTheme.localFont.mediumH6
+                )
             }
         }
     }

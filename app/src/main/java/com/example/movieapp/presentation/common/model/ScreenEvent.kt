@@ -1,6 +1,8 @@
 package com.example.movieapp.presentation.common.model
 
+import androidx.annotation.StringRes
+
 sealed class ScreenEvent {
     data class Navigate(val route: String) : ScreenEvent()
-    data class ShowToast(val msg: String = "") : ScreenEvent()
+    data class ShowToast(@StringRes val msg: Int) : ScreenEvent()
 }

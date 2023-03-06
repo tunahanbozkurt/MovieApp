@@ -3,10 +3,12 @@ package com.example.movieapp.presentation.home.screen.editprofile
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movieapp.R
 import com.example.movieapp.domain.repository.AuthenticationRepository
 import com.example.movieapp.presentation.common.model.PasswordFieldState
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.model.TextFieldState
+import com.example.movieapp.util.constants.SharedPref
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,8 +47,15 @@ class EditProfileScreenVM @Inject constructor(
     private val _passwordFieldState = MutableStateFlow(PasswordFieldState())
     val passwordFieldState = _passwordFieldState.asStateFlow()
 
+    private val _profileImageUri = MutableStateFlow<String?>(null)
+    val profileImageUri = _profileImageUri.asStateFlow()
+
     private val _eventChannel = Channel<ScreenEvent>()
     val eventFlow = _eventChannel.receiveAsFlow()
+
+    init {
+        getProfileImageUri()
+    }
 
     fun handleUIEvent(event: EditProfileScreenUIEvent) {
         when (event) {
@@ -70,6 +79,20 @@ class EditProfileScreenVM @Inject constructor(
         }
     }
 
+    fun getProfileImageUri() {
+        val imagePath = sharedPreferences.getString(SharedPref.PROFILE_IMAGE_BASE64, null)
+        imagePath?.let {
+            _profileImageUri.update { imagePath }
+        }
+    }
+
+    fun setProfileImageBase64(img: String?) {
+        with(sharedPreferences.edit()) {
+            putString(SharedPref.PROFILE_IMAGE_BASE64, img)
+            apply()
+        }
+    }
+
     private fun updateUserInfo(name: String, password: String, email: String) {
         val updateName = name != initDisplayName
         val updateEmail = email != initEmail
@@ -80,32 +103,32 @@ class EditProfileScreenVM @Inject constructor(
                     authenticationRepository.updateDisplayName(name, password)
                     authenticationRepository.updateEmail(initEmail, email, password)
                     with(sharedPreferences.edit()) {
-                        putString("USER_NAME", name)
+                        putString(SharedPref.USER_NAME, name)
                         apply()
                     }
                     _eventChannel.send(ScreenEvent.Navigate(""))
-                    _eventChannel.send(ScreenEvent.ShowToast("Name and email are updated"))
+                    _eventChannel.send(ScreenEvent.ShowToast(R.string.email_and_name_updated))
                     return@launch
                 }
                 if (updateName) {
                     authenticationRepository.updateDisplayName(name, password)
                     with(sharedPreferences.edit()) {
-                        putString("USER_NAME", name)
+                        putString(SharedPref.USER_NAME, name)
                         apply()
                     }
                     _eventChannel.send(ScreenEvent.Navigate(""))
-                    _eventChannel.send(ScreenEvent.ShowToast("Name is updated"))
+                    _eventChannel.send(ScreenEvent.ShowToast(R.string.name_updated))
                     return@launch
                 }
                 if (updateEmail) {
                     authenticationRepository.updateEmail(initEmail, email, password)
                     _eventChannel.send(ScreenEvent.Navigate(""))
-                    _eventChannel.send(ScreenEvent.ShowToast("Email is updated"))
+                    _eventChannel.send(ScreenEvent.ShowToast(R.string.email_updated))
                     return@launch
                 }
             }
         } else {
-            _eventChannel.trySend(ScreenEvent.ShowToast("You need to enter password to update profile"))
+            _eventChannel.trySend(ScreenEvent.ShowToast(R.string.enter_password))
         }
     }
 }

@@ -10,8 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.movieapp.R
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 
@@ -32,7 +34,7 @@ fun LogOutButton(
             )
     ) {
         Text(
-            text = "Log out",
+            text = stringResource(id = R.string.log_out),
             style = MaterialTheme.localFont.semiBoldH4,
             color = MaterialTheme.localColor.primaryBlueAccent
         )

@@ -22,12 +22,12 @@ import com.example.movieapp.ui.theme.localFont
 fun TitleCouple(
     bigTitle: String,
     infoText: String,
-    titleStyle: TextStyle = MaterialTheme.localFont.semiBoldH2,
-    infoStyle: TextStyle = MaterialTheme.localFont.mediumH6,
     modifier: Modifier = Modifier,
     halfSizeInfo: Boolean = false,
     verticalMargin: Dp = 8.dp,
     padding: PaddingValues = PaddingValues(0.dp),
+    titleStyle: TextStyle = MaterialTheme.localFont.semiBoldH2,
+    infoStyle: TextStyle = MaterialTheme.localFont.mediumH6,
     titleColor: Color = MaterialTheme.localColor.textWhite,
     infoColor: Color = MaterialTheme.localColor.textWhiteGrey,
 ) {

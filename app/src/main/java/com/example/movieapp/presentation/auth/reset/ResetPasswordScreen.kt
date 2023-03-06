@@ -12,9 +12,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.movieapp.R
 import com.example.movieapp.presentation.common.BlueButton
 import com.example.movieapp.presentation.common.TitleCouple
 import com.example.movieapp.presentation.common.model.ScreenEvent
@@ -43,6 +45,7 @@ fun ResetPasswordScreen(
                         onBackDispatcher?.onBackPressed()
                     }
                 }
+
                 is ScreenEvent.ShowToast -> {
                     context.showToast(event.msg)
                 }
@@ -58,8 +61,8 @@ fun ResetPasswordScreen(
     ) {
 
         TitleCouple(
-            bigTitle = "Reset Password",
-            infoText = "Recover your account password",
+            bigTitle = stringResource(id = R.string.reset_password),
+            infoText = stringResource(id = R.string.recover_password),
             titleStyle = MaterialTheme.localFont.mediumH1,
         )
 
@@ -67,7 +70,7 @@ fun ResetPasswordScreen(
 
         CommonTextField(
             text = nameField.text,
-            labelText = "Email Address",
+            labelText = stringResource(id = R.string.email_address),
             hasError = nameField.hasError,
             modifier = Modifier.fillMaxWidth(),
             onValueChange = { viewModel.handleUIEvent(ResetPasswordScreenUIEvent.EnteredEmail(it)) }
@@ -76,7 +79,7 @@ fun ResetPasswordScreen(
         VerticalSpacer(heightDp = 40)
 
         BlueButton(
-            buttonText = "Next",
+            buttonText = stringResource(id = R.string.next),
             modifier = Modifier.fillMaxWidth()
         ) {
             viewModel.handleUIEvent(ResetPasswordScreenUIEvent.Next)

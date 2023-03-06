@@ -10,8 +10,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.movieapp.R
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
@@ -35,7 +37,7 @@ fun NotificationCard(
             .padding(horizontal = 16.dp, vertical = 24.dp)
     ) {
         Text(
-            text = "Messages Notifications",
+            text = stringResource(id = R.string.messages_notifications),
             style = MaterialTheme.localFont.mediumH6,
             color = MaterialTheme.localColor.textGrey
         )
@@ -45,7 +47,7 @@ fun NotificationCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Messages Notifications",
+                text = stringResource(id = R.string.messages_notifications),
                 style = MaterialTheme.localFont.mediumH4,
                 modifier = Modifier.weight(1f)
             )
@@ -72,7 +74,7 @@ fun NotificationCard(
         VerticalSpacer(heightDp = 16)
 
         Text(
-            text = "Exceptions",
+            text = stringResource(id = R.string.exceptions),
             style = MaterialTheme.localFont.mediumH4
         )
     }

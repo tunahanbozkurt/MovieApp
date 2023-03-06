@@ -6,7 +6,7 @@ import com.example.movieapp.BuildConfig
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchResult
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.util.Resource
-import com.example.movieapp.util.constants.PagerConstants
+import com.example.movieapp.util.constants.Pager
 import com.example.movieapp.util.extensions.encodeToUri
 import retrofit2.HttpException
 import java.io.IOException
@@ -25,7 +25,7 @@ class SearchMoviesDataSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MultiSearchResult> {
         return try {
-            val page = params.key ?: PagerConstants.INITIAL_PAGE_NUMBER
+            val page = params.key ?: Pager.INITIAL_PAGE_NUMBER
 
             val result = repo.getMultiSearch(
                 query = query.encodeToUri(),
@@ -35,7 +35,7 @@ class SearchMoviesDataSource(
 
             if (result is Resource.Success && query.isNotEmpty()) {
 
-                val nextKey = if (result.data.page < PagerConstants.MAX_PAGE_NUMBER_1000)
+                val nextKey = if (result.data.page < Pager.MAX_PAGE_NUMBER_1000)
                     result.data.page + 1 else null
 
                 return LoadResult.Page(

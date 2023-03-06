@@ -2,9 +2,11 @@ package com.example.movieapp.util.extensions
 
 import android.content.Context
 import android.widget.Toast
+import androidx.annotation.StringRes
 import com.google.gson.Gson
 
-fun Context.showToast(message: String) {
+fun Context.showToast(@StringRes msgResId: Int) {
+    val message = this.getString(msgResId)
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
 

@@ -47,7 +47,7 @@ class DetailScreenVM @Inject constructor(
     }
 
     fun loadData(id: Int, type: String) {
-        if (type == "movie") {
+        if (type == ItemType.MOVIE.type) {
             viewModelScope.launch {
                 val movieDetailResponse = async {
                     repository.getMovieDetail(id, apiKey = BuildConfig.MOVIE_DB_API_KEY)
@@ -100,4 +100,10 @@ class DetailScreenVM @Inject constructor(
     private fun updateLastSearchedMovie(model: MovieDetail) {
         viewModelScope.launch { repository.insertMovieToRoom(model) }
     }
+}
+
+enum class ItemType(val type: String) {
+    SERIES("series"),
+    MOVIE("movie"),
+    PERSON("person")
 }

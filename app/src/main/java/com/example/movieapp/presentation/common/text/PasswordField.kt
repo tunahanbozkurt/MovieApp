@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -24,7 +25,7 @@ fun PasswordField(
 ) {
     CommonTextField(
         text = password,
-        labelText = "Password",
+        labelText = stringResource(id = R.string.password),
         visualTransformation = if (isVisible) VisualTransformation.None else PasswordVisualTransformation(),
         modifier = modifier,
         hasError = hasError,

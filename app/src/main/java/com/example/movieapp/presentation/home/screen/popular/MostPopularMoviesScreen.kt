@@ -14,6 +14,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.home.elements.list.MoviesListItemHorizontal
+import com.example.movieapp.presentation.home.screen.detail.ItemType
 import com.example.movieapp.presentation.navigation.HomeScreen
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.util.extensions.addNavArgument
@@ -38,7 +39,8 @@ fun MostPopularMoviesScreen(
                     model = item
                 ) { id, type ->
                     navigate.invoke(
-                        HomeScreen.Detail.route.addNavArgument(id).addNavArgument("movie")
+                        HomeScreen.Detail.route.addNavArgument(id)
+                            .addNavArgument(ItemType.MOVIE.type)
                     )
                 }
                 VerticalSpacer(heightDp = 16)

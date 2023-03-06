@@ -9,7 +9,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.movieapp.R
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
@@ -28,12 +30,12 @@ fun PrivacyPolicyScreen(
             .padding(24.dp)
     ) {
 
-        Text(text = "Terms", style = MaterialTheme.localFont.semiBoldH5)
+        Text(text = stringResource(id = R.string.terms), style = MaterialTheme.localFont.semiBoldH5)
 
         VerticalSpacer(heightDp = 13)
 
         Text(
-            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget ornare quam vel facilisis feugiat amet sagittis arcu, tortor. Sapien, consequat ultrices morbi orci semper sit nulla. Leo auctor ut etiam est, amet aliquet ut vivamus. Odio vulputate est id tincidunt fames.",
+            text = stringResource(id = R.string.lorem_ipsum_extra_long),
             style = MaterialTheme.localFont.mediumH5,
             color = MaterialTheme.localColor.textGrey
         )
@@ -41,7 +43,7 @@ fun PrivacyPolicyScreen(
         VerticalSpacer(heightDp = 8)
 
         Text(
-            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget ornare quam vel facilisis feugiat amet sagittis arcu, tortor. Sapien, consequat ultrices morbi orci semper sit nulla. Leo auctor ut etiam est, amet aliquet ut vivamus. Odio vulputate est id tincidunt fames.",
+            text = stringResource(id = R.string.lorem_ipsum_extra_long),
             style = MaterialTheme.localFont.mediumH5,
             color = MaterialTheme.localColor.textGrey
         )
@@ -49,14 +51,14 @@ fun PrivacyPolicyScreen(
         VerticalSpacer(heightDp = 24)
 
         Text(
-            text = "Changes to the Service and/or Terms:",
+            text = stringResource(id = R.string.changes_to_service),
             style = MaterialTheme.localFont.semiBoldH5
         )
 
         VerticalSpacer(heightDp = 8)
 
         Text(
-            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget ornare quam vel facilisis feugiat amet sagittis arcu, tortor. Sapien, consequat ultrices morbi orci semper sit nulla. Leo auctor ut etiam est, amet aliquet ut vivamus. Odio vulputate est id tincidunt fames.",
+            text = stringResource(id = R.string.lorem_ipsum_extra_long),
             style = MaterialTheme.localFont.mediumH5,
             color = MaterialTheme.localColor.textGrey
         )
@@ -64,7 +66,7 @@ fun PrivacyPolicyScreen(
         VerticalSpacer(heightDp = 8)
 
         Text(
-            text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eget ornare quam vel facilisis feugiat amet sagittis arcu, tortor. Sapien, consequat ultrices morbi orci semper sit nulla. Leo auctor ut etiam est, amet aliquet ut vivamus. Odio vulputate est id tincidunt fames.",
+            text = stringResource(id = R.string.lorem_ipsum_extra_long),
             style = MaterialTheme.localFont.mediumH5,
             color = MaterialTheme.localColor.textGrey
         )

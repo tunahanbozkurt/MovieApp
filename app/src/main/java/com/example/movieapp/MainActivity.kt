@@ -14,6 +14,7 @@ import androidx.lifecycle.*
 import com.example.movieapp.presentation.navigation.RootNavigationGraph
 import com.example.movieapp.ui.theme.MovieAppTheme
 import com.example.movieapp.ui.theme.localColor
+import com.example.movieapp.util.constants.SharedPref
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,6 +49,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun dontShowOnboarding() = sharedPreferences.getBoolean("DONT_SHOW_ONBOARDING", false)
+    private fun dontShowOnboarding() =
+        sharedPreferences.getBoolean(SharedPref.DONT_SHOW_ONBOARDING, false)
+
     private fun isUserExist() = firebaseAuth.currentUser != null
 }

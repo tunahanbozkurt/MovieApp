@@ -21,6 +21,7 @@ import com.example.movieapp.presentation.home.elements.GenreList
 import com.example.movieapp.presentation.home.elements.MovieListHorizontal
 import com.example.movieapp.presentation.home.elements.TripleMovieGroup
 import com.example.movieapp.presentation.home.elements.bar.ProfileBar
+import com.example.movieapp.presentation.home.screen.detail.ItemType
 import com.example.movieapp.presentation.navigation.HomeScreen
 import com.example.movieapp.util.extensions.addNavArgument
 import com.google.firebase.auth.ktx.auth
@@ -36,6 +37,7 @@ fun HomeScreen(
     val topRatedMovieList = viewModel.topRatedMovies.collectAsState().value
     val upcomingMovie = viewModel.upcomingMovies.collectAsState().value
     val selectedGenre = viewModel.selectedGenre.collectAsState().value
+    val imgBase64 = viewModel.getImageBase64()
 
     Column(
         modifier = Modifier
@@ -46,6 +48,7 @@ fun HomeScreen(
         VerticalSpacer(heightDp = 8)
 
         ProfileBar(
+            imgBase64 = imgBase64,
             displayName = Firebase.auth.currentUser?.displayName
                 ?: stringResource(id = R.string.unknown)
         ) {
@@ -67,7 +70,9 @@ fun HomeScreen(
         VerticalSpacer(heightDp = 24)
 
         TripleMovieGroup(upcomingMovie) { id ->
-            navigate.invoke(HomeScreen.Detail.route.addNavArgument(id).addNavArgument("movie"))
+            navigate.invoke(
+                HomeScreen.Detail.route.addNavArgument(id).addNavArgument(ItemType.MOVIE.type)
+            )
         }
 
         VerticalSpacer(heightDp = 24)
@@ -91,7 +96,9 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(bottom = 15.dp),
             onItemClicked = { id ->
-                navigate.invoke(HomeScreen.Detail.route.addNavArgument(id).addNavArgument("movie"))
+                navigate.invoke(
+                    HomeScreen.Detail.route.addNavArgument(id).addNavArgument(ItemType.MOVIE.type)
+                )
             }
         )
 
@@ -106,7 +113,9 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(bottom = 15.dp),
             onItemClicked = { id ->
-                navigate.invoke(HomeScreen.Detail.route.addNavArgument(id).addNavArgument("movie"))
+                navigate.invoke(
+                    HomeScreen.Detail.route.addNavArgument(id).addNavArgument(ItemType.MOVIE.type)
+                )
             }
         )
     }

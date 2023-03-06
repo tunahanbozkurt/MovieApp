@@ -7,6 +7,7 @@ import com.example.movieapp.data.remote.dto.movie_image.MovieImageDTO
 import com.example.movieapp.domain.model.cast_crew.CastCrew
 import com.example.movieapp.domain.model.detail.MovieDetail
 import com.example.movieapp.domain.repository.MovieRepository
+import com.example.movieapp.presentation.home.screen.detail.ItemType
 import com.example.movieapp.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -39,7 +40,7 @@ class TrailerScreenVM @Inject constructor(
 
 
     fun loadData(id: Int, type: String) {
-        if (type == "movie") {
+        if (type == ItemType.MOVIE.type) {
             viewModelScope.launch {
                 val movieDetailResponse = async {
                     repository.getMovieDetail(id, apiKey = BuildConfig.MOVIE_DB_API_KEY)

@@ -2,6 +2,7 @@ package com.example.movieapp.presentation.auth.reset
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movieapp.R
 import com.example.movieapp.domain.usecase.auth.AuthUseCase
 import com.example.movieapp.domain.usecase.field.CheckFieldUseCase
 import com.example.movieapp.presentation.common.model.ScreenEvent
@@ -42,7 +43,7 @@ class ResetPasswordScreenVM @Inject constructor(
                         val reset = authUseCase.resetPassword(_emailFieldState.value.text)
                         if (reset.onSuccess()) {
                             _eventChannel.send(ScreenEvent.Navigate(""))
-                            _eventChannel.send(ScreenEvent.ShowToast("We have sent a password reset link, please check your email"))
+                            _eventChannel.send(ScreenEvent.ShowToast(R.string.send_password_reset_email))
                         }
                     }
                 }

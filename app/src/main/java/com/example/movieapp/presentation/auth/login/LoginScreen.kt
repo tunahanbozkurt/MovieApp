@@ -10,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -74,7 +75,7 @@ fun LoginScreen(
             VerticalSpacer(heightDp = 8)
 
             Text(
-                text = "Welcome back! Please enter your details",
+                text = stringResource(id = R.string.welcome_back),
                 style = MaterialTheme.localFont.mediumH6,
                 textAlign = TextAlign.Center,
                 maxLines = 2,
@@ -85,7 +86,7 @@ fun LoginScreen(
 
         CommonTextField(
             text = emailState.text,
-            labelText = "Email",
+            labelText = stringResource(id = R.string.email),
             hasError = emailState.hasError,
             modifier = Modifier.fillMaxWidth(),
             onValueChange = { viewModel.handleUIEvent(LoginScreenUIEvent.EnteredEmail(it)) }
@@ -105,7 +106,7 @@ fun LoginScreen(
         VerticalSpacer(heightDp = 8)
 
         BlueText(
-            text = "Forgot Password?",
+            text = stringResource(id = R.string.forgot_password),
             style = MaterialTheme.localFont.mediumH6,
             modifier = Modifier
                 .align(Alignment.End)

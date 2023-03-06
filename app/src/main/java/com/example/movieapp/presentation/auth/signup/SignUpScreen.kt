@@ -13,6 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
@@ -53,7 +54,7 @@ fun SignUpScreen(
                     navigate.invoke(it.route)
                 }
                 is ScreenEvent.ShowToast -> {
-                    context.showToast(context.getString(R.string.terms_policies))
+                    context.showToast(R.string.terms_policies)
                 }
             }
         }
@@ -76,7 +77,7 @@ fun SignUpScreen(
                 .wrapContentSize(Alignment.Center)
         ) {
             Text(
-                text = "Let' get started",
+                text = stringResource(id = R.string.lets_started),
                 style = MaterialTheme.localFont.semiBoldH2,
                 textAlign = TextAlign.Center,
                 maxLines = 1,
@@ -85,7 +86,7 @@ fun SignUpScreen(
             VerticalSpacer(heightDp = 8)
 
             Text(
-                text = "The latest movies and series are here",
+                text = stringResource(id = R.string.latest_movies),
                 style = MaterialTheme.localFont.mediumH6,
                 textAlign = TextAlign.Center,
                 maxLines = 2,
@@ -96,7 +97,7 @@ fun SignUpScreen(
 
         CommonTextField(
             text = nameField.text,
-            labelText = "Full Name",
+            labelText = stringResource(id = R.string.full_name),
             modifier = Modifier.fillMaxWidth(),
             hasError = nameField.hasError,
             onValueChange = { viewModel.handleUIEvent(SignUpScreenUIEvent.EnteredName(it)) }
@@ -106,7 +107,7 @@ fun SignUpScreen(
 
         CommonTextField(
             text = emailField.text,
-            labelText = "Email Address",
+            labelText = stringResource(id = R.string.email_address),
             modifier = Modifier.fillMaxWidth(),
             hasError = emailField.hasError,
             onValueChange = { viewModel.handleUIEvent(SignUpScreenUIEvent.EnteredEmail(it)) }

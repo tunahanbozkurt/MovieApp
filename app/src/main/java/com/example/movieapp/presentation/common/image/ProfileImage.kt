@@ -16,7 +16,6 @@ fun ProfileImage(
     @DrawableRes resId: Int,
     modifier: Modifier = Modifier,
 ) {
-
     Image(
         resId = resId,
         contentScale = ContentScale.Crop,

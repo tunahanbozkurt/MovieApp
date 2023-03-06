@@ -90,7 +90,7 @@ fun DetailScreen(
                 },
                 onWishClick = { movieDetail ->
                     viewModel.addWish(movieDetail, type)
-                    context.showToast("Added to Wishlist")
+                    context.showToast(R.string.wish_added)
                 }
             )
 
@@ -105,12 +105,12 @@ fun DetailScreen(
 
             VerticalSpacer(heightDp = 24)
 
-            if (type == "series") {
+            if (type == ItemType.SERIES.type) {
 
                 VerticalSpacer(heightDp = 24)
 
                 Text(
-                    text = "Episode",
+                    text = stringResource(id = R.string.episode),
                     style = MaterialTheme.localFont.semiBoldH4,
                     modifier = Modifier.padding(start = 24.dp)
                 )
@@ -123,7 +123,7 @@ fun DetailScreen(
                         .clickable { showSeasonPicker.setTrue() }
                 ) {
                     Text(
-                        text = "Season ${selectedSeason.value}",
+                        text = "${stringResource(id = R.string.season)} ${selectedSeason.value}",
                         style = MaterialTheme.localFont.mediumH5
                     )
                     HorizontalSpacer(width = 5)
@@ -217,7 +217,7 @@ fun MovieDetailButtonSet(
     Row(
         modifier = modifier
     ) {
-        ColorfulButton(text = "Trailer", color = playButtonColor) {
+        ColorfulButton(text = stringResource(id = R.string.trailer), color = playButtonColor) {
             onTrailerClick.invoke()
         }
         HorizontalSpacer(width = 16)
@@ -371,7 +371,8 @@ fun CastAndCrew(
 
         if (modelList != null && modelList.any { it.profile_path != null }) {
             Text(
-                text = "Cast and Crew", style = MaterialTheme.localFont.semiBoldH4,
+                text = stringResource(id = R.string.cast_crew),
+                style = MaterialTheme.localFont.semiBoldH4,
             )
 
             VerticalSpacer(heightDp = 16)

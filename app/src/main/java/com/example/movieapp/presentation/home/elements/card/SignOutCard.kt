@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
@@ -48,12 +49,15 @@ fun SignOutCard(
 
         VerticalSpacer(heightDp = 32)
 
-        Text(text = "Are you sure ?", style = MaterialTheme.localFont.semiBoldH3)
+        Text(
+            text = stringResource(id = R.string.are_you_sure),
+            style = MaterialTheme.localFont.semiBoldH3
+        )
 
         VerticalSpacer(heightDp = 12)
 
         CenterAlignedText(
-            text = "Ullamcorper imperdiet urna id non sed est sem. Rhoncus amet, enim purus gravida donec aliquet.",
+            text = stringResource(id = R.string.lorem_ipsum_long),
             style = MaterialTheme.localFont.regularH6,
             textColor = MaterialTheme.localColor.textGrey,
             modifier = Modifier.padding(horizontal = 48.dp)
@@ -68,7 +72,10 @@ fun SignOutCard(
                 onLogOut.invoke()
             }
             HorizontalSpacer(width = 12)
-            BlueButton(buttonText = "Cancel", modifier = Modifier.weight(1f)) {
+            BlueButton(
+                buttonText = stringResource(id = R.string.cancel),
+                modifier = Modifier.weight(1f)
+            ) {
                 onCancel.invoke()
             }
         }

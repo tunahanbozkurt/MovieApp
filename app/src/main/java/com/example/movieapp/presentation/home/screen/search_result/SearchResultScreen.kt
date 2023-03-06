@@ -29,6 +29,7 @@ import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.home.elements.SearchBar
 import com.example.movieapp.presentation.home.elements.list.MovieListVertical
+import com.example.movieapp.presentation.home.screen.detail.ItemType
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.extensions.createImgUrl
@@ -94,9 +95,9 @@ fun SearchResultScreen(
             VerticalSpacer(heightDp = 24)
 
             MovieListVertical(
-                itemList = pagerState.itemSnapshotList.items.filter { it.media_type != "person" }
+                itemList = pagerState.itemSnapshotList.items.filter { it.media_type != ItemType.PERSON.type }
                     .map { it.toMovieItem() },
-                list = pagerState.itemSnapshotList.items.filter { it.media_type == "person" }
+                list = pagerState.itemSnapshotList.items.filter { it.media_type == ItemType.PERSON.type }
             ) { id, type ->
                 navigate.invoke(id, type)
             }
@@ -112,7 +113,10 @@ fun ActorsList(
     Column(
         modifier = modifier
     ) {
-        Text(text = "Actors", style = MaterialTheme.localFont.semiBoldH4)
+        Text(
+            text = stringResource(id = R.string.actors),
+            style = MaterialTheme.localFont.semiBoldH4
+        )
 
         VerticalSpacer(heightDp = 16)
 

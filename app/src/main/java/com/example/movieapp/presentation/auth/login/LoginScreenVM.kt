@@ -9,6 +9,7 @@ import com.example.movieapp.presentation.common.model.PasswordFieldState
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.model.TextFieldState
 import com.example.movieapp.presentation.navigation.Graph
+import com.example.movieapp.util.constants.SharedPref
 import com.example.movieapp.util.extensions.hasError
 import com.example.movieapp.util.onError
 import com.example.movieapp.util.onSuccess
@@ -68,7 +69,10 @@ class LoginScreenVM @Inject constructor(
                         )
                         if (response.onSuccess()) {
                             with(sharedPreferences.edit()) {
-                                putString("USER_NAME", Firebase.auth.currentUser?.displayName)
+                                putString(
+                                    SharedPref.USER_NAME,
+                                    Firebase.auth.currentUser?.displayName
+                                )
                                 apply()
                             }
                             _eventChannel.send(ScreenEvent.Navigate(Graph.HOME))
@@ -82,7 +86,7 @@ class LoginScreenVM @Inject constructor(
     }
 
     private fun getUserName(): String {
-        return sharedPreferences.getString("USER_NAME", "") ?: ""
+        return sharedPreferences.getString(SharedPref.USER_NAME, "") ?: ""
     }
 
     private fun checkFields(email: String, password: String): Boolean {

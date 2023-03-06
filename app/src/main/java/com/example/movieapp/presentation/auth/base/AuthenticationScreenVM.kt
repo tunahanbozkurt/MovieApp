@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.movieapp.domain.usecase.auth.AuthUseCase
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.navigation.Graph
+import com.example.movieapp.util.constants.SharedPref
 import com.example.movieapp.util.onSuccess
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -28,7 +29,7 @@ class AuthenticationScreenVM @Inject constructor(
 
     init {
         with(sharedPreferences.edit()) {
-            putBoolean("DONT_SHOW_ONBOARDING", true)
+            putBoolean(SharedPref.DONT_SHOW_ONBOARDING, true)
             apply()
         }
     }

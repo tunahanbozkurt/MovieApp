@@ -8,6 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchResult
 import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
+import com.example.movieapp.presentation.home.screen.detail.ItemType
 import com.example.movieapp.presentation.home.screen.search_result.ActorsList
 
 @Composable
@@ -23,12 +24,12 @@ fun MovieListVertical(
     ) {
 
         item {
-            if (list.filter { it.media_type == "person" }
+            if (list.filter { it.media_type == ItemType.PERSON.type }
                     .isNotEmpty() &&
                 list.any { it.profile_path != null }
             ) {
                 ActorsList(
-                    list = list.filter { it.media_type == "person" }
+                    list = list.filter { it.media_type == ItemType.PERSON.type }
                 )
             }
         }

@@ -1,6 +1,7 @@
 package com.example.movieapp.data.remote.dto.multiSearch
 
 import com.example.movieapp.domain.model.popular.MovieItem
+import com.example.movieapp.presentation.home.screen.detail.ItemType
 
 data class MultiSearchResult(
     val adult: Boolean,
@@ -27,7 +28,7 @@ data class MultiSearchResult(
 ) {
 
     fun toMovieItem(): MovieItem {
-        if (media_type == "movie") {
+        if (media_type == ItemType.MOVIE.type) {
             return MovieItem(
                 id = id,
                 type = "Movie",

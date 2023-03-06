@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.button.LogOutButton
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
@@ -37,6 +38,7 @@ import com.skydoves.cloudy.Cloudy
 
 @Composable
 fun ProfileScreen(
+    viewModel: ProfileScreenVM = hiltViewModel(),
     navigate: (String) -> Unit
 ) {
 
@@ -46,6 +48,7 @@ fun ProfileScreen(
     val showDialog = remember { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
     val scrollState = rememberScrollState()
+    val imgBase64 = viewModel.getImageBase64()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,11 +61,12 @@ fun ProfileScreen(
 
         VerticalSpacer(heightDp = 8)
 
-        Text("Profile", style = MaterialTheme.localFont.semiBoldH4)
+        Text(stringResource(id = R.string.profile), style = MaterialTheme.localFont.semiBoldH4)
 
         VerticalSpacer(heightDp = 24)
 
         ProfileCard(
+            imgBase64 = imgBase64,
             displayName = currentUser?.displayName ?: "",
             email = currentUser?.email ?: "",
             iconResId = R.drawable.ic_edit
@@ -172,5 +176,5 @@ fun ProfileScreen(
 @Preview
 @Composable
 fun PreviewProfileScreen() {
-    ProfileScreen({})
+
 }

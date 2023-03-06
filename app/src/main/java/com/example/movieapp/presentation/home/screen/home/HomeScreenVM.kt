@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.home.screen.home
 
+import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.BuildConfig
@@ -8,6 +9,7 @@ import com.example.movieapp.domain.model.popular.PopularMovies
 import com.example.movieapp.domain.model.upcoming.UpcomingMovie
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.presentation.common.model.SearchFieldState
+import com.example.movieapp.util.constants.SharedPref
 import com.example.movieapp.util.extensions.convertToDate
 import com.example.movieapp.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenVM @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val movieRepository: MovieRepository,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     private val _popularMovies: MutableStateFlow<PopularMovies> =
@@ -47,6 +50,10 @@ class HomeScreenVM @Inject constructor(
     init {
         loadPopularMovies()
         loadUpcomingMovies()
+    }
+
+    fun getImageBase64(): String? {
+        return sharedPreferences.getString(SharedPref.PROFILE_IMAGE_BASE64, null)
     }
 
     fun handleUIEvent(event: HomeScreenUIEvent) {
