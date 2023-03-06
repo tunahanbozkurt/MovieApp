@@ -89,10 +89,6 @@ suspend fun <T> safeFirebaseRequest(
             e.printStackTrace()
             return@withContext TaskResult.Error(R.string.network_failure)
 
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return@withContext TaskResult.Error(R.string.exception)
-
         } catch (e: FirebaseAuthWeakPasswordException) {
             e.printStackTrace()
             return@withContext TaskResult.Error(R.string.weak_password)
@@ -108,6 +104,10 @@ suspend fun <T> safeFirebaseRequest(
         } catch (e: FirebaseAuthInvalidUserException) {
             e.printStackTrace()
             return@withContext TaskResult.Error(R.string.invalid_user)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return@withContext TaskResult.Error(R.string.exception)
+
         }
     }
 }
@@ -131,10 +131,6 @@ suspend fun <T> safeFirebaseRequest(
             e.printStackTrace()
             return@withContext TaskResult.Error(R.string.network_failure)
 
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return@withContext TaskResult.Error(R.string.exception)
-
         } catch (e: FirebaseAuthWeakPasswordException) {
             e.printStackTrace()
             return@withContext TaskResult.Error(R.string.weak_password)
@@ -150,6 +146,10 @@ suspend fun <T> safeFirebaseRequest(
         } catch (e: FirebaseAuthInvalidUserException) {
             e.printStackTrace()
             return@withContext TaskResult.Error(R.string.invalid_user)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return@withContext TaskResult.Error(R.string.exception)
+
         }
     }
 }

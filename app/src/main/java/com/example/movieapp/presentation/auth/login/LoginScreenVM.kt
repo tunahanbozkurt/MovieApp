@@ -9,6 +9,7 @@ import com.example.movieapp.presentation.common.model.PasswordFieldState
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.model.TextFieldState
 import com.example.movieapp.presentation.navigation.Graph
+import com.example.movieapp.util.TaskResult
 import com.example.movieapp.util.constants.SharedPref
 import com.example.movieapp.util.extensions.hasError
 import com.example.movieapp.util.onError
@@ -17,10 +18,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -38,6 +36,9 @@ class LoginScreenVM @Inject constructor(
 
     private val _passwordFieldState = MutableStateFlow(PasswordFieldState())
     val passwordFieldState = _passwordFieldState.asStateFlow()
+
+    private val _popUpMessage = MutableStateFlow<Int?>(null)
+    val popUpMessage: StateFlow<Int?> = _popUpMessage
 
     private val _eventChannel = Channel<ScreenEvent>()
     val eventFlow = _eventChannel.receiveAsFlow()
@@ -77,7 +78,9 @@ class LoginScreenVM @Inject constructor(
                             }
                             _eventChannel.send(ScreenEvent.Navigate(Graph.HOME))
                         } else {
-                            /*TODO*/
+                            if (response is TaskResult.Error) {
+                                _eventChannel.send(ScreenEvent.ShowPopup(response.errMsg))
+                            }
                         }
                     }
                 }

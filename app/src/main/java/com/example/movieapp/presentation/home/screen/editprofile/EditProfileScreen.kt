@@ -68,6 +68,7 @@ fun EditProfileScreen(
                 is ScreenEvent.ShowToast -> {
                     context.showToast(event.msg)
                 }
+                else -> {}
             }
         }
     }

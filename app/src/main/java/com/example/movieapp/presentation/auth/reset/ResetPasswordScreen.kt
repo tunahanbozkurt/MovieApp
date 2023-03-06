@@ -49,6 +49,7 @@ fun ResetPasswordScreen(
                 is ScreenEvent.ShowToast -> {
                     context.showToast(event.msg)
                 }
+                else -> {}
             }
         }
     }

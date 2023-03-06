@@ -10,6 +10,7 @@ import com.example.movieapp.presentation.common.model.PasswordFieldState
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.model.TextFieldState
 import com.example.movieapp.presentation.navigation.Graph
+import com.example.movieapp.util.TaskResult
 import com.example.movieapp.util.constants.SharedPref
 import com.example.movieapp.util.extensions.hasError
 import com.example.movieapp.util.onError
@@ -89,8 +90,9 @@ class SignUpScreenVM @Inject constructor(
                     }
                     _eventChannel.send(ScreenEvent.Navigate(Graph.HOME))
                 } else {
-                    /*TOOD*/
-
+                    if (response is TaskResult.Error) {
+                        _eventChannel.send(ScreenEvent.ShowPopup(response.errMsg))
+                    }
                 }
             }
         }

@@ -37,6 +37,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun SignUpScreen(
     modifier: Modifier = Modifier,
     viewModel: SignUpScreenVM = hiltViewModel(),
+    showPopup: (Int) -> Unit,
     navigate: (String) -> Unit
 ) {
 
@@ -56,6 +57,10 @@ fun SignUpScreen(
                 is ScreenEvent.ShowToast -> {
                     context.showToast(R.string.terms_policies)
                 }
+                is ScreenEvent.ShowPopup -> {
+                    showPopup.invoke(it.msg)
+                }
+                else -> {}
             }
         }
     }
@@ -179,5 +184,5 @@ fun SignUpScreen(
 @Preview
 @Composable
 fun PreviewSignUpScreen() {
-    SignUpScreen {}
+
 }
