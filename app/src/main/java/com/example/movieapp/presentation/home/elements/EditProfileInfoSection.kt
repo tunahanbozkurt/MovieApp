@@ -10,7 +10,7 @@ import com.example.movieapp.R
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.uppercaseFirst
+import com.example.movieapp.util.extensions.uppercaseFirst
 
 @Composable
 fun EditProfileInfoSection(

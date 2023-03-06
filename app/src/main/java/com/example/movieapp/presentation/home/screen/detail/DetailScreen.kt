@@ -45,7 +45,7 @@ import com.example.movieapp.presentation.navigation.HomeScreen
 import com.example.movieapp.ui.theme.Primary_Dark
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.*
+import com.example.movieapp.util.extensions.*
 import com.skydoves.cloudy.Cloudy
 
 @Composable

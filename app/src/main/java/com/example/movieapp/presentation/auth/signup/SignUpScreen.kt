@@ -29,7 +29,7 @@ import com.example.movieapp.presentation.common.text.CommonTextField
 import com.example.movieapp.presentation.navigation.HomeScreen
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.showToast
+import com.example.movieapp.util.extensions.showToast
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

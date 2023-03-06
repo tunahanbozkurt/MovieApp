@@ -4,6 +4,7 @@ import com.example.movieapp.data.local.entity.MovieEntity
 import com.example.movieapp.data.local.entity.WishEntity
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
 import com.example.movieapp.data.remote.dto.movieVideo.MovieVideosDTO
+import com.example.movieapp.data.remote.dto.movie_image.MovieImageDTO
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchDTO
 import com.example.movieapp.data.remote.dto.search.MovieSearchDTO
 import com.example.movieapp.data.remote.dto.seriesVideos.TvSeriesVideosDTO
@@ -17,12 +18,12 @@ import com.example.movieapp.domain.model.recommended.RecommendedMovies
 import com.example.movieapp.domain.model.upcoming.UpcomingMovie
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.util.Resource
-import com.example.movieapp.util.safeRequest
-import com.example.movieapp.util.safeRequestMapper
+import com.example.movieapp.util.extensions.safeQuery
+import com.example.movieapp.util.extensions.safeRequest
+import com.example.movieapp.util.extensions.safeRequestMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.withContext
 
 class MovieRepositoryImpl(
     private val remoteDataSource: RemoteMovieDS,
@@ -76,7 +77,9 @@ class MovieRepositoryImpl(
         return safeRequestMapper(
             ioDispatcher,
             execute = { remoteDataSource.getMovieDetail(id, apiKey) },
-            mapper = { it.toMovieDetail() }
+            mapper = { movieDetailDto ->
+                movieDetailDto.toMovieDetail()
+            }
         )
     }
 
@@ -87,8 +90,12 @@ class MovieRepositoryImpl(
                 remoteDataSource.getMovieCredits(id, apiKey)
             },
             mapper = { mapperDto ->
-                val casts = mapperDto.cast.map { it.toCastCrew() }
-                val crews = mapperDto.crew.map { it.toCastCrew() }
+                val casts = mapperDto.cast.map { castDto ->
+                    castDto.toCastCrew()
+                }
+                val crews = mapperDto.crew.map { crewDto ->
+                    crewDto.toCastCrew()
+                }
                 return@safeRequestMapper casts.plus(crews)
             }
         )
@@ -100,10 +107,22 @@ class MovieRepositoryImpl(
             execute = {
                 remoteDataSource.getTvShowDetail(id, apiKey)
             },
-            mapper = {
-                it.toMovieDetail()
+            mapper = { tvSeriesDetailDto ->
+                tvSeriesDetailDto.toMovieDetail()
             }
         )
+    }
+
+    override suspend fun getMovieImages(id: Int, apiKey: String): Resource<MovieImageDTO> {
+        return safeRequest(ioDispatcher) {
+            remoteDataSource.getMovieImages(id, apiKey)
+        }
+    }
+
+    override suspend fun getTvSeriesImages(id: Int, apiKey: String): Resource<MovieImageDTO> {
+        return safeRequest(ioDispatcher) {
+            remoteDataSource.getTvSeriesImages(id, apiKey)
+        }
     }
 
     override suspend fun getTvShowCredits(id: Int, apiKey: String): Resource<List<CastCrew>> {
@@ -112,9 +131,9 @@ class MovieRepositoryImpl(
             execute = {
                 remoteDataSource.getTvShowCredits(id, apiKey)
             },
-            mapper = {
-                it.crew.map {
-                    it.toCastCrew()
+            mapper = { tvShowCreditsDto ->
+                tvShowCreditsDto.crew.map { crew ->
+                    crew.toCastCrew()
                 }
             }
         )
@@ -125,15 +144,17 @@ class MovieRepositoryImpl(
         apiKey: String,
         season: Int
     ): Resource<TvSeasonDetailDTO> {
-        return safeRequest(
-            ioDispatcher
-        ) {
-            remoteDataSource.getTvSeriesDetail(id = id, apiKey = apiKey, season = season)
+        return safeRequest(ioDispatcher) {
+            remoteDataSource.getTvSeriesDetail(
+                id = id,
+                apiKey = apiKey,
+                season = season
+            )
         }
     }
 
     override suspend fun insertWish(model: MovieDetail, type: String) {
-        withContext(ioDispatcher) {
+        safeQuery(ioDispatcher) {
             localDataSource.insertWish(model.toWishEntity(type))
         }
     }
@@ -146,7 +167,7 @@ class MovieRepositoryImpl(
 
     override suspend fun getSeriesVideos(id: Int, apiKey: String): Resource<TvSeriesVideosDTO> {
         return safeRequest(ioDispatcher) {
-            remoteDataSource.getTvSeriesMovies(id, apiKey)
+            remoteDataSource.getTvSeriesVideos(id, apiKey)
         }
     }
 
@@ -155,17 +176,19 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun insertMovieToRoom(model: MovieDetail) {
-        withContext(ioDispatcher) {
+        safeQuery(ioDispatcher) {
             localDataSource.insertMovie(model.toMovieEntity())
         }
     }
 
-    override fun getLatestSearchedMovieFlow(): Flow<MovieEntity> {
+    override fun getLatestSearchedMovieOrSeriesAsFlow(): Flow<MovieEntity> {
         return localDataSource.getMovieFlow().flowOn(ioDispatcher)
     }
 
-    override suspend fun getLatestSearchedMovie(): MovieEntity? {
-        return localDataSource.getMovie()
+    override suspend fun getLatestSearchedMovieOrSeries(): MovieEntity? {
+        return safeQuery(ioDispatcher) {
+            localDataSource.getMovie()
+        }
     }
 
     override suspend fun getRecommendedMovies(
@@ -178,8 +201,8 @@ class MovieRepositoryImpl(
             execute = {
                 remoteDataSource.getRecommendedMovies(id, page, apiKey)
             },
-            mapper = {
-                it.toRecommendedMovies()
+            mapper = { recommendedMoviesDto ->
+                recommendedMoviesDto.toRecommendedMovies()
             }
         )
     }
@@ -205,6 +228,8 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun deleteWish(entity: WishEntity) {
-        return localDataSource.deleteWish(entity)
+        safeQuery(ioDispatcher) {
+            localDataSource.deleteWish(entity)
+        }
     }
 }

@@ -4,7 +4,7 @@ import com.example.movieapp.data.local.entity.MovieEntity
 import com.example.movieapp.data.local.entity.WishEntity
 import com.example.movieapp.data.remote.dto.detail.Genre
 import com.example.movieapp.data.remote.dto.seriesdetail.Season
-import com.example.movieapp.util.toGenreIdList
+import com.example.movieapp.util.extensions.toGenreIdList
 
 data class MovieDetail(
     val id: Int = 0,

@@ -23,7 +23,7 @@ import com.example.movieapp.presentation.common.text.BlueText
 import com.example.movieapp.presentation.common.text.CommonTextField
 import com.example.movieapp.presentation.navigation.AuthenticationScreen
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.uppercaseFirst
+import com.example.movieapp.util.extensions.uppercaseFirst
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

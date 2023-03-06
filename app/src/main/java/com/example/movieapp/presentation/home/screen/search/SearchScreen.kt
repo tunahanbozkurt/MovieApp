@@ -27,7 +27,7 @@ import com.example.movieapp.presentation.home.elements.MovieListHorizontal
 import com.example.movieapp.presentation.home.elements.list.MoviesListItemHorizontal
 import com.example.movieapp.presentation.navigation.HomeScreen
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.addNavArgument
+import com.example.movieapp.util.extensions.addNavArgument
 
 @Composable
 fun SearchScreen(

@@ -4,6 +4,7 @@ import com.example.movieapp.data.local.entity.MovieEntity
 import com.example.movieapp.data.local.entity.WishEntity
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
 import com.example.movieapp.data.remote.dto.movieVideo.MovieVideosDTO
+import com.example.movieapp.data.remote.dto.movie_image.MovieImageDTO
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchDTO
 import com.example.movieapp.data.remote.dto.search.MovieSearchDTO
 import com.example.movieapp.data.remote.dto.seriesVideos.TvSeriesVideosDTO
@@ -18,40 +19,125 @@ import kotlinx.coroutines.flow.Flow
 
 interface MovieRepository {
 
-    suspend fun getAllMovieGenres(apiKey: String): Resource<MovieGenreListDTO>
+    /**
+     * Provides the popular movies with the result status.
+     */
     suspend fun getPopularMovies(page: Int, apiKey: String): Resource<PopularMovies>
-    suspend fun getTopRatedMovies(page: Int, apiKey: String): Resource<PopularMovies>
-    suspend fun getUpcomingMovies(page: Int, apiKey: String): Resource<List<UpcomingMovie>>
-    suspend fun getMovieDetail(id: Int, apiKey: String): Resource<MovieDetail>
-    suspend fun getMovieCredits(id: Int, apiKey: String): Resource<List<CastCrew>>
-    suspend fun getTvShowDetail(id: Int, apiKey: String): Resource<MovieDetail>
-    suspend fun getTvShowCredits(id: Int, apiKey: String): Resource<List<CastCrew>>
-    suspend fun getTvSeasonDetail(id: Int, apiKey: String, season: Int): Resource<TvSeasonDetailDTO>
-    suspend fun insertWish(model: MovieDetail, type: String)
-    suspend fun getMovieVideos(id: Int, apiKey: String): Resource<MovieVideosDTO>
-    suspend fun getSeriesVideos(id: Int, apiKey: String): Resource<TvSeriesVideosDTO>
-    suspend fun insertMovieToRoom(model: MovieDetail)
-    suspend fun deleteWish(entity: WishEntity)
-    suspend fun getLatestSearchedMovie(): MovieEntity?
-    fun getWishFlow(): Flow<List<WishEntity>>
-    fun getLatestSearchedMovieFlow(): Flow<MovieEntity>
 
+    /**
+     * Provides the top-rated movies with the result status.
+     */
+    suspend fun getTopRatedMovies(page: Int, apiKey: String): Resource<PopularMovies>
+
+    /**
+     * Provides the upcoming movies with the result status.
+     */
+    suspend fun getUpcomingMovies(page: Int, apiKey: String): Resource<List<UpcomingMovie>>
+
+    /**
+     * Provides the movie's details by using id with the result status.
+     */
+    suspend fun getMovieDetail(id: Int, apiKey: String): Resource<MovieDetail>
+
+    /**
+     * Provides the tv show's details by using id with the result status.
+     */
+    suspend fun getTvShowDetail(id: Int, apiKey: String): Resource<MovieDetail>
+
+    /**
+     * Provides the movie's image urls by using id with the result status.
+     */
+    suspend fun getMovieImages(id: Int, apiKey: String): Resource<MovieImageDTO>
+
+    /**
+     * Provides the tv series's image urls by using id with the result status.
+     */
+    suspend fun getTvSeriesImages(id: Int, apiKey: String): Resource<MovieImageDTO>
+
+    /**
+     * Provides the movie's credits by using id with the result status.
+     */
+    suspend fun getMovieCredits(id: Int, apiKey: String): Resource<List<CastCrew>>
+
+    /**
+     * Provides the tv show's credits by using id with the result status.
+     */
+    suspend fun getTvShowCredits(id: Int, apiKey: String): Resource<List<CastCrew>>
+
+    /**
+     * Inserts the movie to the local database.
+     */
+    suspend fun insertMovieToRoom(model: MovieDetail)
+
+    /**
+     * Deletes the wish from the local database.
+     */
+    suspend fun deleteWish(entity: WishEntity)
+
+    /**
+     * Provides the latest searched movie or tv series from the local database.
+     */
+    suspend fun getLatestSearchedMovieOrSeries(): MovieEntity?
+
+    /**
+     * Provides the latest searched movie or tv series as a flow from the local database.
+     */
+    fun getLatestSearchedMovieOrSeriesAsFlow(): Flow<MovieEntity>
+
+    /**
+     * Provides the movie's genres with the result status.
+     */
+    suspend fun getAllMovieGenres(apiKey: String): Resource<MovieGenreListDTO>
+
+    /**
+     * Provides the tv season's details by using id and season number parameter with the result status.
+     */
+    suspend fun getTvSeasonDetail(id: Int, apiKey: String, season: Int): Resource<TvSeasonDetailDTO>
+
+    /**
+     * Inserts the wish to the local database.
+     */
+    suspend fun insertWish(model: MovieDetail, type: String)
+
+    /**
+     * Provides the movie's videos by using id with the result status.
+     */
+    suspend fun getMovieVideos(id: Int, apiKey: String): Resource<MovieVideosDTO>
+
+    /**
+     * Provides the tv series's videos by using id with the result status.
+     */
+    suspend fun getSeriesVideos(id: Int, apiKey: String): Resource<TvSeriesVideosDTO>
+
+    /**
+     * Provides the wishes as flow from the local database.
+     */
+    fun getWishFlow(): Flow<List<WishEntity>>
+
+    /**
+     * Provides the recommended movies by using id with the result status.
+     */
     suspend fun getRecommendedMovies(
         id: Int,
         page: Int,
         apiKey: String
     ): Resource<RecommendedMovies>
 
+    /**
+     * Provides the searched movies by using query parameter with the result status.
+     */
     suspend fun getSearchedMovies(
         query: String,
         page: Int,
         apiKey: String
     ): Resource<MovieSearchDTO>
 
+    /**
+     * Provides the searched movies or tv series by using query parameter with the result status.
+     */
     suspend fun getMultiSearch(
         query: String,
         page: Int,
         apiKey: String
     ): Resource<MultiSearchDTO>
-
 }

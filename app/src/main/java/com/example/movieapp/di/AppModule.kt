@@ -3,10 +3,10 @@ package com.example.movieapp.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.example.movieapp.data.local.AppDatabase
-import com.example.movieapp.data.local.LocalDataSourceImpl
+import com.example.movieapp.data.local.data_source.AppDatabase
+import com.example.movieapp.data.local.data_source.LocalDataSourceImpl
 import com.example.movieapp.data.remote.MovieAPI
-import com.example.movieapp.data.remote.dataSource.RemoteMovieDSImpl
+import com.example.movieapp.data.remote.data_source.RemoteMovieDSImpl
 import com.example.movieapp.data.repository.AuthenticationRepositoryImpl
 import com.example.movieapp.data.repository.MovieRepositoryImpl
 import com.example.movieapp.domain.datasource.LocalDataSource
@@ -31,6 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+/*TODO SEPARATE THE MODULE*/
 
 @Module
 @InstallIn(SingletonComponent::class)

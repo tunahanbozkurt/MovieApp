@@ -7,17 +7,22 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.component.DetailScreenTopApplicationBar
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
@@ -27,6 +32,7 @@ import com.example.movieapp.presentation.home.elements.IconWithText
 import com.example.movieapp.presentation.home.screen.detail.CastAndCrew
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
+import com.example.movieapp.util.extensions.createImgUrl
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @SuppressLint("SourceLockedOrientationActivity")
@@ -42,7 +48,7 @@ fun TrailerScreen(
     val videoState = viewModel.videoState.collectAsState().value
     val detailState = viewModel.movieDetailState.collectAsState().value
     val castCrew = viewModel.castAndCrewState.collectAsState().value
-    val imageState = viewModel
+    val imageState = viewModel.imageUrls.collectAsState().value
     val playerRotationState = remember {
         mutableStateOf(YoutubePlayerRotation.DEFAULT)
     }
@@ -160,8 +166,21 @@ fun TrailerScreen(
                 VerticalSpacer(heightDp = 16)
 
                 LazyRow {
-
+                    if (imageState != null) {
+                        items(imageState.backdrops) { item ->
+                            AsyncImage(
+                                model = createImgUrl(item.file_path),
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .size(100.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                            )
+                            HorizontalSpacer(width = 12)
+                        }
+                    }
                 }
+                VerticalSpacer(heightDp = 12)
             }
         }
 

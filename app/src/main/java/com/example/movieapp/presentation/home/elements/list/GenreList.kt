@@ -23,7 +23,7 @@ import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.GenreList
-import com.example.movieapp.util.getDataClassFromJson
+import com.example.movieapp.util.extensions.getDataClassFromJson
 
 @Composable
 fun GenreList(

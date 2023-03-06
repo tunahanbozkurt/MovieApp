@@ -35,7 +35,7 @@ import com.example.movieapp.presentation.navigation.AuthenticationScreen
 import com.example.movieapp.presentation.splash_screen.SplashView
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.showToast
+import com.example.movieapp.util.extensions.showToast
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException

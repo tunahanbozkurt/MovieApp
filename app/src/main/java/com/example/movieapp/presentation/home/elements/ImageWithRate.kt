@@ -13,7 +13,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.movieapp.util.createImgUrl
+import com.example.movieapp.util.extensions.createImgUrl
 
 @Composable
 fun ImageWithRate(

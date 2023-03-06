@@ -29,8 +29,8 @@ import com.example.movieapp.presentation.navigation.Graph
 import com.example.movieapp.presentation.navigation.HomeScreen
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.setFalse
-import com.example.movieapp.util.setTrue
+import com.example.movieapp.util.extensions.setFalse
+import com.example.movieapp.util.extensions.setTrue
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.skydoves.cloudy.Cloudy

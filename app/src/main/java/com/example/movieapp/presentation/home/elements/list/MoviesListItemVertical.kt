@@ -23,7 +23,7 @@ import com.example.movieapp.R
 import com.example.movieapp.presentation.home.elements.Rate
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.createImgUrl
+import com.example.movieapp.util.extensions.createImgUrl
 
 @Composable
 fun MoviesListItemVertical(

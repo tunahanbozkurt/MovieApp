@@ -9,7 +9,7 @@ import com.example.movieapp.presentation.common.model.PasswordFieldState
 import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.model.TextFieldState
 import com.example.movieapp.presentation.navigation.Graph
-import com.example.movieapp.util.hasError
+import com.example.movieapp.util.extensions.hasError
 import com.example.movieapp.util.onError
 import com.example.movieapp.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel

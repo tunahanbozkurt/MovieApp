@@ -6,7 +6,10 @@ import com.example.movieapp.BuildConfig
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchResult
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.util.Resource
-import com.example.movieapp.util.encodeToUri
+import com.example.movieapp.util.constants.PagerConstants
+import com.example.movieapp.util.extensions.encodeToUri
+import retrofit2.HttpException
+import java.io.IOException
 
 class SearchMoviesDataSource(
     private val query: String,
@@ -22,29 +25,35 @@ class SearchMoviesDataSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MultiSearchResult> {
         return try {
-            val page = params.key ?: 1
+            val page = params.key ?: PagerConstants.INITIAL_PAGE_NUMBER
 
-            val response = repo.getMultiSearch(
+            val result = repo.getMultiSearch(
                 query = query.encodeToUri(),
                 page = page,
                 apiKey = BuildConfig.MOVIE_DB_API_KEY
             )
-            if (response is Resource.Success && query.isNotEmpty()) {
+
+            if (result is Resource.Success && query.isNotEmpty()) {
+
+                val nextKey = if (result.data.page < PagerConstants.MAX_PAGE_NUMBER_1000)
+                    result.data.page + 1 else null
+
                 return LoadResult.Page(
-                    data = response.data.results,
+                    data = result.data.results,
                     prevKey = null,
-                    nextKey = if (response.data.page < 1000) response.data.page + 1 else null
+                    nextKey = nextKey
                 )
             }
 
             throw Exception()
+
+        } catch (e: IOException) {
+            LoadResult.Error(e)
+        } catch (e: HttpException) {
+            LoadResult.Error(e)
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
     }
 }
 
-data class Actor(
-    val name: String,
-    val poster_path: String?
-)

@@ -6,6 +6,9 @@ import com.example.movieapp.BuildConfig
 import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.util.Resource
+import com.example.movieapp.util.constants.PagerConstants
+import retrofit2.HttpException
+import java.io.IOException
 
 class TopRatedMoviesDataSource(
     private val repo: MovieRepository
@@ -20,17 +23,31 @@ class TopRatedMoviesDataSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieItem> {
         return try {
-            val page = params.key ?: 1
-            val response =
-                repo.getTopRatedMovies(page = page, apiKey = BuildConfig.MOVIE_DB_API_KEY)
-            if (response is Resource.Success) {
+            val page = params.key ?: PagerConstants.INITIAL_PAGE_NUMBER
+
+            val result = repo.getTopRatedMovies(
+                page = page,
+                apiKey = BuildConfig.MOVIE_DB_API_KEY
+            )
+
+            if (result is Resource.Success) {
+
+                val nextKey = if (result.data.page < PagerConstants.MAX_PAGE_NUMBER_500)
+                    result.data.page + 1 else null
+
                 return LoadResult.Page(
-                    data = response.data.results,
+                    data = result.data.results,
                     prevKey = null,
-                    nextKey = if (response.data.page < 500) response.data.page + 1 else null
+                    nextKey = nextKey
                 )
             }
+
             throw Exception()
+
+        } catch (e: IOException) {
+            LoadResult.Error(e)
+        } catch (e: HttpException) {
+            LoadResult.Error(e)
         } catch (e: Exception) {
             LoadResult.Error(e)
         }

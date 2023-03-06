@@ -17,7 +17,7 @@ import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.home.elements.list.MoviesListItemHorizontal
 import com.example.movieapp.presentation.navigation.HomeScreen
 import com.example.movieapp.ui.theme.localColor
-import com.example.movieapp.util.addNavArgument
+import com.example.movieapp.util.extensions.addNavArgument
 
 @Composable
 fun RecommendedMoviesScreen(

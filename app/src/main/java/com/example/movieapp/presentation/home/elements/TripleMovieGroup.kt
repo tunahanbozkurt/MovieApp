@@ -26,7 +26,7 @@ import com.example.movieapp.domain.model.upcoming.UpcomingMovie
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.createImgUrl
+import com.example.movieapp.util.extensions.createImgUrl
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

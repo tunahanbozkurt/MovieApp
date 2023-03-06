@@ -13,7 +13,7 @@ import com.example.movieapp.domain.model.detail.MovieDetail
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.presentation.common.text.pickGenre
 import com.example.movieapp.ui.theme.localColor
-import com.example.movieapp.util.getYearFromDate
+import com.example.movieapp.util.extensions.getYearFromDate
 
 @Composable
 fun MovieFeatures(

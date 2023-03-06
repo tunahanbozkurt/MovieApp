@@ -23,7 +23,7 @@ import com.example.movieapp.presentation.common.model.ScreenEvent
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.CommonTextField
 import com.example.movieapp.presentation.home.elements.EditProfileInfoSection
-import com.example.movieapp.util.showToast
+import com.example.movieapp.util.extensions.showToast
 
 @Composable
 fun EditProfileScreen(

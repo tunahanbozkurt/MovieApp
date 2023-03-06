@@ -8,7 +8,7 @@ import com.example.movieapp.domain.model.popular.PopularMovies
 import com.example.movieapp.domain.model.upcoming.UpcomingMovie
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.presentation.common.model.SearchFieldState
-import com.example.movieapp.util.convertToDate
+import com.example.movieapp.util.extensions.convertToDate
 import com.example.movieapp.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async

@@ -4,6 +4,7 @@ import com.example.movieapp.data.remote.dto.credits.MovieCreditsDTO
 import com.example.movieapp.data.remote.dto.detail.MovieDetailDTO
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
 import com.example.movieapp.data.remote.dto.movieVideo.MovieVideosDTO
+import com.example.movieapp.data.remote.dto.movie_image.MovieImageDTO
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchDTO
 import com.example.movieapp.data.remote.dto.popular.PopularMoviesDTO
 import com.example.movieapp.data.remote.dto.recommended.RecommendedMoviesDTO
@@ -16,20 +17,84 @@ import com.example.movieapp.data.remote.dto.upcoming.UpcomingMoviesDTO
 import retrofit2.Response
 
 interface RemoteMovieDS {
-
+    /**
+     * Fetches genres for the movies from the api.
+     */
     suspend fun getAllMovieGenres(apiKey: String): Response<MovieGenreListDTO>
+
+    /**
+     * Fetches popular movies from the api.
+     */
     suspend fun getPopularMovies(page: Int, apiKey: String): Response<PopularMoviesDTO>
+
+    /**
+     * Fetches top-rated movies from the api.
+     */
     suspend fun getTopRatedMovies(page: Int, apiKey: String): Response<PopularMoviesDTO>
+
+    /**
+     * Fetches upcoming movies from the api.
+     */
     suspend fun getUpcomingMovies(page: Int, apiKey: String): Response<UpcomingMoviesDTO>
+
+    /**
+     * Fetches the movies that matches with given query parameter.
+     */
     suspend fun searchMovie(query: String, page: Int, apiKey: String): Response<MovieSearchDTO>
+
+    /**
+     * Fetches the movie's details by using movie's id from the api.
+     */
     suspend fun getMovieDetail(id: Int, apiKey: String): Response<MovieDetailDTO>
+
+    /**
+     * Fetches the movie's credits by using movie's id from the api.
+     */
     suspend fun getMovieCredits(id: Int, apiKey: String): Response<MovieCreditsDTO>
+
+    /**
+     * Fetches the movies and tv shows that match with given query parameter.
+     */
     suspend fun multiSearchMovie(query: String, page: Int, apiKey: String): Response<MultiSearchDTO>
+
+    /**
+     * Fetches the tv show's details by using id parameter from the api.
+     */
     suspend fun getTvShowDetail(id: Int, apiKey: String): Response<TvSeriesDetailDTO>
+
+    /**
+     * Fetches the tv show's credits by using tv show's id from the api
+     */
     suspend fun getTvShowCredits(id: Int, apiKey: String): Response<TvShowCreditsDTO>
+
+    /**
+     * Fetches the tv series's details by using id and season number parameters from the api.
+     */
     suspend fun getTvSeriesDetail(id: Int, apiKey: String, season: Int): Response<TvSeasonDetailDTO>
-    suspend fun getTvSeriesMovies(id: Int, apiKey: String): Response<TvSeriesVideosDTO>
+
+    /**
+     * Fetches the tv series's videos by using id from the api.
+     */
+    suspend fun getTvSeriesVideos(id: Int, apiKey: String): Response<TvSeriesVideosDTO>
+
+    /**
+     * Fetches the movie's videos by using id from the api.
+     */
     suspend fun getMovieVideos(id: Int, apiKey: String): Response<MovieVideosDTO>
+
+    /**
+     * Fetches the movie's images by using id from the api.
+     */
+    suspend fun getMovieImages(id: Int, apiKey: String): Response<MovieImageDTO>
+
+    /**
+     * Fetches the tv series's images by using id from the api.
+     */
+    suspend fun getTvSeriesImages(id: Int, apiKey: String): Response<MovieImageDTO>
+
+    /**
+     * Fetches the recommended movies by using id from the api.
+     */
     suspend fun getRecommendedMovies(
         id: Int,
         page: Int,

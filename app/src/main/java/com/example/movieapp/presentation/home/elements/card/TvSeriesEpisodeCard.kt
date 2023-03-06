@@ -21,7 +21,7 @@ import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.home.elements.PriceTag
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.createImgUrl
+import com.example.movieapp.util.extensions.createImgUrl
 
 @Composable
 fun TvSeriesEpisodeCard(

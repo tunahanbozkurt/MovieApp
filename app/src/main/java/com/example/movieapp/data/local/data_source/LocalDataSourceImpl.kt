@@ -1,4 +1,4 @@
-package com.example.movieapp.data.local
+package com.example.movieapp.data.local.data_source
 
 import com.example.movieapp.data.local.entity.MovieEntity
 import com.example.movieapp.data.local.entity.WishEntity

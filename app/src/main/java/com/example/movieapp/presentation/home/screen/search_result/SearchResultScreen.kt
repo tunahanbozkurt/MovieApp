@@ -31,7 +31,7 @@ import com.example.movieapp.presentation.home.elements.SearchBar
 import com.example.movieapp.presentation.home.elements.list.MovieListVertical
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.createImgUrl
+import com.example.movieapp.util.extensions.createImgUrl
 
 @Composable
 fun SearchResultScreen(

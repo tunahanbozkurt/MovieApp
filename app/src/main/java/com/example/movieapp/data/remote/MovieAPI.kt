@@ -4,6 +4,7 @@ import com.example.movieapp.data.remote.dto.credits.MovieCreditsDTO
 import com.example.movieapp.data.remote.dto.detail.MovieDetailDTO
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
 import com.example.movieapp.data.remote.dto.movieVideo.MovieVideosDTO
+import com.example.movieapp.data.remote.dto.movie_image.MovieImageDTO
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchDTO
 import com.example.movieapp.data.remote.dto.popular.PopularMoviesDTO
 import com.example.movieapp.data.remote.dto.recommended.RecommendedMoviesDTO
@@ -106,4 +107,16 @@ interface MovieAPI {
         @Query("page") page: Int,
         @Query("api_key") apiKey: String
     ): Response<PopularMoviesDTO>
+
+    @GET("movie/{movie_id}/images")
+    suspend fun getMovieImage(
+        @Path("movie_id") movie_id: Int,
+        @Query("api_key") apiKey: String
+    ): Response<MovieImageDTO>
+
+    @GET("tv/{tv_id}/images")
+    suspend fun getTvSeriesImage(
+        @Path("tv_id") tv_id: Int,
+        @Query("api_key") apiKey: String
+    ): Response<MovieImageDTO>
 }

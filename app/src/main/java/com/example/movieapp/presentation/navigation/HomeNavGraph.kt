@@ -23,7 +23,7 @@ import com.example.movieapp.presentation.home.screen.search_result.SearchResultS
 import com.example.movieapp.presentation.home.screen.toprated.TopRatedMoviesScreen
 import com.example.movieapp.presentation.home.screen.trailer.TrailerScreen
 import com.example.movieapp.presentation.home.screen.wish.WishScreen
-import com.example.movieapp.util.addNavArgument
+import com.example.movieapp.util.extensions.addNavArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController

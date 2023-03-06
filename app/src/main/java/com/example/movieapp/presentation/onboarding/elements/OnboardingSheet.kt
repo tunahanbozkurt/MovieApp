@@ -19,7 +19,7 @@ import com.example.movieapp.ui.theme.localFont
 fun OnboardingSheet(
     modifier: Modifier = Modifier,
 
-) {
+    ) {
 
     Column(
         modifier = modifier.background(MaterialTheme.localColor.primaryDark),

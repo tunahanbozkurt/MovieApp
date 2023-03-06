@@ -22,7 +22,7 @@ import com.example.movieapp.presentation.home.elements.MovieListHorizontal
 import com.example.movieapp.presentation.home.elements.TripleMovieGroup
 import com.example.movieapp.presentation.home.elements.bar.ProfileBar
 import com.example.movieapp.presentation.navigation.HomeScreen
-import com.example.movieapp.util.addNavArgument
+import com.example.movieapp.util.extensions.addNavArgument
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 

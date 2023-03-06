@@ -3,7 +3,7 @@ package com.example.movieapp.data.repository
 import com.example.movieapp.R
 import com.example.movieapp.domain.repository.AuthenticationRepository
 import com.example.movieapp.util.TaskResult
-import com.example.movieapp.util.safeFirebaseRequest
+import com.example.movieapp.util.extensions.safeFirebaseRequest
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -49,13 +49,10 @@ class AuthenticationRepositoryImpl(
     }
 
     override suspend fun updateDisplayName(name: String, password: String): TaskResult {
-        return try {
+        return safeFirebaseRequest(ioDispatcher) {
             auth.currentUser?.updateProfile(
                 userProfileChangeRequest { displayName = name }
-            )?.await()
-            TaskResult.Success
-        } catch (e: Exception) {
-            TaskResult.Error(R.string.invalid_user)
+            )
         }
     }
 
@@ -64,7 +61,6 @@ class AuthenticationRepositoryImpl(
         email: String,
         password: String
     ): TaskResult {
-
         return try {
             auth.currentUser?.reauthenticate(
                 EmailAuthProvider.getCredential(originalEmail, password)
@@ -77,7 +73,5 @@ class AuthenticationRepositoryImpl(
             e.printStackTrace()
             TaskResult.Error(R.string.invalid_user)
         }
-
     }
-
 }

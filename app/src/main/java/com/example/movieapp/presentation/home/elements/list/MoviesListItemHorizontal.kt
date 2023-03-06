@@ -27,7 +27,7 @@ import com.example.movieapp.presentation.home.elements.PriceTag
 import com.example.movieapp.presentation.home.elements.Rate
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
-import com.example.movieapp.util.getYearFromDate
+import com.example.movieapp.util.extensions.getYearFromDate
 
 @Composable
 fun MoviesListItemHorizontal(

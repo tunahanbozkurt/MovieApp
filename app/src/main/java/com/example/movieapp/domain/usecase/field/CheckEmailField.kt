@@ -2,7 +2,7 @@ package com.example.movieapp.domain.usecase.field
 
 import com.example.movieapp.R
 import com.example.movieapp.util.TaskResult
-import com.example.movieapp.util.isValidEmail
+import com.example.movieapp.util.extensions.isValidEmail
 
 class CheckEmailField {
 

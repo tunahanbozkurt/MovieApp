@@ -22,10 +22,10 @@ class SearchScreenVM @Inject constructor(
     private val _recommendedMovies: MutableStateFlow<List<MovieItem>> = MutableStateFlow(listOf())
     val recommendedMovies: StateFlow<List<MovieItem>> = _recommendedMovies.asStateFlow()
 
-    val latestSearchedMovie = repository.getLatestSearchedMovieFlow()
+    val latestSearchedMovie = repository.getLatestSearchedMovieOrSeriesAsFlow()
 
     companion object {
-        const val BASE_MOVIE_ID = 634649
+        const val BASE_MOVIE_ID = 616037
     }
 
     init {
@@ -34,7 +34,7 @@ class SearchScreenVM @Inject constructor(
 
     private fun getRecommendedMovies(useBaseId: Boolean) {
         viewModelScope.launch {
-            val id = repository.getLatestSearchedMovie()?.id
+            val id = repository.getLatestSearchedMovieOrSeries()?.id
             val response = repository
                 .getRecommendedMovies(
                     id = if (useBaseId) BASE_MOVIE_ID else id ?: BASE_MOVIE_ID,
