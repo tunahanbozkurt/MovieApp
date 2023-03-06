@@ -74,7 +74,7 @@
     <string name="synopsis">Synopsis</string>
     <string name="galery">Galery</string>
     <string name="sign_up_with">Or Sign up with</string>
-    <string name="lets_started">Let\' get started</string>
+    <string name="lets_started">Let\'s get started</string>
     <string name="latest_movies">The latest movies and series are here</string>
     <string name="are_you_sure">Are you sure ?</string>
     <string name="share_to">Share to</string>
@@ -97,4 +97,8 @@
     <string name="email_and_name_updated">Name and email are updated</string>
     <string name="need_to_accept_privacy">You need to agree Terms and Services and Privacy Policy</string>
     <string name="profile">Profile</string>
+    <string name="agree">"I agree to the "</string>
+    <string name="terms_services">Terms and Services</string>
+    <string name="privacy_policy">" Privacy Policy"</string>
+    <string name="and">" and "</string>
 </resources>
