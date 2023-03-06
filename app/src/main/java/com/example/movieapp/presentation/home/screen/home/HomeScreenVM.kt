@@ -3,7 +3,6 @@ package com.example.movieapp.presentation.home.screen.home
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieapp.BuildConfig
 import com.example.movieapp.data.remote.dto.genre.Genre
 import com.example.movieapp.domain.model.popular.PopularMovies
 import com.example.movieapp.domain.model.upcoming.UpcomingMovie
@@ -74,11 +73,11 @@ class HomeScreenVM @Inject constructor(
     private fun loadPopularMovies() {
         viewModelScope.launch {
             val popularResponse = async {
-                movieRepository.getPopularMovies(page = 1, apiKey = BuildConfig.MOVIE_DB_API_KEY)
+                movieRepository.getPopularMovies(page = 1)
             }
 
             val topRatedResponse = async {
-                movieRepository.getTopRatedMovies(page = 1, apiKey = BuildConfig.MOVIE_DB_API_KEY)
+                movieRepository.getTopRatedMovies(page = 1)
             }
 
             popularResponse.await().onSuccess { resource ->
@@ -98,7 +97,7 @@ class HomeScreenVM @Inject constructor(
     private fun loadUpcomingMovies() {
         viewModelScope.launch {
             val response =
-                movieRepository.getUpcomingMovies(page = 1, apiKey = BuildConfig.MOVIE_DB_API_KEY)
+                movieRepository.getUpcomingMovies(page = 1)
 
             response.onSuccess { resource ->
                 _upcomingMovies.update {

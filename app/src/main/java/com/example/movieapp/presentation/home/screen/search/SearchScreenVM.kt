@@ -2,7 +2,6 @@ package com.example.movieapp.presentation.home.screen.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieapp.BuildConfig
 import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.util.onSuccess
@@ -38,8 +37,7 @@ class SearchScreenVM @Inject constructor(
             val response = repository
                 .getRecommendedMovies(
                     id = if (useBaseId) BASE_MOVIE_ID else id ?: BASE_MOVIE_ID,
-                    1,
-                    apiKey = BuildConfig.MOVIE_DB_API_KEY
+                    1
                 )
 
             response.onSuccess { recommendedMovies ->

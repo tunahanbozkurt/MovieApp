@@ -126,19 +126,19 @@ fun SignUpScreen(
             })
 
         val annotatedString = buildAnnotatedString {
-            append("I agree to the ")
+            append(stringResource(id = R.string.agree))
 
             pushStringAnnotation(tag = "terms and services", annotation = "terms")
             withStyle(style = SpanStyle(color = MaterialTheme.localColor.primaryBlueAccent)) {
-                append("Terms and Services")
+                append(stringResource(id = R.string.terms_services))
             }
             pop()
 
-            append(" and ")
+            append(stringResource(id = R.string.and))
 
             pushStringAnnotation(tag = "privacy policy", annotation = "privacy")
             withStyle(style = SpanStyle(color = MaterialTheme.localColor.primaryBlueAccent)) {
-                append(" Privacy Policy")
+                append(stringResource(id = R.string.privacy_policy))
             }
 
             pop()

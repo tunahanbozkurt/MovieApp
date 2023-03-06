@@ -3,6 +3,7 @@ package com.example.movieapp.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
+import com.example.movieapp.BuildConfig
 import com.example.movieapp.data.local.data_source.AppDatabase
 import com.example.movieapp.data.local.data_source.LocalDataSourceImpl
 import com.example.movieapp.data.remote.MovieAPI
@@ -26,6 +27,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -61,9 +63,21 @@ object AppModule {
     @Provides
     @Singleton
     fun provideHttpClient(): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
         return OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor { chain ->
+                val url = chain.request()
+                    .url
+                    .newBuilder()
+                    .addQueryParameter("api_key", BuildConfig.MOVIE_DB_API_KEY)
+                    .build()
+                chain.proceed(chain.request().newBuilder().url(url).build())
+            }
+            .addInterceptor(loggingInterceptor)
             .build()
     }
 

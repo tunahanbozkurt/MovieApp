@@ -22,101 +22,84 @@ import retrofit2.http.Query
 interface MovieAPI {
 
     @GET("genre/movie/list")
-    suspend fun getAllMovieGenres(
-        @Query("api_key") apiKey: String
-    ): Response<MovieGenreListDTO>
+    suspend fun getAllMovieGenres(): Response<MovieGenreListDTO>
 
     @GET("movie/{movie_id}")
     suspend fun getDetail(
         @Path("movie_id") movieId: Int,
-        @Query("api_key") apiKey: String,
     ): Response<MovieDetailDTO>
 
     @GET("movie/popular")
     suspend fun getPopularMovies(
-        @Query("page") page: Int,
-        @Query("api_key") apiKey: String
+        @Query("page") page: Int
     ): Response<PopularMoviesDTO>
 
     @GET("search/movie")
     suspend fun searchMovie(
         @Query("query") query: String,
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String
     ): Response<MovieSearchDTO>
 
     @GET("movie/upcoming")
     suspend fun getUpcoming(
-        @Query("page") page: Int,
-        @Query("api_key") apiKey: String
+        @Query("page") page: Int
     ): Response<UpcomingMoviesDTO>
 
     @GET("movie/{movie_id}/recommendations")
     suspend fun getRecommended(
         @Path("movie_id") movie_id: Int,
         @Query("page") page: Int,
-        @Query("api_key") apiKey: String
     ): Response<RecommendedMoviesDTO>
 
     @GET("movie/{movie_id}/credits")
     suspend fun getMovieCredits(
-        @Path("movie_id") movie_id: Int,
-        @Query("api_key") apiKey: String
+        @Path("movie_id") movie_id: Int
     ): Response<MovieCreditsDTO>
 
     @GET("search/multi")
     suspend fun multiSearch(
         @Query("query") query: String,
-        @Query("page") page: Int,
-        @Query("api_key") apiKey: String
+        @Query("page") page: Int
     ): Response<MultiSearchDTO>
 
     @GET("tv/{tv_id}")
     suspend fun getTvShowDetail(
-        @Path("tv_id") tv_id: Int,
-        @Query("api_key") apiKey: String
+        @Path("tv_id") tv_id: Int
     ): Response<TvSeriesDetailDTO>
 
     @GET("tv/{tv_id}/credits")
     suspend fun getTvShowCredits(
-        @Path("tv_id") tv_id: Int,
-        @Query("api_key") apiKey: String
+        @Path("tv_id") tv_id: Int
     ): Response<TvShowCreditsDTO>
 
     @GET("tv/{tv_id}/season/{season_number}")
     suspend fun getTvSeasonDetails(
         @Path("tv_id") tv_id: Int,
-        @Path("season_number") season_number: Int,
-        @Query("api_key") apiKey: String,
+        @Path("season_number") season_number: Int
     ): Response<TvSeasonDetailDTO>
 
     @GET("movie/{movie_id}/videos")
     suspend fun getMovieVideos(
-        @Path("movie_id") movie_id: Int,
-        @Query("api_key") apiKey: String
+        @Path("movie_id") movie_id: Int
     ): Response<MovieVideosDTO>
 
     @GET("tv/{tv_id}/videos")
     suspend fun getSeriesVideos(
-        @Path("tv_id") tv_id: Int,
-        @Query("api_key") apiKey: String
+        @Path("tv_id") tv_id: Int
     ): Response<TvSeriesVideosDTO>
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(
-        @Query("page") page: Int,
-        @Query("api_key") apiKey: String
+        @Query("page") page: Int
     ): Response<PopularMoviesDTO>
 
     @GET("movie/{movie_id}/images")
     suspend fun getMovieImage(
-        @Path("movie_id") movie_id: Int,
-        @Query("api_key") apiKey: String
+        @Path("movie_id") movie_id: Int
     ): Response<MovieImageDTO>
 
     @GET("tv/{tv_id}/images")
     suspend fun getTvSeriesImage(
-        @Path("tv_id") tv_id: Int,
-        @Query("api_key") apiKey: String
+        @Path("tv_id") tv_id: Int
     ): Response<MovieImageDTO>
 }

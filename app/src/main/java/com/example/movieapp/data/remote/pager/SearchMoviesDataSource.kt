@@ -2,7 +2,6 @@ package com.example.movieapp.data.remote.pager
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.movieapp.BuildConfig
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchResult
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.util.Resource
@@ -29,8 +28,7 @@ class SearchMoviesDataSource(
 
             val result = repo.getMultiSearch(
                 query = query.encodeToUri(),
-                page = page,
-                apiKey = BuildConfig.MOVIE_DB_API_KEY
+                page = page
             )
 
             if (result is Resource.Success && query.isNotEmpty()) {

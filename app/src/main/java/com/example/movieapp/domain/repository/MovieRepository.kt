@@ -22,47 +22,47 @@ interface MovieRepository {
     /**
      * Provides the popular movies with the result status.
      */
-    suspend fun getPopularMovies(page: Int, apiKey: String): Resource<PopularMovies>
+    suspend fun getPopularMovies(page: Int): Resource<PopularMovies>
 
     /**
      * Provides the top-rated movies with the result status.
      */
-    suspend fun getTopRatedMovies(page: Int, apiKey: String): Resource<PopularMovies>
+    suspend fun getTopRatedMovies(page: Int): Resource<PopularMovies>
 
     /**
      * Provides the upcoming movies with the result status.
      */
-    suspend fun getUpcomingMovies(page: Int, apiKey: String): Resource<List<UpcomingMovie>>
+    suspend fun getUpcomingMovies(page: Int): Resource<List<UpcomingMovie>>
 
     /**
      * Provides the movie's details by using id with the result status.
      */
-    suspend fun getMovieDetail(id: Int, apiKey: String): Resource<MovieDetail>
+    suspend fun getMovieDetail(id: Int): Resource<MovieDetail>
 
     /**
      * Provides the tv show's details by using id with the result status.
      */
-    suspend fun getTvShowDetail(id: Int, apiKey: String): Resource<MovieDetail>
+    suspend fun getTvShowDetail(id: Int): Resource<MovieDetail>
 
     /**
      * Provides the movie's image urls by using id with the result status.
      */
-    suspend fun getMovieImages(id: Int, apiKey: String): Resource<MovieImageDTO>
+    suspend fun getMovieImages(id: Int): Resource<MovieImageDTO>
 
     /**
      * Provides the tv series's image urls by using id with the result status.
      */
-    suspend fun getTvSeriesImages(id: Int, apiKey: String): Resource<MovieImageDTO>
+    suspend fun getTvSeriesImages(id: Int): Resource<MovieImageDTO>
 
     /**
      * Provides the movie's credits by using id with the result status.
      */
-    suspend fun getMovieCredits(id: Int, apiKey: String): Resource<List<CastCrew>>
+    suspend fun getMovieCredits(id: Int): Resource<List<CastCrew>>
 
     /**
      * Provides the tv show's credits by using id with the result status.
      */
-    suspend fun getTvShowCredits(id: Int, apiKey: String): Resource<List<CastCrew>>
+    suspend fun getTvShowCredits(id: Int): Resource<List<CastCrew>>
 
     /**
      * Inserts the movie to the local database.
@@ -87,12 +87,12 @@ interface MovieRepository {
     /**
      * Provides the movie's genres with the result status.
      */
-    suspend fun getAllMovieGenres(apiKey: String): Resource<MovieGenreListDTO>
+    suspend fun getAllMovieGenres(): Resource<MovieGenreListDTO>
 
     /**
      * Provides the tv season's details by using id and season number parameter with the result status.
      */
-    suspend fun getTvSeasonDetail(id: Int, apiKey: String, season: Int): Resource<TvSeasonDetailDTO>
+    suspend fun getTvSeasonDetail(id: Int, season: Int): Resource<TvSeasonDetailDTO>
 
     /**
      * Inserts the wish to the local database.
@@ -102,12 +102,12 @@ interface MovieRepository {
     /**
      * Provides the movie's videos by using id with the result status.
      */
-    suspend fun getMovieVideos(id: Int, apiKey: String): Resource<MovieVideosDTO>
+    suspend fun getMovieVideos(id: Int): Resource<MovieVideosDTO>
 
     /**
      * Provides the tv series's videos by using id with the result status.
      */
-    suspend fun getSeriesVideos(id: Int, apiKey: String): Resource<TvSeriesVideosDTO>
+    suspend fun getSeriesVideos(id: Int): Resource<TvSeriesVideosDTO>
 
     /**
      * Provides the wishes as flow from the local database.
@@ -119,8 +119,7 @@ interface MovieRepository {
      */
     suspend fun getRecommendedMovies(
         id: Int,
-        page: Int,
-        apiKey: String
+        page: Int
     ): Resource<RecommendedMovies>
 
     /**
@@ -128,8 +127,7 @@ interface MovieRepository {
      */
     suspend fun getSearchedMovies(
         query: String,
-        page: Int,
-        apiKey: String
+        page: Int
     ): Resource<MovieSearchDTO>
 
     /**
@@ -137,7 +135,6 @@ interface MovieRepository {
      */
     suspend fun getMultiSearch(
         query: String,
-        page: Int,
-        apiKey: String
+        page: Int
     ): Resource<MultiSearchDTO>
 }

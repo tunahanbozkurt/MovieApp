@@ -31,26 +31,26 @@ class MovieRepositoryImpl(
     private val ioDispatcher: CoroutineDispatcher,
 ) : MovieRepository {
 
-    override suspend fun getAllMovieGenres(apiKey: String): Resource<MovieGenreListDTO> {
+    override suspend fun getAllMovieGenres(): Resource<MovieGenreListDTO> {
         return safeRequest(ioDispatcher) {
-            remoteDataSource.getAllMovieGenres(apiKey)
+            remoteDataSource.getAllMovieGenres()
         }
     }
 
-    override suspend fun getPopularMovies(page: Int, apiKey: String): Resource<PopularMovies> {
+    override suspend fun getPopularMovies(page: Int): Resource<PopularMovies> {
         return safeRequestMapper(
             ioDispatcher,
-            execute = { remoteDataSource.getPopularMovies(page, apiKey) },
+            execute = { remoteDataSource.getPopularMovies(page) },
             mapper = { mapperDto ->
                 mapperDto.toPopularMovies()
             }
         )
     }
 
-    override suspend fun getTopRatedMovies(page: Int, apiKey: String): Resource<PopularMovies> {
+    override suspend fun getTopRatedMovies(page: Int): Resource<PopularMovies> {
         return safeRequestMapper(
             ioDispatcher,
-            execute = { remoteDataSource.getTopRatedMovies(page, apiKey) },
+            execute = { remoteDataSource.getTopRatedMovies(page) },
             mapper = { mapperDto ->
                 mapperDto.toPopularMovies()
             }
@@ -58,13 +58,12 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun getUpcomingMovies(
-        page: Int,
-        apiKey: String
+        page: Int
     ): Resource<List<UpcomingMovie>> {
         return safeRequestMapper(
             ioDispatcher,
             execute = {
-                remoteDataSource.getUpcomingMovies(page, apiKey)
+                remoteDataSource.getUpcomingMovies(page)
             },
             mapper = { mapperDto ->
                 mapperDto.results.map { upcomingMovieResult ->
@@ -73,21 +72,21 @@ class MovieRepositoryImpl(
             })
     }
 
-    override suspend fun getMovieDetail(id: Int, apiKey: String): Resource<MovieDetail> {
+    override suspend fun getMovieDetail(id: Int): Resource<MovieDetail> {
         return safeRequestMapper(
             ioDispatcher,
-            execute = { remoteDataSource.getMovieDetail(id, apiKey) },
+            execute = { remoteDataSource.getMovieDetail(id) },
             mapper = { movieDetailDto ->
                 movieDetailDto.toMovieDetail()
             }
         )
     }
 
-    override suspend fun getMovieCredits(id: Int, apiKey: String): Resource<List<CastCrew>> {
+    override suspend fun getMovieCredits(id: Int): Resource<List<CastCrew>> {
         return safeRequestMapper(
             ioDispatcher,
             execute = {
-                remoteDataSource.getMovieCredits(id, apiKey)
+                remoteDataSource.getMovieCredits(id)
             },
             mapper = { mapperDto ->
                 val casts = mapperDto.cast.map { castDto ->
@@ -101,11 +100,11 @@ class MovieRepositoryImpl(
         )
     }
 
-    override suspend fun getTvShowDetail(id: Int, apiKey: String): Resource<MovieDetail> {
+    override suspend fun getTvShowDetail(id: Int): Resource<MovieDetail> {
         return safeRequestMapper(
             ioDispatcher,
             execute = {
-                remoteDataSource.getTvShowDetail(id, apiKey)
+                remoteDataSource.getTvShowDetail(id)
             },
             mapper = { tvSeriesDetailDto ->
                 tvSeriesDetailDto.toMovieDetail()
@@ -113,23 +112,23 @@ class MovieRepositoryImpl(
         )
     }
 
-    override suspend fun getMovieImages(id: Int, apiKey: String): Resource<MovieImageDTO> {
+    override suspend fun getMovieImages(id: Int): Resource<MovieImageDTO> {
         return safeRequest(ioDispatcher) {
-            remoteDataSource.getMovieImages(id, apiKey)
+            remoteDataSource.getMovieImages(id)
         }
     }
 
-    override suspend fun getTvSeriesImages(id: Int, apiKey: String): Resource<MovieImageDTO> {
+    override suspend fun getTvSeriesImages(id: Int): Resource<MovieImageDTO> {
         return safeRequest(ioDispatcher) {
-            remoteDataSource.getTvSeriesImages(id, apiKey)
+            remoteDataSource.getTvSeriesImages(id)
         }
     }
 
-    override suspend fun getTvShowCredits(id: Int, apiKey: String): Resource<List<CastCrew>> {
+    override suspend fun getTvShowCredits(id: Int): Resource<List<CastCrew>> {
         return safeRequestMapper(
             ioDispatcher,
             execute = {
-                remoteDataSource.getTvShowCredits(id, apiKey)
+                remoteDataSource.getTvShowCredits(id)
             },
             mapper = { tvShowCreditsDto ->
                 tvShowCreditsDto.crew.map { crew ->
@@ -141,13 +140,11 @@ class MovieRepositoryImpl(
 
     override suspend fun getTvSeasonDetail(
         id: Int,
-        apiKey: String,
         season: Int
     ): Resource<TvSeasonDetailDTO> {
         return safeRequest(ioDispatcher) {
             remoteDataSource.getTvSeriesDetail(
                 id = id,
-                apiKey = apiKey,
                 season = season
             )
         }
@@ -159,15 +156,15 @@ class MovieRepositoryImpl(
         }
     }
 
-    override suspend fun getMovieVideos(id: Int, apiKey: String): Resource<MovieVideosDTO> {
+    override suspend fun getMovieVideos(id: Int): Resource<MovieVideosDTO> {
         return safeRequest(ioDispatcher) {
-            remoteDataSource.getMovieVideos(id, apiKey)
+            remoteDataSource.getMovieVideos(id)
         }
     }
 
-    override suspend fun getSeriesVideos(id: Int, apiKey: String): Resource<TvSeriesVideosDTO> {
+    override suspend fun getSeriesVideos(id: Int): Resource<TvSeriesVideosDTO> {
         return safeRequest(ioDispatcher) {
-            remoteDataSource.getTvSeriesVideos(id, apiKey)
+            remoteDataSource.getTvSeriesVideos(id)
         }
     }
 
@@ -193,13 +190,12 @@ class MovieRepositoryImpl(
 
     override suspend fun getRecommendedMovies(
         id: Int,
-        page: Int,
-        apiKey: String
+        page: Int
     ): Resource<RecommendedMovies> {
         return safeRequestMapper(
             ioDispatcher,
             execute = {
-                remoteDataSource.getRecommendedMovies(id, page, apiKey)
+                remoteDataSource.getRecommendedMovies(id, page)
             },
             mapper = { recommendedMoviesDto ->
                 recommendedMoviesDto.toRecommendedMovies()
@@ -209,21 +205,19 @@ class MovieRepositoryImpl(
 
     override suspend fun getSearchedMovies(
         query: String,
-        page: Int,
-        apiKey: String
+        page: Int
     ): Resource<MovieSearchDTO> {
         return safeRequest(ioDispatcher) {
-            remoteDataSource.searchMovie(query, page, apiKey)
+            remoteDataSource.searchMovie(query, page)
         }
     }
 
     override suspend fun getMultiSearch(
         query: String,
-        page: Int,
-        apiKey: String
+        page: Int
     ): Resource<MultiSearchDTO> {
         return safeRequest(ioDispatcher) {
-            remoteDataSource.multiSearchMovie(query, page, apiKey)
+            remoteDataSource.multiSearchMovie(query, page)
         }
     }
 

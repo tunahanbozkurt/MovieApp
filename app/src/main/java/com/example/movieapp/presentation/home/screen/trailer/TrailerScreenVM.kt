@@ -2,7 +2,6 @@ package com.example.movieapp.presentation.home.screen.trailer
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieapp.BuildConfig
 import com.example.movieapp.data.remote.dto.movie_image.MovieImageDTO
 import com.example.movieapp.domain.model.cast_crew.CastCrew
 import com.example.movieapp.domain.model.detail.MovieDetail
@@ -43,14 +42,14 @@ class TrailerScreenVM @Inject constructor(
         if (type == ItemType.MOVIE.type) {
             viewModelScope.launch {
                 val movieDetailResponse = async {
-                    repository.getMovieDetail(id, apiKey = BuildConfig.MOVIE_DB_API_KEY)
+                    repository.getMovieDetail(id)
                 }
                 val castAndCrew = async {
-                    repository.getMovieCredits(id, apiKey = BuildConfig.MOVIE_DB_API_KEY)
+                    repository.getMovieCredits(id)
                 }
-                val video = async { repository.getMovieVideos(id, BuildConfig.MOVIE_DB_API_KEY) }
+                val video = async { repository.getMovieVideos(id) }
 
-                val image = async { repository.getMovieImages(id, BuildConfig.MOVIE_DB_API_KEY) }
+                val image = async { repository.getMovieImages(id) }
 
                 video.await().onSuccess { result ->
                     val url = result.data.results.find {
@@ -80,13 +79,13 @@ class TrailerScreenVM @Inject constructor(
         } else {
             viewModelScope.launch {
                 val tvDetailResponse =
-                    async { repository.getTvShowDetail(id, BuildConfig.MOVIE_DB_API_KEY) }
+                    async { repository.getTvShowDetail(id) }
                 val castAndCrew =
-                    async { repository.getTvShowCredits(id, BuildConfig.MOVIE_DB_API_KEY) }
+                    async { repository.getTvShowCredits(id) }
 
-                val video = async { repository.getSeriesVideos(id, BuildConfig.MOVIE_DB_API_KEY) }
+                val video = async { repository.getSeriesVideos(id) }
 
-                val image = async { repository.getTvSeriesImages(id, BuildConfig.MOVIE_DB_API_KEY) }
+                val image = async { repository.getTvSeriesImages(id) }
 
                 video.await().onSuccess { result ->
                     val url = result.data.results.find {

@@ -2,7 +2,6 @@ package com.example.movieapp.presentation.home.screen.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieapp.BuildConfig
 import com.example.movieapp.data.remote.dto.tvseasondetail.TvSeasonDetailDTO
 import com.example.movieapp.domain.model.cast_crew.CastCrew
 import com.example.movieapp.domain.model.detail.MovieDetail
@@ -35,8 +34,7 @@ class DetailScreenVM @Inject constructor(
         viewModelScope.launch {
             val detail = repository.getTvSeasonDetail(
                 id = id,
-                season = seasonNumber,
-                apiKey = BuildConfig.MOVIE_DB_API_KEY
+                season = seasonNumber
             )
             detail.onSuccess { result ->
                 _seasonDetailState.update {
@@ -50,10 +48,10 @@ class DetailScreenVM @Inject constructor(
         if (type == ItemType.MOVIE.type) {
             viewModelScope.launch {
                 val movieDetailResponse = async {
-                    repository.getMovieDetail(id, apiKey = BuildConfig.MOVIE_DB_API_KEY)
+                    repository.getMovieDetail(id)
                 }
                 val castAndCrew = async {
-                    repository.getMovieCredits(id, apiKey = BuildConfig.MOVIE_DB_API_KEY)
+                    repository.getMovieCredits(id)
                 }
                 movieDetailResponse.await().onSuccess { result ->
                     updateLastSearchedMovie(result.data)
@@ -70,9 +68,9 @@ class DetailScreenVM @Inject constructor(
         } else {
             viewModelScope.launch {
                 val tvDetailResponse =
-                    async { repository.getTvShowDetail(id, BuildConfig.MOVIE_DB_API_KEY) }
+                    async { repository.getTvShowDetail(id) }
                 val castAndCrew =
-                    async { repository.getTvShowCredits(id, BuildConfig.MOVIE_DB_API_KEY) }
+                    async { repository.getTvShowCredits(id) }
 
                 async { loadSeasonData(id, 1) }
 

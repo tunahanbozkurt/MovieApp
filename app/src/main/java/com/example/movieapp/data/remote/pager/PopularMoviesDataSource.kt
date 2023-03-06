@@ -2,7 +2,6 @@ package com.example.movieapp.data.remote.pager
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.movieapp.BuildConfig
 import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.util.Resource
@@ -26,8 +25,7 @@ class PopularMoviesDataSource(
             val page = params.key ?: Pager.INITIAL_PAGE_NUMBER
 
             val result = repo.getPopularMovies(
-                page = page,
-                apiKey = BuildConfig.MOVIE_DB_API_KEY
+                page = page
             )
 
             if (result is Resource.Success) {

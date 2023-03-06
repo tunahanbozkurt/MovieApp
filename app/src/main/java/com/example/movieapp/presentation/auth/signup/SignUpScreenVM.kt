@@ -90,6 +90,7 @@ class SignUpScreenVM @Inject constructor(
                     _eventChannel.send(ScreenEvent.Navigate(Graph.HOME))
                 } else {
                     /*TOOD*/
+
                 }
             }
         }
