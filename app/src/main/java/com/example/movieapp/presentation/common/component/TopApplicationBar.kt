@@ -97,6 +97,7 @@ fun DetailScreenTopApplicationBar(
             iconResId = R.drawable.ic_heart,
             backGroundColor = MaterialTheme.localColor.primarySoft,
             iconTint = MaterialTheme.localColor.secondaryRed,
+            padding = PaddingValues(4.dp),
             modifier = Modifier
                 .size(32.dp)
                 .wrapContentSize(Alignment.CenterEnd)

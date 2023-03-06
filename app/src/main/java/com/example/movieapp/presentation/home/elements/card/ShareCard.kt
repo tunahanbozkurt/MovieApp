@@ -45,6 +45,7 @@ fun ShareCard(
         RectangularIcon(
             iconResId = R.drawable.ic_close,
             backGroundColor = MaterialTheme.localColor.primaryDark,
+            iconTint = MaterialTheme.localColor.textGrey,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentSize(Alignment.CenterEnd)
