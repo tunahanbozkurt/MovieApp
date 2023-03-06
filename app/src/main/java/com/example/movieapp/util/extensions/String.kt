@@ -50,12 +50,17 @@ fun String.encodeToUri(): String {
 }
 
 fun String.convertToDate(): String {
-    val inputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-    val outputDateFormat = SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH)
-    val date = inputDateFormat.parse(this)
-    val calendar = Calendar.getInstance()
-    calendar.time = date ?: return "Unknown"
-    return outputDateFormat.format(calendar.time)
+    try {
+        val inputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val outputDateFormat = SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH)
+        val date = inputDateFormat.parse(this)
+        val calendar = Calendar.getInstance()
+        calendar.time = date ?: return "Unknown"
+        return outputDateFormat.format(calendar.time)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        return "Unknown"
+    }
 }
 
 fun CharSequence?.isValidEmail() =

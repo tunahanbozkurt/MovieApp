@@ -95,8 +95,7 @@ fun SearchResultScreen(
             VerticalSpacer(heightDp = 24)
 
             MovieListVertical(
-                itemList = pagerState.itemSnapshotList.items.filter { it.media_type != ItemType.PERSON.type }
-                    .map { it.toMovieItem() },
+                itemList = pagerState,
                 list = pagerState.itemSnapshotList.items.filter { it.media_type == ItemType.PERSON.type }
             ) { id, type ->
                 navigate.invoke(id, type)

@@ -48,13 +48,15 @@ fun EditProfileScreen(
 
     val pickImageLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
-            val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
-            val byteArrayOutputStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
-            val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
-            val encoded: String = Base64.encodeToString(byteArray, Base64.DEFAULT)
-            viewModel.setProfileImageBase64(encoded)
-            viewModel.getProfileImageUri()
+            if (uri != null) {
+                val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+                val byteArrayOutputStream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 30, byteArrayOutputStream)
+                val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
+                val encoded: String = Base64.encodeToString(byteArray, Base64.DEFAULT)
+                viewModel.setProfileImageBase64(encoded)
+                viewModel.getProfileImageUri()
+            }
         }
 
     LaunchedEffect(Unit) {
@@ -81,7 +83,7 @@ fun EditProfileScreen(
             name = viewModel.initDisplayName,
             email = viewModel.initEmail
         ) {
-            pickImageLauncher.launch("image/*")
+            //pickImageLauncher.launch("image/*")
         }
         VerticalSpacer(heightDp = 40)
         CommonTextField(

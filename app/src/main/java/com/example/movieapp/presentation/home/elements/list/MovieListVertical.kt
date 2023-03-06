@@ -1,19 +1,19 @@
 package com.example.movieapp.presentation.home.elements.list
 
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.items
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchResult
-import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.home.screen.detail.ItemType
 import com.example.movieapp.presentation.home.screen.search_result.ActorsList
 
 @Composable
 fun MovieListVertical(
-    itemList: List<MovieItem>,
+    itemList: LazyPagingItems<MultiSearchResult>,
     list: List<MultiSearchResult>,
     modifier: Modifier = Modifier,
     onItemClick: (Int, String) -> Unit
@@ -39,16 +39,20 @@ fun MovieListVertical(
         }
 
         items(itemList) { item ->
-            if (item.poster_path != null) {
-                MoviesListItemHorizontal(
-                    model = item,
-                    type = item.type
-                ) { id, type ->
-                    onItemClick.invoke(id, type)
-                }
-            }
+            if (item?.media_type != ItemType.PERSON.type) {
+                val movieItem = item?.toMovieItem()
 
-            VerticalSpacer(heightDp = 16)
+                if (item?.poster_path != null && movieItem != null) {
+                    MoviesListItemHorizontal(
+                        model = movieItem,
+                        type = movieItem.type
+                    ) { id, type ->
+                        onItemClick.invoke(id, type)
+                    }
+                }
+
+                VerticalSpacer(heightDp = 16)
+            }
         }
     }
 }

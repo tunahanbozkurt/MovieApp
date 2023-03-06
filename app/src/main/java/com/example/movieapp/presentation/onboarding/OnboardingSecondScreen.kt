@@ -30,6 +30,7 @@ fun OnboardingSecondScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .background(MaterialTheme.localColor.textBlack)
+                .padding(top = 24.dp)
                 .height(421.dp)
                 .fillMaxWidth()
         ) {
@@ -68,9 +69,7 @@ fun OnboardingSecondScreen(
                     .alpha(0.3f)
             )
         }
-        OnboardingSheet(
-            modifier = Modifier
-        )
+        OnboardingSheet()
     }
 }
 

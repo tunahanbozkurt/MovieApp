@@ -171,6 +171,8 @@ fun SignUpScreen(
             viewModel.handleUIEvent(SignUpScreenUIEvent.SignUp)
         }
 
+        VerticalSpacer(heightDp = 24)
+
     }
 }
 

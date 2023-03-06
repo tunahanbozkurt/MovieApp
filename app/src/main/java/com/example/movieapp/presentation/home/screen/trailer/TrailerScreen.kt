@@ -33,6 +33,7 @@ import com.example.movieapp.presentation.home.elements.IconWithText
 import com.example.movieapp.presentation.home.screen.detail.CastAndCrew
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
+import com.example.movieapp.util.extensions.convertToDate
 import com.example.movieapp.util.extensions.createImgUrl
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
@@ -127,7 +128,8 @@ fun TrailerScreen(
                     VerticalSpacer(heightDp = 8)
                     Row {
                         IconWithText(
-                            text = detailState.release_date,
+                            text = if (detailState.release_date.isNotEmpty()) detailState.release_date.convertToDate()
+                            else detailState.release_date,
                             iconResId = R.drawable.ic_calendar
                         )
                         HorizontalSpacer(width = 12)

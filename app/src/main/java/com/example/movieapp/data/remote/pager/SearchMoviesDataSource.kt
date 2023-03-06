@@ -33,8 +33,9 @@ class SearchMoviesDataSource(
 
             if (result is Resource.Success && query.isNotEmpty()) {
 
-                val nextKey = if (result.data.page < Pager.MAX_PAGE_NUMBER_1000)
-                    result.data.page + 1 else null
+                val nextKey =
+                    if (result.data.page < Pager.MAX_PAGE_NUMBER_1000 && result.data.results.isNotEmpty())
+                        result.data.page + 1 else null
 
                 return LoadResult.Page(
                     data = result.data.results,

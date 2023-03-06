@@ -2,6 +2,7 @@ package com.example.movieapp.presentation.onboarding.elements
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -10,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.ui.theme.localColor
@@ -22,7 +24,9 @@ fun OnboardingSheet(
     ) {
 
     Column(
-        modifier = modifier.background(MaterialTheme.localColor.primaryDark),
+        modifier = modifier
+            .background(MaterialTheme.localColor.primaryDark)
+            .padding(horizontal = 55.5.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         VerticalSpacer(heightDp = 46)
