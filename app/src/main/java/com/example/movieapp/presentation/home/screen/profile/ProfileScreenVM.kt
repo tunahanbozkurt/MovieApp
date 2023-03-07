@@ -11,7 +11,7 @@ class ProfileScreenVM @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
-    fun getImageBase64(): String? {
+    fun getImagePath(): String? {
         return sharedPreferences.getString(SharedPref.PROFILE_IMAGE_BASE64, null)
     }
 }

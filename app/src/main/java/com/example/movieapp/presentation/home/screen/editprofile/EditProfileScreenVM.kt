@@ -54,7 +54,7 @@ class EditProfileScreenVM @Inject constructor(
     val eventFlow = _eventChannel.receiveAsFlow()
 
     init {
-        getProfileImageUri()
+        getProfileImagePath()
     }
 
     fun handleUIEvent(event: EditProfileScreenUIEvent) {
@@ -79,18 +79,19 @@ class EditProfileScreenVM @Inject constructor(
         }
     }
 
-    fun getProfileImageUri() {
+    private fun getProfileImagePath() {
         val imagePath = sharedPreferences.getString(SharedPref.PROFILE_IMAGE_BASE64, null)
         imagePath?.let {
             _profileImageUri.update { imagePath }
         }
     }
 
-    fun setProfileImageBase64(img: String?) {
+    fun setProfileImagePath(img: String?) {
         with(sharedPreferences.edit()) {
             putString(SharedPref.PROFILE_IMAGE_BASE64, img)
             apply()
         }
+        getProfileImagePath()
     }
 
     private fun updateUserInfo(name: String, password: String, email: String) {

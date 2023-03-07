@@ -14,7 +14,7 @@ import com.example.movieapp.util.extensions.uppercaseFirst
 
 @Composable
 fun EditProfileInfoSection(
-    profileImagePath: String?,
+    imgPath: String?,
     name: String,
     email: String,
     onEditClick: () -> Unit
@@ -23,7 +23,7 @@ fun EditProfileInfoSection(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ProfileImageWithIcon(
-            profileImagePath = profileImagePath ?: "",
+            imgPath = imgPath ?: "",
             iconResId = R.drawable.ic_edit_pencil
         ) {
             onEditClick.invoke()

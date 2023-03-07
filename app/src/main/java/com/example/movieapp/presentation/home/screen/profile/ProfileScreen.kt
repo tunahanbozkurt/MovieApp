@@ -48,7 +48,7 @@ fun ProfileScreen(
     val showDialog = remember { mutableStateOf(false) }
     val interactionSource = remember { MutableInteractionSource() }
     val scrollState = rememberScrollState()
-    val imgBase64 = viewModel.getImageBase64()
+    val imgPath = viewModel.getImagePath()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,7 +66,7 @@ fun ProfileScreen(
         VerticalSpacer(heightDp = 24)
 
         ProfileCard(
-            imgBase64 = imgBase64,
+            imgPath = imgPath,
             displayName = currentUser?.displayName ?: "",
             email = currentUser?.email ?: "",
             iconResId = R.drawable.ic_edit

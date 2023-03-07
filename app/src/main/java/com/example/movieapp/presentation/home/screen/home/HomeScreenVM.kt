@@ -51,7 +51,7 @@ class HomeScreenVM @Inject constructor(
         loadUpcomingMovies()
     }
 
-    fun getImageBase64(): String? {
+    fun imagePath(): String? {
         return sharedPreferences.getString(SharedPref.PROFILE_IMAGE_BASE64, null)
     }
 

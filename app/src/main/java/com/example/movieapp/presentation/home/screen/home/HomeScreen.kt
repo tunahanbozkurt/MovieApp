@@ -37,7 +37,7 @@ fun HomeScreen(
     val topRatedMovieList = viewModel.topRatedMovies.collectAsState().value
     val upcomingMovie = viewModel.upcomingMovies.collectAsState().value
     val selectedGenre = viewModel.selectedGenre.collectAsState().value
-    val imgBase64 = viewModel.getImageBase64()
+    val imgPath = viewModel.imagePath()
 
     Column(
         modifier = Modifier
@@ -48,7 +48,7 @@ fun HomeScreen(
         VerticalSpacer(heightDp = 8)
 
         ProfileBar(
-            imgBase64 = imgBase64,
+            imgPath = imgPath,
             displayName = Firebase.auth.currentUser?.displayName
                 ?: stringResource(id = R.string.unknown)
         ) {

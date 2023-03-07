@@ -1,8 +1,8 @@
 package com.example.movieapp.presentation.home.screen.editprofile
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.provider.MediaStore
-import android.util.Base64
 import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -31,7 +31,8 @@ import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.CommonTextField
 import com.example.movieapp.presentation.home.elements.EditProfileInfoSection
 import com.example.movieapp.util.extensions.showToast
-import java.io.ByteArrayOutputStream
+import java.io.File
+import kotlin.random.Random
 
 
 @Composable
@@ -43,19 +44,24 @@ fun EditProfileScreen(
     val passwordState = viewModel.passwordFieldState.collectAsState().value
     val emailState = viewModel.emailFieldState.collectAsState().value
     val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
-    val profileImageUri = viewModel.profileImageUri.collectAsState().value
+    val imgPath = viewModel.profileImageUri.collectAsState().value
     val scrollState = rememberScrollState()
 
     val pickImageLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
-                val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
-                val byteArrayOutputStream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.PNG, 30, byteArrayOutputStream)
-                val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
-                val encoded: String = Base64.encodeToString(byteArray, Base64.DEFAULT)
-                viewModel.setProfileImageBase64(encoded)
-                viewModel.getProfileImageUri()
+                val bitmap = MediaStore.Images
+                    .Media.getBitmap(context.contentResolver, uri)
+                try {
+                    val name = "profile_image_${Random.nextInt()}.png"
+                    context.openFileOutput(name, Context.MODE_PRIVATE).use { fos ->
+                        bitmap?.compress(Bitmap.CompressFormat.PNG, 100, fos)
+                    }
+                    val path = File(context.filesDir, name).absolutePath
+                    viewModel.setProfileImagePath(path)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
 
@@ -80,11 +86,11 @@ fun EditProfileScreen(
             .padding(horizontal = 24.dp)
     ) {
         EditProfileInfoSection(
-            profileImagePath = profileImageUri,
+            imgPath = imgPath,
             name = viewModel.initDisplayName,
             email = viewModel.initEmail
         ) {
-            //pickImageLauncher.launch("image/*")
+            pickImageLauncher.launch("image/*")
         }
         VerticalSpacer(heightDp = 40)
         CommonTextField(
@@ -137,3 +143,7 @@ fun EditProfileScreen(
 fun PreviewEditProfileScreen() {
     EditProfileScreen()
 }
+
+
+
+
