@@ -52,7 +52,7 @@ class HomeScreenVM @Inject constructor(
     }
 
     fun imagePath(): String? {
-        return sharedPreferences.getString(SharedPref.PROFILE_IMAGE_BASE64, null)
+        return sharedPreferences.getString(SharedPref.PROFILE_IMAGE_PATH, null)
     }
 
     fun handleUIEvent(event: HomeScreenUIEvent) {

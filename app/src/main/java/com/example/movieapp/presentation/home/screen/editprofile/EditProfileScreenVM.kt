@@ -80,7 +80,7 @@ class EditProfileScreenVM @Inject constructor(
     }
 
     private fun getProfileImagePath() {
-        val imagePath = sharedPreferences.getString(SharedPref.PROFILE_IMAGE_BASE64, null)
+        val imagePath = sharedPreferences.getString(SharedPref.PROFILE_IMAGE_PATH, null)
         imagePath?.let {
             _profileImageUri.update { imagePath }
         }
@@ -88,7 +88,7 @@ class EditProfileScreenVM @Inject constructor(
 
     fun setProfileImagePath(img: String?) {
         with(sharedPreferences.edit()) {
-            putString(SharedPref.PROFILE_IMAGE_BASE64, img)
+            putString(SharedPref.PROFILE_IMAGE_PATH, img)
             apply()
         }
         getProfileImagePath()
