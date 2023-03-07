@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.navigation
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -87,9 +88,11 @@ fun HomeNavGraph(
             }
         },
         bottomBar = {
-            if (isBottomBarVisible.value) {
+
+            AnimatedVisibility(visible = isBottomBarVisible.value) {
                 BottomNavigation(navController = navController, tabState, currentDestination)
             }
+
         }
     ) {
         AnimatedNavHost(
