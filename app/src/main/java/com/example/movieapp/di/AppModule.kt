@@ -95,9 +95,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRemoteMovieDS(
-        api: MovieAPI
+        api: MovieAPI,
+        sharedPreferences: SharedPreferences
     ): RemoteMovieDS {
-        return RemoteMovieDSImpl(api = api)
+        return RemoteMovieDSImpl(api = api, sharedPreferences = sharedPreferences)
     }
 
     @Provides

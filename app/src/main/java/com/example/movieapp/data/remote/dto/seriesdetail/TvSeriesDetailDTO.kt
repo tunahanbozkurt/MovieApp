@@ -43,7 +43,7 @@ data class TvSeriesDetailDTO(
             number_of_episodes = number_of_episodes,
             number_of_seasons = number_of_seasons,
             seasons = seasons,
-            original_title = original_name,
+            original_title = name,
             poster_path = poster_path ?: "",
             release_date = first_air_date,
             runtime = if (episode_run_time.isNotEmpty()) episode_run_time[0] else 40,

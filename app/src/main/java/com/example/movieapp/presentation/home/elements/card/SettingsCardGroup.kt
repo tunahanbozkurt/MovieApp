@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.home.elements.card
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
@@ -22,10 +24,10 @@ import com.example.movieapp.ui.theme.localFont
 
 @Composable
 fun SettingsCardGroup(
-    title: String,
+    @StringRes titleResId: Int,
     settings: List<SettingModel>,
     modifier: Modifier = Modifier,
-    onClick: (String) -> Unit
+    onClick: (Int) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -41,7 +43,7 @@ fun SettingsCardGroup(
     ) {
 
         Text(
-            text = title,
+            text = stringResource(id = titleResId),
             style = MaterialTheme.localFont.semiBoldH3
         )
 
@@ -50,11 +52,11 @@ fun SettingsCardGroup(
         repeat(settings.size) {
 
             SettingsCardGroupItem(
-                title = settings[it].title,
+                titleResId = settings[it].title,
                 iconResId = settings[it].icon,
                 tint = settings[it].tint
             ) { settingTitle ->
-                onClick.invoke(settingTitle)
+                onClick.invoke(settings[it].title)
             }
 
             if (it != settings.size - 1) {
@@ -73,7 +75,7 @@ fun SettingsCardGroup(
 @Composable
 fun PreviewSettingsCardGroup() {
     SettingsCardGroup(
-        title = "Title",
-        settings = listOf(SettingModel("Title", R.drawable.ic_edit))
+        titleResId = R.string.title,
+        settings = listOf(SettingModel(R.string.title, R.drawable.ic_edit))
     ) {}
 }

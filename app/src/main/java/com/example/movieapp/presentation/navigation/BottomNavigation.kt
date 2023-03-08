@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -44,7 +45,7 @@ fun BottomNavigation(
     ) {
 
         BottomNavigationItem(
-            text = "Home",
+            text = stringResource(id = R.string.home),
             isExpanded = tabState.value == "Home",
             iconResId = R.drawable.ic_home,
         ) {
@@ -62,7 +63,7 @@ fun BottomNavigation(
         }
 
         BottomNavigationItem(
-            text = "Search",
+            text = stringResource(id = R.string.search),
             isExpanded = tabState.value == "Search",
             iconResId = R.drawable.ic_search,
         ) {
@@ -78,7 +79,7 @@ fun BottomNavigation(
         }
 
         BottomNavigationItem(
-            text = "Wishlist",
+            text = stringResource(id = R.string.wishlist),
             isExpanded = tabState.value == "Wishlist",
             iconResId = R.drawable.ic_heart,
         ) {
@@ -95,7 +96,7 @@ fun BottomNavigation(
         }
 
         BottomNavigationItem(
-            text = "User",
+            text = stringResource(id = R.string.profile),
             isExpanded = tabState.value == "Profile",
             iconResId = R.drawable.ic_person,
         ) {

@@ -51,8 +51,14 @@ fun String.encodeToUri(): String {
 
 fun String.convertToDate(): String {
     try {
-        val inputDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-        val outputDateFormat = SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH)
+        val inputDateFormat = SimpleDateFormat(
+            "yyyy-MM-dd",
+            Locale.forLanguageTag(androidx.compose.ui.text.intl.Locale.current.toLanguageTag())
+        )
+        val outputDateFormat = SimpleDateFormat(
+            "MMMM d, yyyy",
+            Locale.forLanguageTag(androidx.compose.ui.text.intl.Locale.current.toLanguageTag())
+        )
         val date = inputDateFormat.parse(this)
         val calendar = Calendar.getInstance()
         calendar.time = date ?: return "Unknown"

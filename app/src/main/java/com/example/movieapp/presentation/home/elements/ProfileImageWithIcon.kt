@@ -1,7 +1,6 @@
 package com.example.movieapp.presentation.home.elements
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -33,25 +32,16 @@ fun ProfileImageWithIcon(
     Box(
         contentAlignment = Alignment.Center
     ) {
-        if (imgPath != null) {
-            AsyncImage(
-                model = imgPath,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(72.dp)
-            )
-        } else {
-            Image(
-                painter = painterResource(id = R.drawable.profile_image),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(72.dp)
-            )
-        }
+
+        AsyncImage(
+            model = imgPath ?: R.drawable.profile_image,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .clip(CircleShape)
+                .size(72.dp)
+        )
+
 
         Box(
             contentAlignment = Alignment.Center,

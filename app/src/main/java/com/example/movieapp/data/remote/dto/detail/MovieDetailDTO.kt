@@ -33,7 +33,7 @@ data class MovieDetailDTO(
         return MovieDetail(
             id = id,
             genres = genres,
-            original_title = original_title,
+            original_title = title,
             poster_path = poster_path ?: "",
             release_date = release_date,
             runtime = runtime ?: 0,

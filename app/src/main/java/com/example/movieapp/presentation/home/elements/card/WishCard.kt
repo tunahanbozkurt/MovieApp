@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -72,7 +73,9 @@ fun WishCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = media_type.uppercaseFirst(),
+                    text = if (Locale.current.language == "en") media_type.uppercaseFirst() else {
+                        if (media_type == "movie") "Film" else "Dizi"
+                    },
                     style = MaterialTheme.localFont.mediumH6,
                     color = MaterialTheme.localColor.textGrey
                 )

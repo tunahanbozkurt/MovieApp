@@ -57,7 +57,7 @@ fun ProfileBar(
             stringResource(R.string.hello_name, displayName)
 
             Text(
-                text = "Hello, ${displayName.uppercaseFirst()}",
+                text = "${stringResource(id = R.string.hello)}, ${displayName.uppercaseFirst()}",
                 style = MaterialTheme.localFont.semiBoldH4
             )
 

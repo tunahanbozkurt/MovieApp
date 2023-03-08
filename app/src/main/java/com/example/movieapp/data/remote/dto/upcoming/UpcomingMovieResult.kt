@@ -22,7 +22,7 @@ data class UpcomingMovieResult(
         return UpcomingMovie(
             id = id,
             imgUrl = backdrop_path ?: "",
-            title = original_title,
+            title = title,
             releaseDate = release_date
         )
     }

@@ -8,12 +8,14 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.intl.Locale
 import androidx.navigation.*
 import com.example.movieapp.presentation.common.component.TopApplicationBar
 import com.example.movieapp.presentation.home.screen.PrivacyPolicyScreen
 import com.example.movieapp.presentation.home.screen.detail.DetailScreen
 import com.example.movieapp.presentation.home.screen.editprofile.EditProfileScreen
 import com.example.movieapp.presentation.home.screen.home.HomeScreen
+import com.example.movieapp.presentation.home.screen.language.ChangeLanguageScreen
 import com.example.movieapp.presentation.home.screen.notification.NotificationScreen
 import com.example.movieapp.presentation.home.screen.popular.MostPopularMoviesScreen
 import com.example.movieapp.presentation.home.screen.profile.ProfileScreen
@@ -71,15 +73,19 @@ fun HomeNavGraph(
             val isPrivacyPolicyScreen = currentDestination.value == HomeScreen.PrivacyPolicy.route
             val isEditProfileScreen = currentDestination.value == HomeScreen.EditProfile.route
             val isNotificationScreen = currentDestination.value == HomeScreen.Notification.route
+            val isLanguageChangeScreen = currentDestination.value == HomeScreen.ChangeLanguage.route
             if (isPopularScreen ||
                 isRecommendedScreen ||
                 isPrivacyPolicyScreen ||
                 isEditProfileScreen ||
                 isTopRatedScreen ||
-                isNotificationScreen
+                isNotificationScreen ||
+                isLanguageChangeScreen
             ) {
+                val title =
+                    if (Locale.current.language == "en") "Recommended Movies" else "Önerilen Filmler"
                 TopApplicationBar(
-                    title = if (isRecommendedScreen) "Recommended Movies" else currentDestination.value,
+                    title = if (isRecommendedScreen) title else currentDestination.value,
                     isBackButtonVisible = true,
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -224,6 +230,10 @@ fun HomeNavGraph(
             composable(HomeScreen.Notification.route) {
                 NotificationScreen()
             }
+
+            composable(HomeScreen.ChangeLanguage.route) {
+                ChangeLanguageScreen()
+            }
         }
     }
 }
@@ -275,12 +285,25 @@ sealed class HomeScreen(val route: String) {
     object Wishlist : HomeScreen(route = "Wishlist")
     object Search : HomeScreen(route = "Search")
     object Detail : HomeScreen(route = "Detail")
-    object Notification : HomeScreen(route = "Notification")
+    object Notification :
+        HomeScreen(route = if (Locale.current.language == "en") "Notification" else "Bildirim")
+
     object SearchResult : HomeScreen(route = "Search_Result")
-    object MostPopularMovies : HomeScreen("Most Popular Movies")
-    object TopRatedMovies : HomeScreen("Top Rated Movies")
-    object RecommendedMovies : HomeScreen("Recommended Movies")
-    object PrivacyPolicy : HomeScreen("Privacy Policy")
-    object EditProfile : HomeScreen("Edit Profile")
+    object MostPopularMovies :
+        HomeScreen(if (Locale.current.language == "en") "Most Popular Movies" else "En Popüler Filmler")
+
+    object TopRatedMovies :
+        HomeScreen(if (Locale.current.language == "en") "Top Rated Movies" else "En Yüksek Puanlı Fimler")
+
+    object RecommendedMovies :
+        HomeScreen(if (Locale.current.language == "en") "Recommended Movies" else "Önerilen Filmler")
+
+    object PrivacyPolicy :
+        HomeScreen(if (Locale.current.language == "en") "Privacy Policy" else "Gizlilik Politikası")
+
+    object EditProfile :
+        HomeScreen(if (Locale.current.language == "en") "Edit Profile" else "Profili Düzenle")
+
+    object ChangeLanguage : HomeScreen("Change Language")
     object Trailer : HomeScreen("Trailer")
 }

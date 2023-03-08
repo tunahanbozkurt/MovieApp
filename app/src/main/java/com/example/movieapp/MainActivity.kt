@@ -1,6 +1,7 @@
 package com.example.movieapp
 
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -35,6 +36,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setLanguage()
+
         setContent {
             MovieAppTheme {
                 RootNavigationGraph(
@@ -47,6 +50,19 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+    }
+
+    private fun setLanguage() {
+        val language = sharedPreferences.getString(SharedPref.SELECTED_LANGUAGE, "en-US") ?: "en-US"
+        val languageToLoad = if (language == "en-US") "en" else "tr"
+        val locale = Locale(languageToLoad)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.locale = locale
+        baseContext.resources.updateConfiguration(
+            config,
+            baseContext.resources.displayMetrics
+        )
     }
 
     private fun dontShowOnboarding() =

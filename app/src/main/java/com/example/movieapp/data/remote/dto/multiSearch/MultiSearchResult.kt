@@ -1,5 +1,6 @@
 package com.example.movieapp.data.remote.dto.multiSearch
 
+import androidx.compose.ui.text.intl.Locale
 import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.presentation.home.screen.detail.ItemType
 
@@ -29,21 +30,23 @@ data class MultiSearchResult(
 
     fun toMovieItem(): MovieItem {
         if (media_type == ItemType.MOVIE.type) {
+            val type = if (Locale.current.language == "en") "Movie" else "Film"
             return MovieItem(
                 id = id,
-                type = "Movie",
+                type = type,
                 genre_ids = genre_ids,
-                original_title = original_title,
+                original_title = title,
                 poster_path = poster_path,
                 vote_average = vote_average,
                 release_date = release_date
             )
         } else {
+            val type = if (Locale.current.language == "en") "Series" else "Dizi"
             return MovieItem(
                 id = id,
-                type = "Series",
+                type = type,
                 genre_ids = genre_ids,
-                original_title = original_name,
+                original_title = name,
                 poster_path = poster_path,
                 vote_average = vote_average,
                 release_date = first_air_date

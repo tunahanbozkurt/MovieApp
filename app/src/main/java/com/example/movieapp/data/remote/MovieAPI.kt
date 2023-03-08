@@ -22,60 +22,72 @@ import retrofit2.http.Query
 interface MovieAPI {
 
     @GET("genre/movie/list")
-    suspend fun getAllMovieGenres(): Response<MovieGenreListDTO>
+    suspend fun getAllMovieGenres(
+        @Query("language") language: String
+    ): Response<MovieGenreListDTO>
 
     @GET("movie/{movie_id}")
     suspend fun getDetail(
         @Path("movie_id") movieId: Int,
+        @Query("language") language: String
     ): Response<MovieDetailDTO>
 
     @GET("movie/popular")
     suspend fun getPopularMovies(
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("language") language: String
     ): Response<PopularMoviesDTO>
 
     @GET("search/movie")
     suspend fun searchMovie(
         @Query("query") query: String,
         @Query("page") page: Int,
+        @Query("language") language: String
     ): Response<MovieSearchDTO>
 
     @GET("movie/upcoming")
     suspend fun getUpcoming(
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("language") language: String
     ): Response<UpcomingMoviesDTO>
 
     @GET("movie/{movie_id}/recommendations")
     suspend fun getRecommended(
         @Path("movie_id") movie_id: Int,
         @Query("page") page: Int,
+        @Query("language") language: String
     ): Response<RecommendedMoviesDTO>
 
     @GET("movie/{movie_id}/credits")
     suspend fun getMovieCredits(
-        @Path("movie_id") movie_id: Int
+        @Path("movie_id") movie_id: Int,
+        @Query("language") language: String
     ): Response<MovieCreditsDTO>
 
     @GET("search/multi")
     suspend fun multiSearch(
         @Query("query") query: String,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("language") language: String
     ): Response<MultiSearchDTO>
 
     @GET("tv/{tv_id}")
     suspend fun getTvShowDetail(
-        @Path("tv_id") tv_id: Int
+        @Path("tv_id") tv_id: Int,
+        @Query("language") language: String
     ): Response<TvSeriesDetailDTO>
 
     @GET("tv/{tv_id}/credits")
     suspend fun getTvShowCredits(
-        @Path("tv_id") tv_id: Int
+        @Path("tv_id") tv_id: Int,
+        @Query("language") language: String
     ): Response<TvShowCreditsDTO>
 
     @GET("tv/{tv_id}/season/{season_number}")
     suspend fun getTvSeasonDetails(
         @Path("tv_id") tv_id: Int,
-        @Path("season_number") season_number: Int
+        @Path("season_number") season_number: Int,
+        @Query("language") language: String
     ): Response<TvSeasonDetailDTO>
 
     @GET("movie/{movie_id}/videos")
@@ -90,7 +102,8 @@ interface MovieAPI {
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovies(
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("language") language: String
     ): Response<PopularMoviesDTO>
 
     @GET("movie/{movie_id}/images")

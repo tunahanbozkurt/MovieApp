@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
@@ -107,9 +108,10 @@ fun rememberGenreList(): MutableState<GenreList> {
     val genreList = remember { mutableStateOf(GenreList()) }
 
     LaunchedEffect(Unit) {
+        val jsonName = if (Locale.current.language == "en") "genre.json" else "genre_turkish.json"
         genreList.value =
             context.getDataClassFromJson(
-                "genre.json",
+                jsonName,
                 GenreList::class.java
             ) ?: GenreList()
     }

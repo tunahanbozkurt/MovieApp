@@ -1,6 +1,7 @@
 package com.example.movieapp.presentation.home.elements.card
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
@@ -22,16 +24,16 @@ import com.example.movieapp.ui.theme.localFont
 
 @Composable
 fun SettingsCardGroupItem(
-    title: String,
+    @StringRes titleResId: Int,
     tint: Color,
     modifier: Modifier = Modifier,
     @DrawableRes iconResId: Int,
-    onClick: (String) -> Unit
+    onClick: (Int) -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier.clickable { onClick.invoke(title) },
+        modifier = modifier.clickable { onClick.invoke(titleResId) },
     ) {
 
         Row(
@@ -58,7 +60,7 @@ fun SettingsCardGroupItem(
 
             HorizontalSpacer(width = 16)
 
-            Text(text = title, style = MaterialTheme.localFont.mediumH5)
+            Text(text = stringResource(id = titleResId), style = MaterialTheme.localFont.mediumH5)
         }
 
         Icon(

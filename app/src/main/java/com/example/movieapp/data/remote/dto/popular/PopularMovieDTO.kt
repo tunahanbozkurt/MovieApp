@@ -22,7 +22,7 @@ data class PopularMovieDTO(
         return MovieItem(
             id = id,
             genre_ids = genre_ids,
-            original_title = original_title,
+            original_title = title,
             poster_path = poster_path,
             vote_average = vote_average,
             release_date = release_date,

@@ -23,7 +23,7 @@ fun EditProfileInfoSection(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ProfileImageWithIcon(
-            imgPath = imgPath ?: "",
+            imgPath = imgPath,
             iconResId = R.drawable.ic_edit_pencil
         ) {
             onEditClick.invoke()
