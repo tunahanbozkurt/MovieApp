@@ -35,6 +35,7 @@ import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.extensions.convertToDate
 import com.example.movieapp.util.extensions.createImgUrl
+import com.example.movieapp.util.extensions.showToast
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @SuppressLint("SourceLockedOrientationActivity")
@@ -57,6 +58,7 @@ fun TrailerScreen(
     val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     val systemUiController = rememberSystemUiController()
     val isFullScreen = playerRotationState.value == YoutubePlayerRotation.FULLSCREEN
+    val context = LocalContext.current
 
 
     LaunchedEffect(Unit) {
@@ -100,6 +102,7 @@ fun TrailerScreen(
                 },
                 onWishClick = {
                     viewModel.addWish(model = detailState, type = type)
+                    context.showToast(R.string.wish_added)
                 })
 
             VerticalSpacer(heightDp = 24)

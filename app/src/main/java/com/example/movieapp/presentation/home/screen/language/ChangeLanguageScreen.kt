@@ -91,7 +91,7 @@ fun SuggestedLanguages(
 
         LanguageItem(
             language = stringResource(id = R.string.english),
-            isChecked = selectedLanguage == "en-US"
+            isChecked = true
         ) {
             onClick.invoke("en-US")
         }
@@ -108,7 +108,7 @@ fun SuggestedLanguages(
 
         LanguageItem(
             language = stringResource(id = R.string.turkish),
-            isChecked = selectedLanguage == "tr-TR"
+            isChecked = false
         ) {
             onClick.invoke("tr-TR")
         }

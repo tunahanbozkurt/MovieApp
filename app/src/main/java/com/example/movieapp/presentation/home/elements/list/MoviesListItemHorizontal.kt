@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +29,7 @@ import com.example.movieapp.presentation.home.elements.Rate
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.extensions.getYearFromDate
+import com.example.movieapp.util.extensions.uppercaseFirst
 
 @Composable
 fun MoviesListItemHorizontal(
@@ -36,7 +38,14 @@ fun MoviesListItemHorizontal(
     type: String = stringResource(id = R.string.movie),
     onClick: (Int, String) -> Unit
 ) {
-    /*TODO CLEANUP*/
+
+    val typeText = when (type.uppercaseFirst()) {
+        "Movie" -> if (Locale.current.language == "en") "Movie" else "Film"
+        "Series" -> if (Locale.current.language == "en") "Series" else "Dizi"
+        "Film" -> if (Locale.current.language == "tr") "Film" else "Movie"
+        "Dizi" -> if (Locale.current.language == "tr") "Dizi" else "Series"
+        else -> ""
+    }
 
     Row(
         modifier = modifier
@@ -88,9 +97,7 @@ fun MoviesListItemHorizontal(
                 )
                 HorizontalSpacer(width = 8)
                 Text(
-                    text = if (type == "movie") stringResource(id = R.string.movie) else stringResource(
-                        id = R.string.series
-                    ), style = MaterialTheme.localFont.mediumH6
+                    text = typeText, style = MaterialTheme.localFont.mediumH6
                 )
             }
         }

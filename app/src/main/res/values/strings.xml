@@ -10,7 +10,7 @@
     <string name="signup_with">Or Sign up with</string>
     <string name="sign_up">Sign Up</string>
     <string name="weak_password">Weak password!</string>
-    <string name="incorrect_email_form">Incorrect email form!</string>
+    <string name="incorrect_email_form">Invalid credentials!</string>
     <string name="user_already_exists">User is already exist</string>
     <string name="invalid_user">Invalid email or disabled account</string>
     <string name="wrong_password">Wrong password</string>
