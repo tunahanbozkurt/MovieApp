@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -54,11 +55,13 @@ fun ProfileBar(
         Column(
             Modifier.padding(start = 16.dp)
         ) {
-            stringResource(R.string.hello_name, displayName)
 
             Text(
                 text = "${stringResource(id = R.string.hello)}, ${displayName.uppercaseFirst()}",
-                style = MaterialTheme.localFont.semiBoldH4
+                style = MaterialTheme.localFont.semiBoldH4,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+                modifier = Modifier.width(200.dp)
             )
 
             VerticalSpacer(heightDp = 4)
@@ -66,8 +69,11 @@ fun ProfileBar(
             Text(
                 text = stringResource(id = R.string.profile_bar_info),
                 style = MaterialTheme.localFont.mediumH6,
-                color = MaterialTheme.localColor.textGrey
+                color = MaterialTheme.localColor.textGrey,
+                maxLines = 2,
+                modifier = Modifier.width(200.dp)
             )
+
         }
 
         Image(

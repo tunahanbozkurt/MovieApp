@@ -1,6 +1,7 @@
 package com.example.movieapp.data.remote.data_source
 
 import android.content.SharedPreferences
+import androidx.compose.ui.text.intl.Locale
 import com.example.movieapp.data.remote.MovieAPI
 import com.example.movieapp.data.remote.dto.credits.MovieCreditsDTO
 import com.example.movieapp.data.remote.dto.detail.MovieDetailDTO
@@ -17,7 +18,6 @@ import com.example.movieapp.data.remote.dto.tvCredits.TvShowCreditsDTO
 import com.example.movieapp.data.remote.dto.tvseasondetail.TvSeasonDetailDTO
 import com.example.movieapp.data.remote.dto.upcoming.UpcomingMoviesDTO
 import com.example.movieapp.domain.datasource.RemoteMovieDS
-import com.example.movieapp.util.constants.SharedPref
 import retrofit2.Response
 
 class RemoteMovieDSImpl(
@@ -26,78 +26,60 @@ class RemoteMovieDSImpl(
 ) : RemoteMovieDS {
 
     override suspend fun getAllMovieGenres(): Response<MovieGenreListDTO> {
-        val language =
-            sharedPreferences.getString(SharedPref.SELECTED_LANGUAGE, "en-US") ?: "en-US"
-        return api.getAllMovieGenres(language = language)
+        return api.getAllMovieGenres(language = Locale.current.language)
     }
 
     override suspend fun getPopularMovies(page: Int): Response<PopularMoviesDTO> {
-        val language =
-            sharedPreferences.getString(SharedPref.SELECTED_LANGUAGE, "en-US") ?: "en-US"
-        return api.getPopularMovies(page = page, language = language)
+        return api.getPopularMovies(page = page, language = Locale.current.language)
     }
 
     override suspend fun getTopRatedMovies(page: Int): Response<PopularMoviesDTO> {
-        val language =
-            sharedPreferences.getString(SharedPref.SELECTED_LANGUAGE, "en-US") ?: "en-US"
-        return api.getTopRatedMovies(page, language = language)
+        return api.getTopRatedMovies(page, language = Locale.current.language)
     }
 
     override suspend fun getUpcomingMovies(page: Int): Response<UpcomingMoviesDTO> {
-        val language =
-            sharedPreferences.getString(SharedPref.SELECTED_LANGUAGE, "en-US") ?: "en-US"
-        return api.getUpcoming(page, language = language)
+        return api.getUpcoming(page, language = Locale.current.language)
     }
 
     override suspend fun searchMovie(
         query: String,
         page: Int
     ): Response<MovieSearchDTO> {
-        val language =
-            sharedPreferences.getString(SharedPref.SELECTED_LANGUAGE, "en-US") ?: "en-US"
-        return api.searchMovie(query, page, language = language)
+        return api.searchMovie(query, page, language = Locale.current.language)
     }
 
     override suspend fun getMovieDetail(id: Int): Response<MovieDetailDTO> {
-        val language =
-            sharedPreferences.getString(SharedPref.SELECTED_LANGUAGE, "en-US") ?: "en-US"
-        return api.getDetail(id, language = language)
+        return api.getDetail(id, language = Locale.current.language)
     }
 
     override suspend fun getMovieCredits(id: Int): Response<MovieCreditsDTO> {
-        val language =
-            sharedPreferences.getString(SharedPref.SELECTED_LANGUAGE, "en-US") ?: "en-US"
-        return api.getMovieCredits(id, language = language)
+        return api.getMovieCredits(id, language = Locale.current.language)
     }
 
     override suspend fun multiSearchMovie(
         query: String,
         page: Int
     ): Response<MultiSearchDTO> {
-        val language =
-            sharedPreferences.getString(SharedPref.SELECTED_LANGUAGE, "en-US") ?: "en-US"
-        return api.multiSearch(query, page, language = language)
+        return api.multiSearch(query, page, language = Locale.current.language)
     }
 
     override suspend fun getTvShowDetail(id: Int): Response<TvSeriesDetailDTO> {
-        val language =
-            sharedPreferences.getString(SharedPref.SELECTED_LANGUAGE, "en-US") ?: "en-US"
-        return api.getTvShowDetail(id, language = language)
+        return api.getTvShowDetail(id, language = Locale.current.language)
     }
 
     override suspend fun getTvShowCredits(id: Int): Response<TvShowCreditsDTO> {
-        val language =
-            sharedPreferences.getString(SharedPref.SELECTED_LANGUAGE, "en-US") ?: "en-US"
-        return api.getTvShowCredits(id, language = language)
+        return api.getTvShowCredits(id, language = Locale.current.language)
     }
 
     override suspend fun getTvSeriesDetail(
         id: Int,
         season: Int
     ): Response<TvSeasonDetailDTO> {
-        val language =
-            sharedPreferences.getString(SharedPref.SELECTED_LANGUAGE, "en-US") ?: "en-US"
-        return api.getTvSeasonDetails(tv_id = id, season_number = season, language = language)
+        return api.getTvSeasonDetails(
+            tv_id = id,
+            season_number = season,
+            language = Locale.current.language
+        )
     }
 
     override suspend fun getTvSeriesVideos(id: Int): Response<TvSeriesVideosDTO> {
@@ -120,8 +102,6 @@ class RemoteMovieDSImpl(
         id: Int,
         page: Int
     ): Response<RecommendedMoviesDTO> {
-        val language =
-            sharedPreferences.getString(SharedPref.SELECTED_LANGUAGE, "en-US") ?: "en-US"
-        return api.getRecommended(id, page, language = language)
+        return api.getRecommended(id, page, language = Locale.current.language)
     }
 }

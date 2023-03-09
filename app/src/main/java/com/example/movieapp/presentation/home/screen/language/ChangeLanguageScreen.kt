@@ -51,7 +51,6 @@ fun ChangeLanguageScreen(
                 .padding(horizontal = 24.dp)
         ) {
             val code = if (it == "en-US") "en" else "tr"
-            changeLanguage(context, code)
             viewModel.updateSelectedLanguage(it)
         }
 
