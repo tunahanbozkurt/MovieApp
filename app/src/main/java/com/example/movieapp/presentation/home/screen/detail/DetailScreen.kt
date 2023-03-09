@@ -118,7 +118,8 @@ fun DetailScreen(
                 VerticalSpacer(heightDp = 13)
 
                 Row(
-                    Modifier
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
                         .padding(start = 24.dp)
                         .clickable { showSeasonPicker.setTrue() }
                 ) {

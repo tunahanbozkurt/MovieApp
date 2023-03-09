@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,6 +32,7 @@ import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.common.text.CommonTextField
 import com.example.movieapp.presentation.home.elements.EditProfileInfoSection
 import com.example.movieapp.util.extensions.showToast
+import kotlinx.coroutines.launch
 import java.io.File
 import kotlin.random.Random
 
@@ -46,21 +48,24 @@ fun EditProfileScreen(
     val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
     val imgPath = viewModel.profileImageUri.collectAsState().value
     val scrollState = rememberScrollState()
+    val scope = rememberCoroutineScope()
 
     val pickImageLauncher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
             if (uri != null) {
-                val bitmap = MediaStore.Images
-                    .Media.getBitmap(context.contentResolver, uri)
-                try {
-                    val name = "profile_image_${Random.nextInt()}.png"
-                    context.openFileOutput(name, Context.MODE_PRIVATE).use { fos ->
-                        bitmap?.compress(Bitmap.CompressFormat.PNG, 100, fos)
+                scope.launch {
+                    val bitmap = MediaStore.Images
+                        .Media.getBitmap(context.contentResolver, uri)
+                    try {
+                        val name = "profile_image_${Random.nextInt()}.png"
+                        context.openFileOutput(name, Context.MODE_PRIVATE).use { fos ->
+                            bitmap?.compress(Bitmap.CompressFormat.PNG, 100, fos)
+                        }
+                        val path = File(context.filesDir, name).absolutePath
+                        viewModel.setProfileImagePath(path)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
                     }
-                    val path = File(context.filesDir, name).absolutePath
-                    viewModel.setProfileImagePath(path)
-                } catch (e: Exception) {
-                    e.printStackTrace()
                 }
             }
         }

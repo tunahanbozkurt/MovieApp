@@ -21,7 +21,7 @@ data class MovieDetail(
     val backdrop: String? = null
 ) {
 
-    fun toMovieEntity(): MovieEntity {
+    fun toMovieEntity(mediaType: String): MovieEntity {
         return MovieEntity(
             primaryKey = 0,
             id = id,
@@ -29,7 +29,8 @@ data class MovieDetail(
             original_title = original_title,
             poster_path = poster_path,
             vote_average = vote_average,
-            release_date = release_date
+            release_date = release_date,
+            type = mediaType
         )
     }
 

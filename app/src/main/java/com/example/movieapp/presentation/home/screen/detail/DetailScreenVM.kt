@@ -54,7 +54,7 @@ class DetailScreenVM @Inject constructor(
                     repository.getMovieCredits(id)
                 }
                 movieDetailResponse.await().onSuccess { result ->
-                    updateLastSearchedMovie(result.data)
+                    updateLastSearchedMovie(result.data, type = type)
                     _movieDetailState.update {
                         result.data
                     }
@@ -75,7 +75,7 @@ class DetailScreenVM @Inject constructor(
                 async { loadSeasonData(id, 1) }
 
                 tvDetailResponse.await().onSuccess { result ->
-                    updateLastSearchedMovie(model = result.data)
+                    updateLastSearchedMovie(model = result.data, type = type)
                     _movieDetailState.update {
                         result.data
                     }
@@ -95,8 +95,8 @@ class DetailScreenVM @Inject constructor(
         }
     }
 
-    private fun updateLastSearchedMovie(model: MovieDetail) {
-        viewModelScope.launch { repository.insertMovieToRoom(model) }
+    private fun updateLastSearchedMovie(model: MovieDetail, type: String) {
+        viewModelScope.launch { repository.insertMovieToRoom(model, type) }
     }
 }
 

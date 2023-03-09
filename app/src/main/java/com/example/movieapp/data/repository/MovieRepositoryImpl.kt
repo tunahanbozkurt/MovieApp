@@ -172,9 +172,9 @@ class MovieRepositoryImpl(
         return localDataSource.getWishFlow().flowOn(ioDispatcher)
     }
 
-    override suspend fun insertMovieToRoom(model: MovieDetail) {
+    override suspend fun insertMovieToRoom(model: MovieDetail, type: String) {
         safeQuery(ioDispatcher) {
-            localDataSource.insertMovie(model.toMovieEntity())
+            localDataSource.insertMovie(model.toMovieEntity(type))
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.home.screen.search_result
 
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -38,12 +39,12 @@ import com.example.movieapp.util.extensions.createImgUrl
 fun SearchResultScreen(
     query: String,
     viewModel: SearchResultScreenVM = hiltViewModel(),
-    onCancel: () -> Unit,
     navigate: (Int, String) -> Unit,
 ) {
 
     val searchState = viewModel.searchField.collectAsState().value
     val pagerState = viewModel.pagerFlow.collectAsState().value.collectAsLazyPagingItems()
+    val onBackPressedDispatcher = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher
 
     LaunchedEffect(Unit) {
         if (query.isNotEmpty()) {
@@ -76,7 +77,9 @@ fun SearchResultScreen(
             Text(
                 text = stringResource(id = R.string.cancel),
                 style = MaterialTheme.localFont.mediumH6,
-                modifier = Modifier.clickable { onCancel.invoke() })
+                modifier = Modifier.clickable {
+                    onBackPressedDispatcher?.onBackPressed()
+                })
         }
 
         if (

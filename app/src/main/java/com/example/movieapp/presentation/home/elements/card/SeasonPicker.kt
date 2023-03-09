@@ -57,6 +57,7 @@ fun SeasonPicker(
         RectangularIcon(
             iconResId = R.drawable.ic_close,
             backGroundColor = MaterialTheme.localColor.primaryDark,
+            iconTint = MaterialTheme.localColor.textGrey,
             modifier = Modifier
                 .layoutId("close")
                 .padding(top = 13.dp, end = 19.dp)

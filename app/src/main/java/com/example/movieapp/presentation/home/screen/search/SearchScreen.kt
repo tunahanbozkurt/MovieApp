@@ -82,12 +82,13 @@ fun SearchScreen(
                     original_title = entity.original_title,
                     poster_path = entity.poster_path,
                     vote_average = entity.vote_average,
-                    release_date = entity.release_date
+                    release_date = entity.release_date,
                 ),
-                modifier = Modifier.padding(start = 24.dp)
+                type = entity.type,
+                modifier = Modifier.padding(horizontal = 24.dp)
             ) { id, type ->
                 navigate.invoke(
-                    HomeScreen.Detail.route.addNavArgument(id).addNavArgument(ItemType.MOVIE.type)
+                    HomeScreen.Detail.route.addNavArgument(id).addNavArgument(type)
                 )
             }
             VerticalSpacer(heightDp = 95)

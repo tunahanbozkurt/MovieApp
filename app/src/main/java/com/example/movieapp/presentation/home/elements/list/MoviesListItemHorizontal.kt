@@ -28,6 +28,7 @@ import com.example.movieapp.presentation.home.elements.Rate
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.extensions.getYearFromDate
+import com.example.movieapp.util.extensions.uppercaseFirst
 
 @Composable
 fun MoviesListItemHorizontal(
@@ -87,7 +88,7 @@ fun MoviesListItemHorizontal(
                         .height(16.dp)
                 )
                 HorizontalSpacer(width = 8)
-                Text(text = type, style = MaterialTheme.localFont.mediumH6)
+                Text(text = type.uppercaseFirst(), style = MaterialTheme.localFont.mediumH6)
             }
         }
     }
@@ -118,7 +119,10 @@ fun PreviewMostPopularMoviesListItem() {
         Column {
             PriceTag(isPremium = true, backgroundColor = MaterialTheme.localColor.secondaryOrange)
             VerticalSpacer(heightDp = 12)
-            Text(text = "Spider-Man No Way..", style = MaterialTheme.localFont.semiBoldH4)
+            Text(
+                text = "Spider-Man No Way..",
+                style = MaterialTheme.localFont.semiBoldH4
+            )
             VerticalSpacer(heightDp = 12)
 
             IconWithText(

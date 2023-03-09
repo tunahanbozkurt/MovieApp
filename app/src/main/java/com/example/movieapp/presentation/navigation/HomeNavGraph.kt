@@ -123,10 +123,6 @@ fun HomeNavGraph(
             ) { backStackEntry ->
                 SearchResultScreen(
                     query = backStackEntry.arguments?.getString("query") ?: "",
-                    onCancel = {
-                        navController.popBackStack()
-
-                    },
                     navigate = { id, type ->
                         navController.navigate(
                             HomeScreen.Detail.route.addNavArgument(id).addNavArgument(type)

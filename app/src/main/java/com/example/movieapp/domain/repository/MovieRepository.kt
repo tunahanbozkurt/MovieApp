@@ -67,7 +67,7 @@ interface MovieRepository {
     /**
      * Inserts the movie to the local database.
      */
-    suspend fun insertMovieToRoom(model: MovieDetail)
+    suspend fun insertMovieToRoom(model: MovieDetail, type: String)
 
     /**
      * Deletes the wish from the local database.
