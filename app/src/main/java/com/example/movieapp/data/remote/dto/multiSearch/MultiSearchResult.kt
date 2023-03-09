@@ -30,7 +30,7 @@ data class MultiSearchResult(
 
     fun toMovieItem(): MovieItem {
         if (media_type == ItemType.MOVIE.type) {
-            val type = if (Locale.current.language == "en") "Movie" else "Film"
+            val type = if (Locale.current.language == "tr") "Film" else "Movie"
             return MovieItem(
                 id = id,
                 type = type,

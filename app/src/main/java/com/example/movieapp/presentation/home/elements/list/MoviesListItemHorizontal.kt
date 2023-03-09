@@ -28,7 +28,6 @@ import com.example.movieapp.presentation.home.elements.Rate
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
 import com.example.movieapp.util.extensions.getYearFromDate
-import com.example.movieapp.util.extensions.uppercaseFirst
 
 @Composable
 fun MoviesListItemHorizontal(
@@ -88,7 +87,11 @@ fun MoviesListItemHorizontal(
                         .height(16.dp)
                 )
                 HorizontalSpacer(width = 8)
-                Text(text = type.uppercaseFirst(), style = MaterialTheme.localFont.mediumH6)
+                Text(
+                    text = if (type == "movie") stringResource(id = R.string.movie) else stringResource(
+                        id = R.string.series
+                    ), style = MaterialTheme.localFont.mediumH6
+                )
             }
         }
     }

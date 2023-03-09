@@ -300,6 +300,8 @@ sealed class HomeScreen(val route: String) {
     object EditProfile :
         HomeScreen(if (Locale.current.language == "en") "Edit Profile" else "Profili Düzenle")
 
-    object ChangeLanguage : HomeScreen("Change Language")
+    object ChangeLanguage :
+        HomeScreen(if (Locale.current.language == "en") "Change Language" else "Dil Değiştirme")
+
     object Trailer : HomeScreen("Trailer")
 }

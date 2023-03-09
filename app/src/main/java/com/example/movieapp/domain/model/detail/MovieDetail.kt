@@ -1,5 +1,6 @@
 package com.example.movieapp.domain.model.detail
 
+import androidx.compose.ui.text.intl.Locale
 import com.example.movieapp.data.local.entity.MovieEntity
 import com.example.movieapp.data.local.entity.WishEntity
 import com.example.movieapp.data.remote.dto.detail.Genre
@@ -35,9 +36,10 @@ data class MovieDetail(
     }
 
     fun toWishEntity(mediaType: String): WishEntity {
+        val genre = if (Locale.current.language == "en") "Unknown" else "Bilinmeyen"
         return WishEntity(
             id = id,
-            genre = if (genres.isNotEmpty()) genres[0].name else "Unknown",
+            genre = if (genres.isNotEmpty()) genres[0].name else genre,
             original_title = original_title,
             poster_path = poster_path,
             vote_average = vote_average,
