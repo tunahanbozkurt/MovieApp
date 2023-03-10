@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.domain.repository.MovieRepository
+import com.example.movieapp.util.onError
 import com.example.movieapp.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,11 +42,15 @@ class SearchScreenVM @Inject constructor(
                 )
 
             response.onSuccess { recommendedMovies ->
+                println(recommendedMovies)
                 if (recommendedMovies.data.total_results == 0) {
                     getRecommendedMovies(true)
                 } else {
                     _recommendedMovies.update { recommendedMovies.data.results }
                 }
+            }
+            response.onError {
+                getRecommendedMovies(true)
             }
         }
     }
