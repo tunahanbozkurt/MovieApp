@@ -82,7 +82,9 @@ fun LoginScreen(
                     .wrapContentSize(Alignment.Center)
             ) {
                 Text(
-                    text = if (name.isNotEmpty()) "Hi, ${name.uppercaseFirst()}" else "Hi",
+                    text = if (name.isNotEmpty()) "${stringResource(id = R.string.hi_comma)} ${name.uppercaseFirst()}" else stringResource(
+                        id = R.string.hi
+                    ),
                     style = MaterialTheme.localFont.semiBoldH2,
                     textAlign = TextAlign.Center,
                     maxLines = 1,

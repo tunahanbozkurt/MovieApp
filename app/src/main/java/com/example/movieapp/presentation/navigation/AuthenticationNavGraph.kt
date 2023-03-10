@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.navigation
 
+import android.content.Context
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -13,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -43,12 +45,13 @@ fun AuthenticationNavGraph(
     val errorMsg = remember {
         mutableStateOf<Int?>(null)
     }
+    val context = LocalContext.current
 
     DisposableEffect(Unit) {
         val listener =
             NavController.OnDestinationChangedListener { _, destination, _ ->
                 topBarInfo.value = topBarInfo.value.copy(
-                    title = makeTitle(destination),
+                    title = makeTitle(context = context, destination),
                     isVisible = (destination.route != AuthenticationScreen.Authentication.route)
                 )
             }
@@ -173,10 +176,18 @@ fun AuthenticationNavGraph(
     }
 }
 
-private fun makeTitle(destination: NavDestination): String {
-    return if (destination.route == AuthenticationScreen.Login.route ||
-        destination.route == AuthenticationScreen.SignUp.route
-    ) destination.route ?: "" else ""
+private fun makeTitle(context: Context, destination: NavDestination): String {
+    return when (destination.route) {
+        AuthenticationScreen.Login.route -> {
+            context.getString(R.string.login)
+        }
+        AuthenticationScreen.SignUp.route -> {
+            context.getString(R.string.sign_up)
+        }
+        else -> {
+            ""
+        }
+    }
 }
 
 sealed class AuthenticationScreen(val route: String) {

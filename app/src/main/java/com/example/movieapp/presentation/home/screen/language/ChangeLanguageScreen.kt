@@ -91,7 +91,7 @@ fun SuggestedLanguages(
 
         LanguageItem(
             language = stringResource(id = R.string.english),
-            isChecked = true
+            isChecked = androidx.compose.ui.text.intl.Locale.current.language == "en"
         ) {
             onClick.invoke("en-US")
         }
@@ -108,7 +108,7 @@ fun SuggestedLanguages(
 
         LanguageItem(
             language = stringResource(id = R.string.turkish),
-            isChecked = false
+            isChecked = androidx.compose.ui.text.intl.Locale.current.language == "tr"
         ) {
             onClick.invoke("tr-TR")
         }

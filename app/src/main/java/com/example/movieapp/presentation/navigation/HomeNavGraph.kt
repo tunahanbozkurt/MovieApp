@@ -8,8 +8,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.*
+import com.example.movieapp.R
 import com.example.movieapp.presentation.common.component.TopApplicationBar
 import com.example.movieapp.presentation.home.screen.PrivacyPolicyScreen
 import com.example.movieapp.presentation.home.screen.detail.DetailScreen
@@ -82,10 +83,9 @@ fun HomeNavGraph(
                 isNotificationScreen ||
                 isLanguageChangeScreen
             ) {
-                val title =
-                    if (Locale.current.language == "en") "Recommended Movies" else "Önerilen Filmler"
+                val title = makeTitle(route = currentDestination.value)
                 TopApplicationBar(
-                    title = if (isRecommendedScreen) title else currentDestination.value,
+                    title = title,
                     isBackButtonVisible = true,
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -98,7 +98,6 @@ fun HomeNavGraph(
             AnimatedVisibility(visible = isBottomBarVisible.value) {
                 BottomNavigation(navController = navController, tabState, currentDestination)
             }
-
         }
     ) {
         AnimatedNavHost(
@@ -275,6 +274,36 @@ private fun setTabState(tabState: MutableState<String>, destination: NavDestinat
     }
 }
 
+@Composable
+private fun makeTitle(route: String): String {
+    return when (route) {
+        HomeScreen.Notification.route -> {
+            stringResource(id = R.string.notification)
+        }
+        HomeScreen.MostPopularMovies.route -> {
+            stringResource(id = R.string.most_popular_movies)
+        }
+        HomeScreen.TopRatedMovies.route -> {
+            stringResource(id = R.string.toprated_movies)
+        }
+        HomeScreen.RecommendedMovies.route.plus("/{id}") -> {
+            stringResource(id = R.string.recommended_movies)
+        }
+        HomeScreen.PrivacyPolicy.route -> {
+            stringResource(id = R.string.privacy_policy_text)
+        }
+        HomeScreen.EditProfile.route -> {
+            stringResource(id = R.string.edit_profile)
+        }
+        HomeScreen.ChangeLanguage.route -> {
+            stringResource(id = R.string.change_language)
+        }
+        else -> {
+            ""
+        }
+    }
+}
+
 sealed class HomeScreen(val route: String) {
     object Home : HomeScreen(route = "Home")
     object Profile : HomeScreen(route = "Profile")
@@ -282,26 +311,26 @@ sealed class HomeScreen(val route: String) {
     object Search : HomeScreen(route = "Search")
     object Detail : HomeScreen(route = "Detail")
     object Notification :
-        HomeScreen(route = if (Locale.current.language == "en") "Notification" else "Bildirim")
+        HomeScreen(route = "Notification")
 
     object SearchResult : HomeScreen(route = "Search_Result")
     object MostPopularMovies :
-        HomeScreen(if (Locale.current.language == "en") "Most Popular Movies" else "En Popüler Filmler")
+        HomeScreen("Most Popular Movies")
 
     object TopRatedMovies :
-        HomeScreen(if (Locale.current.language == "en") "Top Rated Movies" else "En Yüksek Puanlı Fimler")
+        HomeScreen("Top Rated Movies")
 
     object RecommendedMovies :
-        HomeScreen(if (Locale.current.language == "en") "Recommended Movies" else "Önerilen Filmler")
+        HomeScreen("Recommended Movies")
 
     object PrivacyPolicy :
-        HomeScreen(if (Locale.current.language == "en") "Privacy Policy" else "Gizlilik Politikası")
+        HomeScreen("Privacy Policy")
 
     object EditProfile :
-        HomeScreen(if (Locale.current.language == "en") "Edit Profile" else "Profili Düzenle")
+        HomeScreen("Edit Profile")
 
     object ChangeLanguage :
-        HomeScreen(if (Locale.current.language == "en") "Change Language" else "Dil Değiştirme")
+        HomeScreen("Change Language")
 
     object Trailer : HomeScreen("Trailer")
 }

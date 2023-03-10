@@ -47,7 +47,20 @@ fun MovieListVertical(
                         model = movieItem,
                         type = movieItem.type
                     ) { id, type ->
-                        onItemClick.invoke(id, type)
+                        when (type) {
+                            "movie" -> {
+                                onItemClick.invoke(id, "movie")
+                            }
+                            "series" -> {
+                                onItemClick.invoke(id, "series")
+                            }
+                            "film" -> {
+                                onItemClick.invoke(id, "movie")
+                            }
+                            "dizi" -> {
+                                onItemClick.invoke(id, "series")
+                            }
+                        }
                     }
                 }
 
