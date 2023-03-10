@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,11 +38,16 @@ fun SearchBar(
     onSearch: (String) -> Unit,
 ) {
 
+    val queryState = remember {
+        mutableStateOf(query)
+    }
+
     val focusRequester = remember {
         FocusRequester()
     }
 
     LaunchedEffect(Unit) {
+        queryState.value = ""
         focusRequester.requestFocus()
     }
 
@@ -80,7 +86,7 @@ fun SearchBar(
             }
 
             BasicTextField(
-                value = query,
+                value = queryState.value,
                 textStyle = TextStyle(
                     fontFamily = MontserratFontFamily,
                     fontWeight = FontWeight.Medium,
@@ -93,7 +99,10 @@ fun SearchBar(
                     .fillMaxWidth()
                     .focusRequester(focusRequester),
                 cursorBrush = SolidColor(MaterialTheme.localColor.textGrey),
-                onValueChange = { onValueChange.invoke(it) }
+                onValueChange = {
+                    onValueChange.invoke(it)
+                    queryState.value = it
+                }
             )
         }
     }
