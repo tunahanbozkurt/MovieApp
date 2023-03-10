@@ -42,7 +42,6 @@ class SearchScreenVM @Inject constructor(
                 )
 
             response.onSuccess { recommendedMovies ->
-                println(recommendedMovies)
                 if (recommendedMovies.data.total_results == 0) {
                     getRecommendedMovies(true)
                 } else {
