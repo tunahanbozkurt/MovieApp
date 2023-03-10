@@ -54,6 +54,7 @@ fun WishScreen(
                         genre = item.genre,
                         title = item.original_title,
                         media_type = item.media_type,
+                        rate = item.vote_average,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 24.dp),

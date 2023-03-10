@@ -33,6 +33,7 @@ fun WishCard(
     genre: String,
     title: String,
     media_type: String,
+    rate: Double,
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     onDeleteWish: () -> Unit
@@ -80,7 +81,7 @@ fun WishCard(
                     color = MaterialTheme.localColor.textGrey
                 )
                 HorizontalSpacer(width = 8)
-                Rate(rate = 4.5)
+                Rate(rate = rate)
                 Icon(
                     painter = painterResource(id = R.drawable.ic_heart),
                     tint = MaterialTheme.localColor.secondaryRed,
@@ -99,5 +100,5 @@ fun WishCard(
 @Preview
 @Composable
 fun PreviewWishCard() {
-    WishCard("", "", "", "", onClick = {}) {}
+    WishCard("", "", "", "", rate = 4.5, onClick = {}) {}
 }
