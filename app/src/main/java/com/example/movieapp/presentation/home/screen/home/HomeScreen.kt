@@ -39,6 +39,7 @@ fun HomeScreen(
     val selectedGenre = viewModel.selectedGenre.collectAsState().value
     val imgPath = viewModel.imagePath()
 
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -120,6 +121,7 @@ fun HomeScreen(
         )
     }
 }
+
 
 @Preview
 @Composable

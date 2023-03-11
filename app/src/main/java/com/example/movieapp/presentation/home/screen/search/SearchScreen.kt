@@ -1,8 +1,10 @@
 package com.example.movieapp.presentation.home.screen.search
 
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -33,6 +35,7 @@ import com.example.movieapp.util.extensions.addNavArgument
 @Composable
 fun SearchScreen(
     viewModel: SearchScreenVM = hiltViewModel(),
+    onBackPressed: () -> Unit,
     navigate: (String) -> Unit
 ) {
 
@@ -40,6 +43,11 @@ fun SearchScreen(
     val recommendedMovies = viewModel.recommendedMovies.collectAsState().value
     val selectedGenre = remember { mutableStateOf(Genre(0, "All")) }
     val scrollState = rememberScrollState()
+    val lazyState = rememberLazyListState()
+
+    BackHandler(true) {
+        onBackPressed.invoke()
+    }
 
     Column(
         modifier = Modifier
@@ -121,5 +129,5 @@ fun SearchScreen(
 @Preview
 @Composable
 fun PreviewSearchScreen() {
-    SearchScreen {}
+    SearchScreen(onBackPressed = {}) {}
 }

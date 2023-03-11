@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.home.screen.wish
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,10 +25,15 @@ import com.example.movieapp.ui.theme.localFont
 @Composable
 fun WishScreen(
     viewModel: WishScreenVM = hiltViewModel(),
+    onBackPressed: () -> Unit,
     navigate: (Int, String) -> Unit
 ) {
 
     val wishes = viewModel.wishFlow.collectAsState(listOf()).value
+
+    BackHandler(true) {
+        onBackPressed.invoke()
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -109,5 +115,5 @@ fun EmptyWishView(
 @Preview
 @Composable
 fun PreviewWishScreen() {
-    WishScreen() { _, _ -> }
+
 }

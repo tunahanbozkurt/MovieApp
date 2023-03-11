@@ -1,5 +1,6 @@
 package com.example.movieapp.presentation.home.screen.profile
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -39,8 +40,13 @@ import com.skydoves.cloudy.Cloudy
 @Composable
 fun ProfileScreen(
     viewModel: ProfileScreenVM = hiltViewModel(),
+    onBackPressed: () -> Unit,
     navigate: (String) -> Unit
 ) {
+
+    BackHandler(true) {
+        onBackPressed.invoke()
+    }
 
     val currentUser by remember {
         mutableStateOf(Firebase.auth.currentUser)

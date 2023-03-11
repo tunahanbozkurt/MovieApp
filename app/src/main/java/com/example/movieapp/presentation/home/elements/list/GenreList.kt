@@ -36,6 +36,7 @@ fun GenreList(
 
     val genreList = rememberGenreList().value.genres
 
+
     Column(
         modifier = modifier
     ) {

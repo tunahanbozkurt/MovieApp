@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.*
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.component.TopApplicationBar
 import com.example.movieapp.presentation.home.screen.PrivacyPolicyScreen
@@ -51,6 +52,7 @@ fun HomeNavGraph(
     val currentDestination = remember {
         mutableStateOf(HomeScreen.Home.route)
     }
+
 
     DisposableEffect(Unit) {
         val listener = NavController.OnDestinationChangedListener { controller, destination, _ ->
@@ -94,7 +96,6 @@ fun HomeNavGraph(
             }
         },
         bottomBar = {
-
             AnimatedVisibility(visible = isBottomBarVisible.value) {
                 BottomNavigation(navController = navController, tabState, currentDestination)
             }
@@ -130,7 +131,19 @@ fun HomeNavGraph(
             }
 
             composable(HomeScreen.Search.route) {
-                SearchScreen { route ->
+                SearchScreen(
+                    onBackPressed = {
+                        navController.apply {
+                            navController.navigate(HomeScreen.Home.route) {
+                                launchSingleTop = true
+                                restoreState = true
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    saveState = true
+                                }
+                            }
+                        }
+                    }
+                ) { route ->
                     navController.navigate(route)
                 }
             }
@@ -167,7 +180,17 @@ fun HomeNavGraph(
             }
 
             composable(HomeScreen.Profile.route) {
-                ProfileScreen { route ->
+                ProfileScreen(
+                    onBackPressed = {
+                        navController.navigate(HomeScreen.Home.route) {
+                            launchSingleTop = true
+                            restoreState = true
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                        }
+                    }
+                ) { route ->
                     if (route == Graph.AUTHENTICATION) {
                         rootNavController.navigate(route) {
                             popUpTo(Graph.HOME) {
@@ -198,7 +221,17 @@ fun HomeNavGraph(
             }
 
             composable(HomeScreen.Wishlist.route) {
-                WishScreen { id, type ->
+                WishScreen(
+                    onBackPressed = {
+                        navController.navigate(HomeScreen.Home.route) {
+                            launchSingleTop = true
+                            restoreState = true
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                        }
+                    }
+                ) { id, type ->
                     navController.navigate(
                         HomeScreen.Detail.route.addNavArgument(id).addNavArgument(type)
                     )

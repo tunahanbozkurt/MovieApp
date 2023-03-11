@@ -7,7 +7,6 @@ import com.example.movieapp.data.remote.dto.genre.Genre
 import com.example.movieapp.domain.model.popular.PopularMovies
 import com.example.movieapp.domain.model.upcoming.UpcomingMovie
 import com.example.movieapp.domain.repository.MovieRepository
-import com.example.movieapp.presentation.common.model.SearchFieldState
 import com.example.movieapp.util.constants.SharedPref
 import com.example.movieapp.util.extensions.convertToDate
 import com.example.movieapp.util.onSuccess
@@ -41,29 +40,22 @@ class HomeScreenVM @Inject constructor(
     private val _selectedGenre: MutableStateFlow<Genre> = MutableStateFlow(Genre(0, "All"))
     val selectedGenre: StateFlow<Genre> = _selectedGenre.asStateFlow()
 
-    private val _searchFieldState: MutableStateFlow<SearchFieldState> = MutableStateFlow(
-        SearchFieldState()
-    )
-    val searchFieldState: StateFlow<SearchFieldState> = _searchFieldState.asStateFlow()
+    private val _scrollState: MutableStateFlow<ScrollState> = MutableStateFlow(ScrollState(0, 0))
+    val scrollState: StateFlow<ScrollState> = _scrollState.asStateFlow()
+
 
     init {
         loadPopularMovies()
         loadUpcomingMovies()
     }
 
-    fun imagePath(): String? {
-        return sharedPreferences.getString(SharedPref.PROFILE_IMAGE_PATH, null)
+    fun setScrollState(index: Int, offset: Int) {
+        _scrollState.update { it.copy(index, offset) }
     }
 
-    fun handleUIEvent(event: HomeScreenUIEvent) {
-        when (event) {
-            is HomeScreenUIEvent.Search -> {
-                _searchFieldState.update { it.copy(query = event.query, isHintVisible = false) }
-            }
-            HomeScreenUIEvent.SeeAll -> {
 
-            }
-        }
+    fun imagePath(): String? {
+        return sharedPreferences.getString(SharedPref.PROFILE_IMAGE_PATH, null)
     }
 
     fun setGenre(genre: Genre) {
@@ -109,3 +101,8 @@ class HomeScreenVM @Inject constructor(
         }
     }
 }
+
+data class ScrollState(
+    val index: Int,
+    val scrollOffset: Int
+)

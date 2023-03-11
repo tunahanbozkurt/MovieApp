@@ -12,8 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,19 +19,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.example.movieapp.R
 import com.example.movieapp.presentation.common.spacer.HorizontalSpacer
 import com.example.movieapp.ui.theme.localColor
 import com.example.movieapp.ui.theme.localFont
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 
 @Composable
 fun BottomNavigation(
     navController: NavHostController,
     tabState: MutableState<String>,
-    currentDestination: MutableState<String>
+    currentDestination: MutableState<String>,
 ) {
+
 
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
@@ -51,14 +50,13 @@ fun BottomNavigation(
         ) {
             tabState.value = "Home"
             navController.apply {
-                if (currentDestination.value != tabState.value) {
-                    navigate(Graph.HOME) {
-                        popUpTo(Graph.HOME) {
-                            inclusive = true
-                        }
+                navController.navigate(HomeScreen.Home.route) {
+                    launchSingleTop = true
+                    restoreState = true
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
                     }
                 }
-
             }
         }
 
@@ -69,11 +67,13 @@ fun BottomNavigation(
         ) {
             tabState.value = "Search"
             navController.apply {
-                if (currentDestination.value != tabState.value) {
-                    navigate(HomeScreen.Search.route) {
-                        launchSingleTop = true
-                        popUpTo(HomeScreen.Home.route)
+                navController.navigate(HomeScreen.Search.route) {
+                    launchSingleTop = true
+                    restoreState = true
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
                     }
+
                 }
             }
         }
@@ -85,11 +85,13 @@ fun BottomNavigation(
         ) {
             tabState.value = "Wishlist"
             navController.apply {
-                if (currentDestination.value != tabState.value) {
-                    navigate(HomeScreen.Wishlist.route) {
-                        launchSingleTop = true
-                        popUpTo(HomeScreen.Search.route)
+                navController.navigate(HomeScreen.Wishlist.route) {
+                    launchSingleTop = true
+                    restoreState = true
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
                     }
+
                 }
 
             }
@@ -102,10 +104,11 @@ fun BottomNavigation(
         ) {
             tabState.value = "Profile"
             navController.apply {
-                if (currentDestination.value != tabState.value) {
-                    navigate(HomeScreen.Profile.route) {
-                        launchSingleTop = true
-                        popUpTo(HomeScreen.Home.route)
+                navController.navigate(HomeScreen.Profile.route) {
+                    launchSingleTop = true
+                    restoreState = true
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
                     }
                 }
             }
@@ -167,9 +170,4 @@ fun BottomNavigationItem(
 @Preview
 @Composable
 fun PreviewBottomNavigation() {
-    BottomNavigation(
-        navController = rememberAnimatedNavController(),
-        remember { mutableStateOf("Home") }, remember {
-            mutableStateOf("Home")
-        })
 }
