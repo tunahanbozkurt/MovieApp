@@ -2,6 +2,7 @@ package com.example.movieapp.presentation.home.screen.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movieapp.data.remote.dto.genre.Genre
 import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.util.onError
@@ -22,6 +23,9 @@ class SearchScreenVM @Inject constructor(
     private val _recommendedMovies: MutableStateFlow<List<MovieItem>> = MutableStateFlow(listOf())
     val recommendedMovies: StateFlow<List<MovieItem>> = _recommendedMovies.asStateFlow()
 
+    private val _selectedGenre: MutableStateFlow<Genre> = MutableStateFlow(Genre(0, "All"))
+    val selectedGenre: StateFlow<Genre> = _selectedGenre.asStateFlow()
+
     val latestSearchedMovie = repository.getLatestSearchedMovieOrSeriesAsFlow()
 
     companion object {
@@ -30,6 +34,10 @@ class SearchScreenVM @Inject constructor(
 
     init {
         getRecommendedMovies(false)
+    }
+
+    fun setGenre(genre: Genre) {
+        _selectedGenre.update { genre }
     }
 
     private fun getRecommendedMovies(useBaseId: Boolean) {

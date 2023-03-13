@@ -11,8 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,7 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.movieapp.R
-import com.example.movieapp.data.remote.dto.genre.Genre
 import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.presentation.common.spacer.VerticalSpacer
 import com.example.movieapp.presentation.home.elements.FakeSearchBar
@@ -41,7 +38,7 @@ fun SearchScreen(
 
     val latestSearchedMovie = viewModel.latestSearchedMovie.collectAsState(initial = null).value
     val recommendedMovies = viewModel.recommendedMovies.collectAsState().value
-    val selectedGenre = remember { mutableStateOf(Genre(0, "All")) }
+    val selectedGenre = viewModel.selectedGenre.collectAsState().value
     val scrollState = rememberScrollState()
     val lazyState = rememberLazyListState()
 
@@ -68,9 +65,13 @@ fun SearchScreen(
 
         VerticalSpacer(heightDp = 24)
 
-        GenreList(isTextVisible = false, selectedGenre = selectedGenre.value) {
-            selectedGenre.value = it
+        GenreList(
+            selectedGenre = selectedGenre,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            viewModel.setGenre(it)
         }
+
         VerticalSpacer(heightDp = 24)
 
         latestSearchedMovie?.let { entity ->
@@ -106,7 +107,7 @@ fun SearchScreen(
         MovieListHorizontal(
             title = stringResource(id = R.string.recommended),
             movieItemList = recommendedMovies,
-            selectedGenre = selectedGenre.value,
+            selectedGenre = selectedGenre,
             seeAll = {
                 navigate.invoke(
                     HomeScreen.RecommendedMovies.route.addNavArgument(
