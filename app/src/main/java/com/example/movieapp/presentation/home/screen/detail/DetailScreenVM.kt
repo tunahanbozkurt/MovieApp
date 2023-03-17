@@ -2,9 +2,9 @@ package com.example.movieapp.presentation.home.screen.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieapp.data.remote.dto.tvseasondetail.TvSeasonDetailDTO
 import com.example.movieapp.domain.model.cast_crew.CastCrew
 import com.example.movieapp.domain.model.detail.MovieDetail
+import com.example.movieapp.domain.model.detail.TvSeasonDetail
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.util.onSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,8 +24,8 @@ class DetailScreenVM @Inject constructor(
     private val _movieDetailState: MutableStateFlow<MovieDetail> = MutableStateFlow(MovieDetail())
     val movieDetailState: StateFlow<MovieDetail> = _movieDetailState.asStateFlow()
 
-    private val _seasonDetailState: MutableStateFlow<TvSeasonDetailDTO?> = MutableStateFlow(null)
-    val seasonDetailState: StateFlow<TvSeasonDetailDTO?> = _seasonDetailState.asStateFlow()
+    private val _seasonDetailState: MutableStateFlow<TvSeasonDetail?> = MutableStateFlow(null)
+    val seasonDetailState: StateFlow<TvSeasonDetail?> = _seasonDetailState.asStateFlow()
 
     private val _castAndCrewState: MutableStateFlow<List<CastCrew>?> = MutableStateFlow(null)
     val castAndCrewState: StateFlow<List<CastCrew>?> = _castAndCrewState.asStateFlow()

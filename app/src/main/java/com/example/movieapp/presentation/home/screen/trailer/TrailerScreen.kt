@@ -181,7 +181,7 @@ fun TrailerScreen(
                     if (imageState != null) {
                         items(imageState.backdrops) { item ->
                             AsyncImage(
-                                model = createImgUrl(item.file_path),
+                                model = createImgUrl(item),
                                 contentDescription = null,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier

@@ -1,5 +1,7 @@
 package com.example.movieapp.data.remote.dto.seriesVideos
 
+import com.example.movieapp.domain.model.video.SiteInfo
+
 data class Result(
     val id: String,
     val iso_3166_1: String,
@@ -11,4 +13,12 @@ data class Result(
     val site: String,
     val size: Int,
     val type: String
-)
+) {
+
+    fun toSiteInfo(): SiteInfo {
+        return SiteInfo(
+            site = site,
+            key = key
+        )
+    }
+}

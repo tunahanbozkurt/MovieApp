@@ -9,6 +9,7 @@ import androidx.paging.cachedIn
 import com.example.movieapp.data.remote.pager.RecommendedMoviesDataSource
 import com.example.movieapp.domain.model.popular.MovieItem
 import com.example.movieapp.domain.repository.MovieRepository
+import com.example.movieapp.util.constants.Pager.PAGE_SIZE
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -25,7 +26,7 @@ class RecommendedMoviesVM @Inject constructor(
     fun setId(movieId: Int) {
         _pagerFlow.update {
             Pager(
-                config = PagingConfig(20)
+                config = PagingConfig(PAGE_SIZE)
             ) {
                 RecommendedMoviesDataSource(movieId = movieId, repository = repository)
             }.flow.cachedIn(viewModelScope)

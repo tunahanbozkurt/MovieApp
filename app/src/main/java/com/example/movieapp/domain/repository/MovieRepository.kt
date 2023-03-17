@@ -3,17 +3,16 @@ package com.example.movieapp.domain.repository
 import com.example.movieapp.data.local.entity.MovieEntity
 import com.example.movieapp.data.local.entity.WishEntity
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
-import com.example.movieapp.data.remote.dto.movieVideo.MovieVideosDTO
-import com.example.movieapp.data.remote.dto.movie_image.MovieImageDTO
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchDTO
 import com.example.movieapp.data.remote.dto.search.MovieSearchDTO
-import com.example.movieapp.data.remote.dto.seriesVideos.TvSeriesVideosDTO
-import com.example.movieapp.data.remote.dto.tvseasondetail.TvSeasonDetailDTO
 import com.example.movieapp.domain.model.cast_crew.CastCrew
 import com.example.movieapp.domain.model.detail.MovieDetail
+import com.example.movieapp.domain.model.detail.TvSeasonDetail
+import com.example.movieapp.domain.model.image.MovieImage
 import com.example.movieapp.domain.model.popular.PopularMovies
 import com.example.movieapp.domain.model.recommended.RecommendedMovies
 import com.example.movieapp.domain.model.upcoming.UpcomingMovie
+import com.example.movieapp.domain.model.video.Videos
 import com.example.movieapp.util.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -47,12 +46,12 @@ interface MovieRepository {
     /**
      * Provides the movie's image urls by using id with the result status.
      */
-    suspend fun getMovieImages(id: Int): Resource<MovieImageDTO>
+    suspend fun getMovieImages(id: Int): Resource<MovieImage>
 
     /**
      * Provides the tv series's image urls by using id with the result status.
      */
-    suspend fun getTvSeriesImages(id: Int): Resource<MovieImageDTO>
+    suspend fun getTvSeriesImages(id: Int): Resource<MovieImage>
 
     /**
      * Provides the movie's credits by using id with the result status.
@@ -92,7 +91,7 @@ interface MovieRepository {
     /**
      * Provides the tv season's details by using id and season number parameter with the result status.
      */
-    suspend fun getTvSeasonDetail(id: Int, season: Int): Resource<TvSeasonDetailDTO>
+    suspend fun getTvSeasonDetail(id: Int, season: Int): Resource<TvSeasonDetail>
 
     /**
      * Inserts the wish to the local database.
@@ -102,12 +101,12 @@ interface MovieRepository {
     /**
      * Provides the movie's videos by using id with the result status.
      */
-    suspend fun getMovieVideos(id: Int): Resource<MovieVideosDTO>
+    suspend fun getMovieVideos(id: Int): Resource<Videos>
 
     /**
      * Provides the tv series's videos by using id with the result status.
      */
-    suspend fun getSeriesVideos(id: Int): Resource<TvSeriesVideosDTO>
+    suspend fun getSeriesVideos(id: Int): Resource<Videos>
 
     /**
      * Provides the wishes as flow from the local database.

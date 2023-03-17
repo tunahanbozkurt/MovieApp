@@ -3,19 +3,18 @@ package com.example.movieapp.data.repository
 import com.example.movieapp.data.local.entity.MovieEntity
 import com.example.movieapp.data.local.entity.WishEntity
 import com.example.movieapp.data.remote.dto.genre.MovieGenreListDTO
-import com.example.movieapp.data.remote.dto.movieVideo.MovieVideosDTO
-import com.example.movieapp.data.remote.dto.movie_image.MovieImageDTO
 import com.example.movieapp.data.remote.dto.multiSearch.MultiSearchDTO
 import com.example.movieapp.data.remote.dto.search.MovieSearchDTO
-import com.example.movieapp.data.remote.dto.seriesVideos.TvSeriesVideosDTO
-import com.example.movieapp.data.remote.dto.tvseasondetail.TvSeasonDetailDTO
 import com.example.movieapp.domain.datasource.LocalDataSource
 import com.example.movieapp.domain.datasource.RemoteMovieDS
 import com.example.movieapp.domain.model.cast_crew.CastCrew
 import com.example.movieapp.domain.model.detail.MovieDetail
+import com.example.movieapp.domain.model.detail.TvSeasonDetail
+import com.example.movieapp.domain.model.image.MovieImage
 import com.example.movieapp.domain.model.popular.PopularMovies
 import com.example.movieapp.domain.model.recommended.RecommendedMovies
 import com.example.movieapp.domain.model.upcoming.UpcomingMovie
+import com.example.movieapp.domain.model.video.Videos
 import com.example.movieapp.domain.repository.MovieRepository
 import com.example.movieapp.util.Resource
 import com.example.movieapp.util.extensions.safeQuery
@@ -112,15 +111,25 @@ class MovieRepositoryImpl(
         )
     }
 
-    override suspend fun getMovieImages(id: Int): Resource<MovieImageDTO> {
-        return safeRequest(ioDispatcher) {
-            remoteDataSource.getMovieImages(id)
+    override suspend fun getMovieImages(id: Int): Resource<MovieImage> {
+        return safeRequestMapper(
+            ioDispatcher,
+            execute = {
+                remoteDataSource.getMovieImages(id)
+            }
+        ) {
+            it.toMovieImage()
         }
     }
 
-    override suspend fun getTvSeriesImages(id: Int): Resource<MovieImageDTO> {
-        return safeRequest(ioDispatcher) {
-            remoteDataSource.getTvSeriesImages(id)
+    override suspend fun getTvSeriesImages(id: Int): Resource<MovieImage> {
+        return safeRequestMapper(
+            ioDispatcher,
+            execute = {
+                remoteDataSource.getTvSeriesImages(id)
+            }
+        ) {
+            it.toMovieImage()
         }
     }
 
@@ -141,12 +150,17 @@ class MovieRepositoryImpl(
     override suspend fun getTvSeasonDetail(
         id: Int,
         season: Int
-    ): Resource<TvSeasonDetailDTO> {
-        return safeRequest(ioDispatcher) {
-            remoteDataSource.getTvSeriesDetail(
-                id = id,
-                season = season
-            )
+    ): Resource<TvSeasonDetail> {
+        return safeRequestMapper(
+            ioDispatcher,
+            execute = {
+                remoteDataSource.getTvSeriesDetail(
+                    id = id,
+                    season = season
+                )
+            }
+        ) {
+            it.toTvSeasonDetail()
         }
     }
 
@@ -156,15 +170,25 @@ class MovieRepositoryImpl(
         }
     }
 
-    override suspend fun getMovieVideos(id: Int): Resource<MovieVideosDTO> {
-        return safeRequest(ioDispatcher) {
-            remoteDataSource.getMovieVideos(id)
+    override suspend fun getMovieVideos(id: Int): Resource<Videos> {
+        return safeRequestMapper(
+            ioDispatcher,
+            execute = {
+                remoteDataSource.getMovieVideos(id)
+            }
+        ) {
+            it.toVideos()
         }
     }
 
-    override suspend fun getSeriesVideos(id: Int): Resource<TvSeriesVideosDTO> {
-        return safeRequest(ioDispatcher) {
-            remoteDataSource.getTvSeriesVideos(id)
+    override suspend fun getSeriesVideos(id: Int): Resource<Videos> {
+        return safeRequestMapper(
+            ioDispatcher,
+            execute = {
+                remoteDataSource.getTvSeriesVideos(id)
+            }
+        ) {
+            it.toVideos()
         }
     }
 

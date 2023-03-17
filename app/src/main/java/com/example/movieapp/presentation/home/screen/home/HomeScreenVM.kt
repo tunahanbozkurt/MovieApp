@@ -40,19 +40,10 @@ class HomeScreenVM @Inject constructor(
     private val _selectedGenre: MutableStateFlow<Genre> = MutableStateFlow(Genre(0, "All"))
     val selectedGenre: StateFlow<Genre> = _selectedGenre.asStateFlow()
 
-    private val _scrollState: MutableStateFlow<ScrollState> = MutableStateFlow(ScrollState(0, 0))
-    val scrollState: StateFlow<ScrollState> = _scrollState.asStateFlow()
-
-
     init {
         loadPopularMovies()
         loadUpcomingMovies()
     }
-
-    fun setScrollState(index: Int, offset: Int) {
-        _scrollState.update { it.copy(index, offset) }
-    }
-
 
     fun imagePath(): String? {
         return sharedPreferences.getString(SharedPref.PROFILE_IMAGE_PATH, null)
@@ -101,8 +92,3 @@ class HomeScreenVM @Inject constructor(
         }
     }
 }
-
-data class ScrollState(
-    val index: Int,
-    val scrollOffset: Int
-)
