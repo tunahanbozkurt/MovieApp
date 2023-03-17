@@ -73,7 +73,6 @@ fun BottomNavigation(
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true
                     }
-
                 }
             }
         }
@@ -91,9 +90,7 @@ fun BottomNavigation(
                     popUpTo(navController.graph.findStartDestination().id) {
                         saveState = true
                     }
-
                 }
-
             }
         }
 

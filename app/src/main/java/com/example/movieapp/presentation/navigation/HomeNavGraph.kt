@@ -45,6 +45,10 @@ fun HomeNavGraph(
         mutableStateOf(true)
     }
 
+    val isTopBarVisible = remember {
+        mutableStateOf(false)
+    }
+
     val tabState = remember {
         mutableStateOf(HomeScreen.Home.route)
     }
@@ -59,6 +63,7 @@ fun HomeNavGraph(
             setTabState(tabState, destination)
             setCurrentDestination(currentDestination, destination)
             setBottomBarVisibility(isBottomBarVisible, destination)
+            setTopBarVisibility(isTopBarVisible, destination)
         }
         navController.addOnDestinationChangedListener(listener)
 
@@ -69,22 +74,7 @@ fun HomeNavGraph(
 
     Scaffold(
         topBar = {
-            val isPopularScreen = currentDestination.value == HomeScreen.MostPopularMovies.route
-            val isTopRatedScreen = currentDestination.value == HomeScreen.TopRatedMovies.route
-            val isRecommendedScreen =
-                currentDestination.value == HomeScreen.RecommendedMovies.route.plus("/{id}")
-            val isPrivacyPolicyScreen = currentDestination.value == HomeScreen.PrivacyPolicy.route
-            val isEditProfileScreen = currentDestination.value == HomeScreen.EditProfile.route
-            val isNotificationScreen = currentDestination.value == HomeScreen.Notification.route
-            val isLanguageChangeScreen = currentDestination.value == HomeScreen.ChangeLanguage.route
-            if (isPopularScreen ||
-                isRecommendedScreen ||
-                isPrivacyPolicyScreen ||
-                isEditProfileScreen ||
-                isTopRatedScreen ||
-                isNotificationScreen ||
-                isLanguageChangeScreen
-            ) {
+            if (isTopBarVisible.value) {
                 val title = makeTitle(route = currentDestination.value)
                 TopApplicationBar(
                     title = title,
@@ -110,7 +100,17 @@ fun HomeNavGraph(
 
             composable(HomeScreen.Home.route) {
                 HomeScreen { route ->
-                    navController.navigate(route)
+                    if (route == HomeScreen.Wishlist.route) {
+                        navController.navigate(route) {
+                            launchSingleTop = true
+                            restoreState = true
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                        }
+                    } else {
+                        navController.navigate(route)
+                    }
                 }
             }
 
@@ -281,6 +281,19 @@ private fun setBottomBarVisibility(state: MutableState<Boolean>, destination: Na
     }
 }
 
+private fun setTopBarVisibility(state: MutableState<Boolean>, destination: NavDestination) {
+    state.value = when (destination.route) {
+        HomeScreen.MostPopularMovies.route -> true
+        HomeScreen.TopRatedMovies.route -> true
+        HomeScreen.RecommendedMovies.route.plus("/{id}") -> true
+        HomeScreen.PrivacyPolicy.route -> true
+        HomeScreen.EditProfile.route -> true
+        HomeScreen.Notification.route -> true
+        HomeScreen.ChangeLanguage.route -> true
+        else -> false
+    }
+}
+
 private fun setCurrentDestination(
     currentDestination: MutableState<String>,
     destination: NavDestination
@@ -305,6 +318,10 @@ private fun setTabState(tabState: MutableState<String>, destination: NavDestinat
             tabState.value = HomeScreen.Profile.route
         }
     }
+}
+
+private fun showTopBar() {
+
 }
 
 @Composable
@@ -343,27 +360,13 @@ sealed class HomeScreen(val route: String) {
     object Wishlist : HomeScreen(route = "Wishlist")
     object Search : HomeScreen(route = "Search")
     object Detail : HomeScreen(route = "Detail")
-    object Notification :
-        HomeScreen(route = "Notification")
-
+    object Notification : HomeScreen(route = "Notification")
     object SearchResult : HomeScreen(route = "Search_Result")
-    object MostPopularMovies :
-        HomeScreen("Most Popular Movies")
-
-    object TopRatedMovies :
-        HomeScreen("Top Rated Movies")
-
-    object RecommendedMovies :
-        HomeScreen("Recommended Movies")
-
-    object PrivacyPolicy :
-        HomeScreen("Privacy Policy")
-
-    object EditProfile :
-        HomeScreen("Edit Profile")
-
-    object ChangeLanguage :
-        HomeScreen("Change Language")
-
+    object MostPopularMovies : HomeScreen("Most Popular Movies")
+    object TopRatedMovies : HomeScreen("Top Rated Movies")
+    object RecommendedMovies : HomeScreen("Recommended Movies")
+    object PrivacyPolicy : HomeScreen("Privacy Policy")
+    object EditProfile : HomeScreen("Edit Profile")
+    object ChangeLanguage : HomeScreen("Change Language")
     object Trailer : HomeScreen("Trailer")
 }
